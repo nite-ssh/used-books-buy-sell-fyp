@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>609763557346-np5ilbv5i4bqmomusr9ra89p7s47q7s3.apps.googleusercontent.com</string>
+	<string>993142213695-11ibh1v6cjvflqp3pncbaome71407m4i.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.609763557346-np5ilbv5i4bqmomusr9ra89p7s47q7s3</string>
+	<string>com.googleusercontent.apps.993142213695-11ibh1v6cjvflqp3pncbaome71407m4i</string>
 	<key>API_KEY</key>
-	<string>AIzaSyC5RgNjIEqjITcxKF_hOBqGJikmSY4UcPU</string>
+	<string>AIzaSyAee4Vo3gQ6DAyabIWUsC_20EA_C41p61w</string>
 	<key>GCM_SENDER_ID</key>
-	<string>609763557346</string>
+	<string>993142213695</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.niteshpoudel.usedbooksbuyandsell</string>
 	<key>PROJECT_ID</key>
-	<string>usedbookbuyandsell</string>
+	<string>usedbooksbuysell-f1592</string>
 	<key>STORAGE_BUCKET</key>
-	<string>usedbookbuyandsell.appspot.com</string>
+	<string>usedbooksbuysell-f1592.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:609763557346:ios:bf57ac577d3db33cc443bb</string>
+	<string>1:993142213695:ios:b8e395b79df59b88443c8a</string>
 </dict>
 </plist>

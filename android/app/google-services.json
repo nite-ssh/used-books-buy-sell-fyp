@@ -29,6 +29,13 @@
             {
               "client_id": "993142213695-bbj34ign9crfiirc2ordcfsmu3j1ecpt.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "993142213695-11ibh1v6cjvflqp3pncbaome71407m4i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.niteshpoudel.usedbooksbuyandsell"
+              }
             }
           ]
         }
