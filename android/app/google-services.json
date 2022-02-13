@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "609763557346",
-    "project_id": "usedbookbuyandsell",
-    "storage_bucket": "usedbookbuyandsell.appspot.com"
+    "project_number": "993142213695",
+    "project_id": "usedbooksbuysell-f1592",
+    "storage_bucket": "usedbooksbuysell-f1592.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:609763557346:android:63d2a8fb1748f8a7c443bb",
+        "mobilesdk_app_id": "1:993142213695:android:2f908fc50c22924d443c8a",
         "android_client_info": {
           "package_name": "com.niteshpoudel.usedbooksbuyandsell"
         }
       },
       "oauth_client": [
         {
-          "client_id": "609763557346-1diqpl0qfin9aslc5eq3rnja8qs2unqs.apps.googleusercontent.com",
+          "client_id": "993142213695-bbj34ign9crfiirc2ordcfsmu3j1ecpt.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAZG-rcV5O7uVqsDBKaz2G0xTULsYV_AS4"
+          "current_key": "AIzaSyDjxmAYadP_nD285-xyFFvH0oFqXUxfOkk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "609763557346-1diqpl0qfin9aslc5eq3rnja8qs2unqs.apps.googleusercontent.com",
+              "client_id": "993142213695-bbj34ign9crfiirc2ordcfsmu3j1ecpt.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
