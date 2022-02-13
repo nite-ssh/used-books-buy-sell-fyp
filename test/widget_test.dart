@@ -13,7 +13,7 @@ import 'package:second_hand_books_buy_sell/main.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const BookApp());
+    await tester.pumpWidget(BookApp());
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

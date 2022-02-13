@@ -3,6 +3,8 @@ import 'package:second_hand_books_buy_sell/screens/homepage_screen.dart';
 import 'package:second_hand_books_buy_sell/screens/maps/maps.dart';
 import 'package:second_hand_books_buy_sell/utils/routes.dart';
 
+import '../screens/blog/blog.dart';
+
 class BottomNav extends StatefulWidget {
   const BottomNav({Key? key}) : super(key: key);
 
@@ -25,10 +27,7 @@ class _BottomNavState extends State<BottomNav> {
       'Index 4: Settings',
       style: optionStyle,
     ),
-    Text(
-      'Index 5: Settings',
-      style: optionStyle,
-    )
+    Blog(),
   ];
 
   void _onItemTapped(int index) {
@@ -60,7 +59,10 @@ class _BottomNavState extends State<BottomNav> {
             label: 'Buy/Sell',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.volunteer_activism),
+            icon: Icon(
+              Icons.volunteer_activism,
+              color: Colors.purple,
+            ),
             label: 'Donate',
           ),
           BottomNavigationBarItem(
