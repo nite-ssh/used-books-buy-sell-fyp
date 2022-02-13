@@ -1,5 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:second_hand_books_buy_sell/get_dark_theme.dart';
+import 'package:second_hand_books_buy_sell/services/crud.dart';
 
 class BlogWrite extends StatefulWidget {
   const BlogWrite({Key? key}) : super(key: key);
@@ -10,6 +13,18 @@ class BlogWrite extends StatefulWidget {
 
 class _BlogWriteState extends State<BlogWrite> {
   String? name, title, blogContent;
+  XFile? selectedImage;
+
+  CrudMethods crud = CrudMethods();
+
+  Future getImage() async {
+    final ImagePicker _picker = ImagePicker();
+    // Pick an image
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      selectedImage = image;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +37,17 @@ class _BlogWriteState extends State<BlogWrite> {
             title: const Center(
               child: Text("Write a Blog"),
             ),
-            actions: const [
-              Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Icon(
-                  Icons.file_upload,
-                  size: 25,
+            actions: <Widget>[
+              GestureDetector(
+                onTap: () {
+                  getImage();
+                },
+                child: Container(
+                  padding: EdgeInsets.all(10.0),
+                  child: Icon(
+                    Icons.file_upload,
+                    size: 25,
+                  ),
                 ),
               ),
             ],
