@@ -13,16 +13,16 @@ class BlogWrite extends StatefulWidget {
 
 class _BlogWriteState extends State<BlogWrite> {
   String? name, title, blogContent;
-  XFile? selectedImage;
+  File? _image;
 
   CrudMethods crud = CrudMethods();
 
   Future getImage() async {
     final ImagePicker _picker = ImagePicker();
     // Pick an image
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    var pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     setState(() {
-      selectedImage = image;
+      _image = File(pickedFile!.path);
     });
   }
 
@@ -58,17 +58,31 @@ class _BlogWriteState extends State<BlogWrite> {
                 const SizedBox(
                   height: 10,
                 ),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  decoration: BoxDecoration(
-                      color: const Color(0xFF343434),
-                      borderRadius: BorderRadius.circular(10)),
-                  height: 150,
-                  width: MediaQuery.of(context).size.width,
-                  child: const Icon(
-                    Icons.add_a_photo,
-                    color: Colors.white,
-                  ),
+                GestureDetector(
+                  onTap: () {
+                    getImage();
+                  },
+                  child: _image != null
+                      ? Container(
+                          margin: EdgeInsets.symmetric(horizontal: 16),
+                          height: 150,
+                          width: MediaQuery.of(context).size.width,
+                          child: Image.file(
+                            _image as File,
+                          ),
+                        )
+                      : Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 20),
+                          decoration: BoxDecoration(
+                              color: const Color(0xFF343434),
+                              borderRadius: BorderRadius.circular(10)),
+                          height: 150,
+                          width: MediaQuery.of(context).size.width,
+                          child: const Icon(
+                            Icons.add_a_photo,
+                            color: Colors.white,
+                          ),
+                        ),
                 ),
                 Padding(
                   padding:
