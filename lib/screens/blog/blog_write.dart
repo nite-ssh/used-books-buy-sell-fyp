@@ -1,8 +1,14 @@
+import 'dart:developer';
 import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:random_string/random_string.dart';
 import 'package:second_hand_books_buy_sell/get_dark_theme.dart';
 import 'package:second_hand_books_buy_sell/services/crud.dart';
+import 'package:second_hand_books_buy_sell/universal/bottom_nav.dart';
+
+import '../../utils/routes.dart';
 
 class BlogWrite extends StatefulWidget {
   const BlogWrite({Key? key}) : super(key: key);
@@ -22,8 +28,47 @@ class _BlogWriteState extends State<BlogWrite> {
     // Pick an image
     var pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     setState(() {
-      _image = File(pickedFile!.path);
+      try {
+        _image = File(pickedFile!.path);
+      } catch (e) {
+        Navigator.pushNamed(context, MyRoutes.navRoute);
+      }
     });
+  }
+
+  uploadBlog() async {
+    if (_image != null) {
+      Reference firebaseStorageref = FirebaseStorage.instance
+          .ref()
+          .child("blogImages")
+          .child("${randomAlphaNumeric(9)}.jpg");
+      var task = await firebaseStorageref.putFile(_image as File);
+      var imageUrl = await task.ref.getDownloadURL();
+      print(imageUrl);
+      return;
+    } else {}
+  }
+
+  Widget _buildPopupDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Blog uploaded'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const <Widget>[
+          Text("The blog has been uploaded"),
+        ],
+      ),
+      actions: <Widget>[
+        FlatButton(
+          onPressed: () {
+            Navigator.pushNamed(context, MyRoutes.navRoute);
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('Return to Home'),
+        ),
+      ],
+    );
   }
 
   @override
@@ -38,13 +83,18 @@ class _BlogWriteState extends State<BlogWrite> {
               child: Text("Write a Blog"),
             ),
             actions: <Widget>[
-              GestureDetector(
-                onTap: () {
-                  getImage();
-                },
-                child: Container(
-                  padding: EdgeInsets.all(10.0),
-                  child: Icon(
+              Container(
+                padding: const EdgeInsets.all(10.0),
+                child: GestureDetector(
+                  onTap: () => {
+                    uploadBlog(),
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          _buildPopupDialog(context),
+                    ),
+                  },
+                  child: const Icon(
                     Icons.file_upload,
                     size: 25,
                   ),
@@ -67,8 +117,12 @@ class _BlogWriteState extends State<BlogWrite> {
                           margin: EdgeInsets.symmetric(horizontal: 16),
                           height: 150,
                           width: MediaQuery.of(context).size.width,
-                          child: Image.file(
-                            _image as File,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(6),
+                            child: Image.file(
+                              _image as File,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         )
                       : Container(

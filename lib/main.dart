@@ -1,4 +1,5 @@
 //importing material.dart for the structuring
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:second_hand_books_buy_sell/screens/blog/blog.dart';
 import 'package:second_hand_books_buy_sell/screens/blog/blog_write.dart';
@@ -11,7 +12,9 @@ import 'screens/homepage_screen.dart';
 import 'screens/maps/maps.dart';
 
 //runApp runs the BookApp class in the main method
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(
     BookApp(),
   );
@@ -44,5 +47,4 @@ class BookApp extends StatelessWidget {
           MyRoutes.blogRoute: (context) => Blog(),
         });
   }
-  
 }
