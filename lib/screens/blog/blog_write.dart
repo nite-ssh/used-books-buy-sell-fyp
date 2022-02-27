@@ -20,6 +20,7 @@ class BlogWrite extends StatefulWidget {
 class _BlogWriteState extends State<BlogWrite> {
   String? name, title, blogContent;
   File? _image;
+  bool isLoading = false;
 
   CrudMethods crud = CrudMethods();
 
@@ -44,8 +45,14 @@ class _BlogWriteState extends State<BlogWrite> {
           .child("${randomAlphaNumeric(9)}.jpg");
       var task = await firebaseStorageref.putFile(_image as File);
       var imageUrl = await task.ref.getDownloadURL();
-      print(imageUrl);
-      return;
+
+      Map<String, String> blogMap = {
+        "imageUrl": imageUrl,
+        "authorName": name as String,
+        "title": title as String,
+        "blogContent": blogContent as String,
+      };
+      CrudMethods.addData(blogMap);
     } else {}
   }
 
@@ -176,8 +183,8 @@ class _BlogWriteState extends State<BlogWrite> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
                   child: Column(
-                    children: const [
-                      TextField(
+                    children: [
+                      TextFormField(
                         keyboardType: TextInputType.multiline,
                         textInputAction: TextInputAction.newline,
                         minLines: 1,
@@ -185,7 +192,10 @@ class _BlogWriteState extends State<BlogWrite> {
                         decoration: InputDecoration(
                           label: Text("Blog Content (max 20 lines)"),
                         ),
-                      )
+                        onChanged: (val) {
+                          blogContent = val;
+                        },
+                      ),
                     ],
                   ),
                 ),
