@@ -78,8 +78,42 @@ class _BlogWriteState extends State<BlogWrite> {
     );
   }
 
+  Widget _buildErrorDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Image not Selected!'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const <Widget>[
+          Text("Please select image for the blog"),
+        ],
+      ),
+      actions: <Widget>[
+        FlatButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('Back'),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final _titleFormKey = GlobalKey<FormState>();
+    final _nameFormKey = GlobalKey<FormState>();
+    final _blogContentFormKey = GlobalKey<FormState>();
+
+    void validator($formkey) {
+      if ($formkey.currentState!.validate()) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Processing Data')),
+        );
+      }
+    }
+
     return SafeArea(
       child: Theme(
         data: GetDarkTheme().getDarkTheme(),
@@ -94,12 +128,25 @@ class _BlogWriteState extends State<BlogWrite> {
                 padding: const EdgeInsets.all(10.0),
                 child: GestureDetector(
                   onTap: () => {
-                    uploadBlog(),
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) =>
-                          _buildPopupDialog(context),
-                    ),
+                    validator(_titleFormKey),
+                    validator(_nameFormKey),
+                    validator(_blogContentFormKey),
+                    if (_image != null)
+                      {
+                        uploadBlog(),
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) =>
+                              _buildPopupDialog(context),
+                        ),
+                      }
+                    else
+                      {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                _buildErrorDialog(context))
+                      }
                   },
                   child: const Icon(
                     Icons.file_upload,
@@ -148,55 +195,82 @@ class _BlogWriteState extends State<BlogWrite> {
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: "Enter your Name",
-                          labelText: "Name",
+                  child: Form(
+                    key: _titleFormKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            hintText: "Enter the Blog Title",
+                            labelText: "Blog Title",
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter some text';
+                            }
+                            return null;
+                          },
+                          onChanged: (val) {
+                            title = val;
+                          },
                         ),
-                        onChanged: (val) {
-                          name = val;
-                        },
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: "Enter the Blog Title",
-                          labelText: "Blog Title",
+                  child: Form(
+                    key: _nameFormKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            hintText: "Enter your Name",
+                            labelText: "Name",
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter some text';
+                            }
+                            return null;
+                          },
+                          onChanged: (val) {
+                            name = val;
+                          },
                         ),
-                        onChanged: (val) {
-                          title = val;
-                        },
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        keyboardType: TextInputType.multiline,
-                        textInputAction: TextInputAction.newline,
-                        minLines: 1,
-                        maxLines: 20,
-                        decoration: InputDecoration(
-                          label: Text("Blog Content (max 20 lines)"),
+                  child: Form(
+                    key: _blogContentFormKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          keyboardType: TextInputType.multiline,
+                          textInputAction: TextInputAction.newline,
+                          minLines: 1,
+                          maxLines: 20,
+                          decoration: InputDecoration(
+                            label: Text("Blog Content (max 20 lines)"),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter some text';
+                            }
+                            return null;
+                          },
+                          onChanged: (val) {
+                            blogContent = val;
+                          },
                         ),
-                        onChanged: (val) {
-                          blogContent = val;
-                        },
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ],
