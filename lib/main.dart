@@ -1,5 +1,7 @@
 //importing material.dart for the structuring
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:second_hand_books_buy_sell/screens/blog/blog.dart';
 //importing login page
 import 'package:second_hand_books_buy_sell/screens/login_screen.dart';
 import 'package:second_hand_books_buy_sell/universal/bottom_nav.dart';
@@ -9,7 +11,9 @@ import 'screens/homepage_screen.dart';
 import 'screens/maps/maps.dart';
 
 //runApp runs the BookApp class in the main method
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(
     BookApp(),
   );
@@ -17,7 +21,7 @@ void main() {
 
 //Book App is a stateless widget that returns routes of various screens
 class BookApp extends StatelessWidget {
-  const BookApp({Key? key}) : super(key: key);
+  BookApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -39,6 +43,7 @@ class BookApp extends StatelessWidget {
           MyRoutes.homeRoute: (context) => Homepage(),
           MyRoutes.navRoute: (context) => BottomNav(),
           MyRoutes.mapRoute: (context) => GMaps(),
+          MyRoutes.blogRoute: (context) => Blog(),
         });
   }
 }
