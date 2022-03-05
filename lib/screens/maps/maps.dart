@@ -85,7 +85,7 @@ class GMapsState extends State<GMaps> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
-                  "https://lh3.googleusercontent.com/p/AF1QipPQpnzHh5H763bQiQXl_y0tv-MprzL8QHwPdBE_=s1600-w400",
+                  "https://i.ytimg.com/vi/9B9mLTKYML4/maxresdefault.jpg",
                   27.699597,
                   85.318905,
                   "Kathmandu Valley Public Library",
@@ -96,7 +96,7 @@ class GMapsState extends State<GMaps> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
-                  "https://callmandu.com/wp-content/uploads/2020/08/Indian_Embassy_Celebrates_Vallav_B.2e16d0ba.fill-650x500-1.jpg",
+                  "https://i.ytimg.com/vi/HKp8kizCAec/maxresdefault.jpg",
                   27.7024277,
                   85.3133098,
                   "Nepal Bharat Library",
@@ -116,7 +116,7 @@ class GMapsState extends State<GMaps> {
         _gotoLocation(lat, long);
       },
       child: Container(
-        child: new FittedBox(
+        child: FittedBox(
           child: Material(
               color: Colors.white,
               elevation: 14.0,
@@ -212,7 +212,6 @@ class GMapsState extends State<GMaps> {
         },
         markers: {
           Markers().library4,
-          Markers().library5,
           Markers().library1,
           Markers().library2,
           Markers().library3
