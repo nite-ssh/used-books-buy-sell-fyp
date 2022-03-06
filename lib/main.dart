@@ -2,7 +2,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 //importing login page
-import 'package:second_hand_books_buy_sell/screens/login_screen.dart';
+import 'package:second_hand_books_buy_sell/screens/auth/login_screen.dart';
+import 'package:second_hand_books_buy_sell/screens/auth/register_page.dart';
 import 'package:second_hand_books_buy_sell/universal/bottom_nav.dart';
 import 'package:second_hand_books_buy_sell/utils/routes.dart';
 //importing homepage the app
@@ -39,6 +40,7 @@ class BookApp extends StatelessWidget {
         routes: {
           //setting initial route to be homepage
           MyRoutes.loginRoute: (context) => Login(),
+          MyRoutes.registerRoute: (context) => Register(),
           MyRoutes.homeRoute: (context) => Homepage(),
           MyRoutes.navRoute: (context) => BottomNav(),
           MyRoutes.mapRoute: (context) => GMaps(),

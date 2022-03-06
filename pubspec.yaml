@@ -30,6 +30,8 @@ dependencies:
   http:
   flutter:
     sdk: flutter
+  api_cache_manager: ^1.0.2
+  snippet_coder_utils: ^1.0.9
   image_picker: ^0.8.4+8
   google_maps_flutter: ^2.1.1
   font_awesome_flutter: ^9.2.0
