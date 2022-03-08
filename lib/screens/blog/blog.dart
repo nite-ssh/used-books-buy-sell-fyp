@@ -36,13 +36,10 @@ class _BlogState extends State<Blog> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
-            height: 40,
+            height: 50,
           ),
-          FloatingActionButton(
-            hoverElevation: 0,
-            highlightElevation: 0,
-            elevation: 0,
-            onPressed: () {
+          GestureDetector(
+            onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -52,6 +49,7 @@ class _BlogState extends State<Blog> {
             },
             child: const Icon(
               Icons.add,
+              color: Colors.white,
               size: 35,
             ),
           )

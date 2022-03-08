@@ -7,6 +7,7 @@ import 'package:second_hand_books_buy_sell/screens/auth/register_page.dart';
 import 'package:second_hand_books_buy_sell/universal/bottom_nav.dart';
 import 'package:second_hand_books_buy_sell/utils/routes.dart';
 //importing homepage the app
+import 'admin_pages/admin_bottom_nav.dart';
 import 'screens/homepage_screen.dart';
 import 'screens/maps/maps.dart';
 
@@ -44,6 +45,7 @@ class BookApp extends StatelessWidget {
           MyRoutes.homeRoute: (context) => Homepage(),
           MyRoutes.navRoute: (context) => BottomNav(),
           MyRoutes.mapRoute: (context) => GMaps(),
+          MyRoutes.adminNavRoute: (context) => AdminBottomNav(),
         });
   }
 }

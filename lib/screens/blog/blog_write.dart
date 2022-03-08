@@ -4,7 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:random_string/random_string.dart';
-import 'package:second_hand_books_buy_sell/get_dark_theme.dart';
+import 'package:second_hand_books_buy_sell/utils/get_dark_theme.dart';
 import 'package:second_hand_books_buy_sell/services/crud.dart';
 import 'package:second_hand_books_buy_sell/universal/bottom_nav.dart';
 

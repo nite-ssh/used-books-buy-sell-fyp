@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:second_hand_books_buy_sell/utils/routes.dart';
-import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 
 class Register extends StatefulWidget {
