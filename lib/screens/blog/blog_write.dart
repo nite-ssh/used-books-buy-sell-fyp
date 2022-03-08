@@ -56,6 +56,14 @@ class _BlogWriteState extends State<BlogWrite> {
     } else {}
   }
 
+  void validator($formkey) {
+    if ($formkey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Processing Data')),
+      );
+    }
+  }
+
   Widget _buildPopupDialog(BuildContext context) {
     return AlertDialog(
       title: const Text('Blog uploaded'),
@@ -105,14 +113,6 @@ class _BlogWriteState extends State<BlogWrite> {
     final _titleFormKey = GlobalKey<FormState>();
     final _nameFormKey = GlobalKey<FormState>();
     final _blogContentFormKey = GlobalKey<FormState>();
-
-    void validator($formkey) {
-      if ($formkey.currentState!.validate()) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Processing Data')),
-        );
-      }
-    }
 
     return SafeArea(
       child: Theme(

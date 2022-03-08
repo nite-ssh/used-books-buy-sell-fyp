@@ -60,46 +60,43 @@ class _BlogState extends State<Blog> {
     );
   }
 
-  Widget buildUser(User user) => Expanded(
-        child: Container(
-          padding: EdgeInsets.all(8),
-          color: Colors.blueGrey,
-          child: Card(
-            color: Colors.white,
-            elevation: 2,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(6),
-                    child: Image.network(
-                      user.imageUrl,
-                      fit: BoxFit.cover,
-                    ),
+  Widget buildUser(User user) => Container(
+        padding: EdgeInsets.all(8),
+        color: Colors.blueGrey,
+        child: Card(
+          color: Colors.white,
+          elevation: 2,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(6),
+                  child: Image.network(
+                    user.imageUrl,
+                    fit: BoxFit.cover,
                   ),
                 ),
-                Text(user.title,
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                SizedBox(
-                  height: 20,
+              ),
+              Text(user.title,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                'Author: ${user.name}',
+                style: TextStyle(fontWeight: FontWeight.w500),
+              ),
+              SizedBox(height: 5),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(
+                  user.blogContent,
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(height: 1.5),
                 ),
-                Text(
-                  'Author: ${user.name}',
-                  style: TextStyle(fontWeight: FontWeight.w500),
-                ),
-                SizedBox(height: 5),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    user.blogContent,
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(height: 1.5),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       );
