@@ -77,7 +77,7 @@ class _LoginState extends State<Login> {
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return "please enter your username";
+                        return "Please enter your Username";
                       }
                       return null;
                     },
@@ -93,7 +93,7 @@ class _LoginState extends State<Login> {
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return "please enter your password";
+                        return "Please enter your Password";
                       }
                       return null;
                     },
@@ -148,7 +148,12 @@ class _LoginState extends State<Login> {
             onTap: () {
               Navigator.pushNamed(context, MyRoutes.registerRoute);
             },
-            child: const Text("Don't have an Acoount?"),
+            child: const Text(
+              "Don't have an Account?",
+              style: TextStyle(
+                color: Colors.purple,
+              ),
+            ),
           )
         ],
       ),
