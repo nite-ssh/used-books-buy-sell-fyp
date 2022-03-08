@@ -26,7 +26,13 @@
 	<key>NSCameraUsageDescription</key>
 	<string>This allows access to your camera</string>
 
-
+	<key>LSApplicationQueriesSchemes</key>
+<array>
+    <string>https</string>
+    <string>http</string>
+    <string>tel</string>
+    <string>mailto</string>
+</array> 
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>

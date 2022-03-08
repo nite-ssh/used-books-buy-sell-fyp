@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:second_hand_books_buy_sell/admin_pages/driver_info.dart';
+import 'package:second_hand_books_buy_sell/admin_pages/drivers/driver_info.dart';
 import 'package:second_hand_books_buy_sell/utils/get_dark_theme.dart';
 import '../screens/blog/blog.dart';
 
