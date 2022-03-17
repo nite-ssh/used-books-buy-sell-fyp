@@ -4,7 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:random_string/random_string.dart';
-import 'package:second_hand_books_buy_sell/get_dark_theme.dart';
+import 'package:second_hand_books_buy_sell/utils/get_dark_theme.dart';
 import 'package:second_hand_books_buy_sell/services/crud.dart';
 import 'package:second_hand_books_buy_sell/universal/bottom_nav.dart';
 
@@ -56,6 +56,14 @@ class _BlogWriteState extends State<BlogWrite> {
     } else {}
   }
 
+  void validator($formkey) {
+    if ($formkey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Processing Data')),
+      );
+    }
+  }
+
   Widget _buildPopupDialog(BuildContext context) {
     return AlertDialog(
       title: const Text('Blog uploaded'),
@@ -105,14 +113,6 @@ class _BlogWriteState extends State<BlogWrite> {
     final _titleFormKey = GlobalKey<FormState>();
     final _nameFormKey = GlobalKey<FormState>();
     final _blogContentFormKey = GlobalKey<FormState>();
-
-    void validator($formkey) {
-      if ($formkey.currentState!.validate()) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Processing Data')),
-        );
-      }
-    }
 
     return SafeArea(
       child: Theme(

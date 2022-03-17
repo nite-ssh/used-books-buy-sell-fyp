@@ -19,6 +19,14 @@ class _LoginState extends State<Login> {
   String role = 'user';
   bool isChecked = false;
 
+  void validator($formkey) {
+    if ($formkey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Processing Data')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,6 +43,8 @@ class _LoginState extends State<Login> {
   }
 
   Widget _loginUI(BuildContext context) {
+    final _usernameFormKey = GlobalKey<FormState>();
+    final _passwordFormKey = GlobalKey<FormState>();
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -45,37 +55,48 @@ class _LoginState extends State<Login> {
             "assets/images/login.png",
             fit: BoxFit.cover,
           ),
-          SizedBox(
-            height: 20,
-          ),
           Text(
             "Login",
             style: TextStyle(
               fontFamily: "Poppins",
-              // color: Color(0xFF3FA796),
               fontSize: 40,
               letterSpacing: 3,
             ),
-          ),
-          SizedBox(
-            height: 20,
           ),
 
           Padding(
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 50),
             child: Column(
               children: [
-                TextFormField(
-                  decoration: InputDecoration(
-                    hintText: "Enter your Username",
-                    labelText: "Username",
+                Form(
+                  key: _usernameFormKey,
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hintText: "Enter your Username",
+                      labelText: "Username",
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Please enter your Username";
+                      }
+                      return null;
+                    },
                   ),
                 ),
-                TextFormField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    hintText: "Enter your Password",
-                    labelText: "Password",
+                Form(
+                  key: _passwordFormKey,
+                  child: TextFormField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      hintText: "Enter your Password",
+                      labelText: "Password",
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Please enter your Password";
+                      }
+                      return null;
+                    },
                   ),
                 ),
                 SizedBox(height: 10),
@@ -105,9 +126,12 @@ class _LoginState extends State<Login> {
           //   height: 10,
           // ),
           ElevatedButton(
-            onPressed: (() =>
-                {Navigator.pushNamed(context, MyRoutes.navRoute)}),
-            child: Text(
+            onPressed: (() => {
+                  validator(_usernameFormKey),
+                  validator(_passwordFormKey),
+                  Navigator.pushNamed(context, MyRoutes.adminNavRoute)
+                }),
+            child: const Text(
               "LOGIN",
               style: TextStyle(
                   fontSize: 20,
@@ -117,14 +141,19 @@ class _LoginState extends State<Login> {
             style: TextButton.styleFrom(
                 minimumSize: const Size(150, 50), backgroundColor: Colors.teal),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           GestureDetector(
             onTap: () {
               Navigator.pushNamed(context, MyRoutes.registerRoute);
             },
-            child: Text("Don't have an Acoount?"),
+            child: const Text(
+              "Don't have an Account?",
+              style: TextStyle(
+                color: Colors.purple,
+              ),
+            ),
           )
         ],
       ),
