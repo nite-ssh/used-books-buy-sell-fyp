@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:second_hand_books_buy_sell/utils/routes.dart';
-import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 
 class Login extends StatefulWidget {
@@ -129,7 +128,7 @@ class _LoginState extends State<Login> {
             onPressed: (() => {
                   validator(_usernameFormKey),
                   validator(_passwordFormKey),
-                  Navigator.pushNamed(context, MyRoutes.adminNavRoute)
+                  Navigator.pushNamed(context, MyRoutes.navRoute)
                 }),
             child: const Text(
               "LOGIN",

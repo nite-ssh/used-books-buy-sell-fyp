@@ -1,6 +1,7 @@
 //importing material.dart for the structuring
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 //importing login page
 import 'package:second_hand_books_buy_sell/screens/auth/login_screen.dart';
 import 'package:second_hand_books_buy_sell/screens/auth/register_page.dart';
@@ -11,12 +12,27 @@ import 'admin_pages/admin_bottom_nav.dart';
 import 'screens/homepage_screen.dart';
 import 'screens/maps/maps.dart';
 
-//runApp runs the BookApp class in the main method
+//runApp runs the BookApp class in the main methodxsx
 Future<void> main() async {
+  final httpLink = HttpLink("http://10.0.2.2:8080/graphql/");
+
+  ValueNotifier<GraphQLClient> client = ValueNotifier(
+    GraphQLClient(
+      link: httpLink,
+      cache: GraphQLCache(
+        store: InMemoryStore(),
+      ),
+    ),
+  );
+  var app = GraphQLProvider(
+    client: client,
+    child: BookApp(),
+  );
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(
-    BookApp(),
+    app,
   );
 }
 
