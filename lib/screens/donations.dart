@@ -14,21 +14,21 @@ const bookgraphql = """
 }
 """;
 
-class Homepage extends StatefulWidget {
-  const Homepage({Key? key}) : super(key: key);
+class DonateBooks extends StatefulWidget {
+  const DonateBooks({Key? key}) : super(key: key);
 
   @override
-  State<Homepage> createState() => _HomepageState();
+  State<DonateBooks> createState() => _DonateBooksState();
 }
 
-class _HomepageState extends State<Homepage> {
+class _DonateBooksState extends State<DonateBooks> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.blueGrey,
         appBar: AppBar(
-          title: Text("Discover"),
+          title: Text("Donate Books"),
         ),
         body: Query(
           options: QueryOptions(
