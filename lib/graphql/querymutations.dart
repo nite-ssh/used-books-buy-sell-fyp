@@ -1,5 +1,5 @@
 class QueryMutations {
-  String updateBookStateToBeSold(String id) {
+  static String updateBookStateToBeSold(String id) {
     return '''
 mutation {  
   updateBook(

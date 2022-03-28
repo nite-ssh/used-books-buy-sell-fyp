@@ -128,7 +128,7 @@ class _LoginState extends State<Login> {
             onPressed: (() => {
                   validator(_usernameFormKey),
                   validator(_passwordFormKey),
-                  Navigator.pushNamed(context, MyRoutes.navRoute)
+                  Navigator.pushNamed(context, MyRoutes.adminNavRoute)
                 }),
             child: const Text(
               "LOGIN",
