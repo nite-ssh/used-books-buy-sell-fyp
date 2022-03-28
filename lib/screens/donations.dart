@@ -1,18 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
 import 'package:second_hand_books_buy_sell/universal/drawer.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-
-const bookgraphql = """
-{
-  books{
-    name
-    description
-    user{
-      profilePictureUrl
-    }
-  }
-}
-""";
 
 class DonateBooks extends StatefulWidget {
   const DonateBooks({Key? key}) : super(key: key);
@@ -32,7 +21,7 @@ class _DonateBooksState extends State<DonateBooks> {
         ),
         body: Query(
           options: QueryOptions(
-            document: gql(bookgraphql.toString()),
+            document: gql(QueryMutations().getToBeDonated().toString()),
           ),
           builder: (QueryResult result, {fetchMore, refetch}) {
             if (result.hasException) {
@@ -51,7 +40,7 @@ class _DonateBooksState extends State<DonateBooks> {
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisSpacing: 0,
                       mainAxisSpacing: 0,
-                      childAspectRatio: 1.79,
+                      childAspectRatio: 1.50,
                       crossAxisCount: 1),
                   itemBuilder: (_, index) {
                     return Column(

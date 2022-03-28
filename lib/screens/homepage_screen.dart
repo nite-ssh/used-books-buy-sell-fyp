@@ -1,18 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
 import 'package:second_hand_books_buy_sell/universal/drawer.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-
-const bookgraphql = """
-{
-  books{
-    name
-    description
-    user{
-      profilePictureUrl
-    }
-  }
-}
-""";
 
 class Homepage extends StatefulWidget {
   const Homepage({Key? key}) : super(key: key);
@@ -32,7 +21,7 @@ class _HomepageState extends State<Homepage> {
         ),
         body: Query(
           options: QueryOptions(
-            document: gql(bookgraphql.toString()),
+            document: gql(QueryMutations().getToBeSold().toString()),
           ),
           builder: (QueryResult result, {fetchMore, refetch}) {
             if (result.hasException) {
@@ -51,7 +40,7 @@ class _HomepageState extends State<Homepage> {
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisSpacing: 0,
                       mainAxisSpacing: 0,
-                      childAspectRatio: 1.79,
+                      childAspectRatio: 1.50,
                       crossAxisCount: 1),
                   itemBuilder: (_, index) {
                     return Column(
@@ -63,40 +52,42 @@ class _HomepageState extends State<Homepage> {
                         Card(
                           color: Colors.white,
                           elevation: 2,
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(6),
-                                  child: Image.network(
-                                    productList[index]["user"]
-                                        ["profilePictureUrl"],
-                                    fit: BoxFit.cover,
+                          child: Expanded(
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(6),
+                                    child: Image.network(
+                                      productList[index]["user"]
+                                          ["profilePictureUrl"],
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Text(productList[index]["name"],
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20)),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Text(
-                                'Genre: ${productList[index]["description"]}',
-                                style: TextStyle(fontWeight: FontWeight.w500),
-                              ),
-                              SizedBox(height: 5),
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Text(
-                                  productList[index]["name"],
-                                  textAlign: TextAlign.justify,
-                                  style: TextStyle(height: 1.5),
+                                Text(productList[index]["name"],
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20)),
+                                SizedBox(
+                                  height: 20,
                                 ),
-                              ),
-                            ],
+                                Text(
+                                  'Genre: ${productList[index]["description"]}',
+                                  style: TextStyle(fontWeight: FontWeight.w500),
+                                ),
+                                SizedBox(height: 5),
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    productList[index]["name"],
+                                    textAlign: TextAlign.justify,
+                                    style: TextStyle(height: 1.5),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
