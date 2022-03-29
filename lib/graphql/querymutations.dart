@@ -4,7 +4,7 @@ class QueryMutations {
 mutation {  
   updateBook(
     data: {bookState:{connect:{name:TO_BE_SOLD}}}
-    where: { id:\$id}
+    where: { id:"$id"}
   ) {
     description
   }
