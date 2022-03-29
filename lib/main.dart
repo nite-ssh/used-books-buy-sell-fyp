@@ -1,6 +1,9 @@
 //importing material.dart for the structuring
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:second_hand_books_buy_sell/admin_pages/review_books.dart';
+import 'package:second_hand_books_buy_sell/graphql/graphqlconfig.dart';
 //importing login page
 import 'package:second_hand_books_buy_sell/screens/auth/login_screen.dart';
 import 'package:second_hand_books_buy_sell/screens/auth/register_page.dart';
@@ -11,12 +14,19 @@ import 'admin_pages/admin_bottom_nav.dart';
 import 'screens/homepage_screen.dart';
 import 'screens/maps/maps.dart';
 
-//runApp runs the BookApp class in the main method
+GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+//runApp runs the BookApp class in the main methodxsx
 Future<void> main() async {
+  var app = GraphQLProvider(
+      client: graphQLConfiguration.client,
+      child: CacheProvider(
+        child: BookApp(),
+      ));
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(
-    BookApp(),
+    app,
   );
 }
 
@@ -45,6 +55,7 @@ class BookApp extends StatelessWidget {
           MyRoutes.homeRoute: (context) => Homepage(),
           MyRoutes.navRoute: (context) => BottomNav(),
           MyRoutes.mapRoute: (context) => GMaps(),
+          MyRoutes.reviewBookRoute: (context) => ReviewBooks(),
           MyRoutes.adminNavRoute: (context) => AdminBottomNav(),
         });
   }

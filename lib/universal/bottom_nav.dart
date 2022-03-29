@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:second_hand_books_buy_sell/screens/donations.dart';
 import 'package:second_hand_books_buy_sell/screens/homepage_screen.dart';
 import 'package:second_hand_books_buy_sell/screens/maps/maps.dart';
 import 'package:second_hand_books_buy_sell/utils/routes.dart';
@@ -23,10 +24,7 @@ class _BottomNavState extends State<BottomNav> {
       'Index 3: School',
       style: optionStyle,
     ),
-    Text(
-      'Index 4: Settings',
-      style: optionStyle,
-    ),
+    DonateBooks(),
     Blog(),
   ];
 
@@ -61,7 +59,6 @@ class _BottomNavState extends State<BottomNav> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.volunteer_activism,
-              color: Colors.purple,
             ),
             label: 'Donate',
           ),
