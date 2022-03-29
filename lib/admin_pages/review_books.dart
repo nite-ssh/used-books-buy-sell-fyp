@@ -122,11 +122,9 @@ class _ReviewBooksState extends State<ReviewBooks> {
                                   style: TextStyle(height: 1.5),
                                 ),
                               ),
-                              GestureDetector(
-                                child: ReviewBtn(
-                                  id: productList[index]["id"],
-                                ),
-                              )
+                              ReviewBtn(
+                                id: productList[index]["id"],
+                              ),
                             ],
                           ),
                         ),
