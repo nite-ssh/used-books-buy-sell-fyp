@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:second_hand_books_buy_sell/admin_pages/review_btn.dart';
+import 'package:second_hand_books_buy_sell/admin_pages/button_review/delete_btn.dart';
+import 'package:second_hand_books_buy_sell/admin_pages/button_review/review_btn.dart';
 import 'package:second_hand_books_buy_sell/graphql/graphqlconfig.dart';
 import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
 import 'package:second_hand_books_buy_sell/main.dart';
@@ -77,7 +78,7 @@ class _ReviewBooksState extends State<ReviewBooks> {
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisSpacing: 0,
                       mainAxisSpacing: 0,
-                      childAspectRatio: 1.20,
+                      childAspectRatio: 1.30,
                       crossAxisCount: 1),
                   itemBuilder: (_, index) {
                     return Column(
@@ -107,13 +108,13 @@ class _ReviewBooksState extends State<ReviewBooks> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20)),
                               SizedBox(
-                                height: 20,
+                                height: 10,
                               ),
                               Text(
                                 'Genre: ${productList[index]["description"]}',
                                 style: TextStyle(fontWeight: FontWeight.w500),
                               ),
-                              SizedBox(height: 5),
+                              // SizedBox(height: 5),
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Text(
@@ -122,9 +123,26 @@ class _ReviewBooksState extends State<ReviewBooks> {
                                   style: TextStyle(height: 1.5),
                                 ),
                               ),
-                              ReviewBtn(
-                                id: productList[index]["id"],
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 90),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    ReviewBtn(
+                                      id: productList[index]["id"],
+                                    ),
+                                    DeleteBtn(
+                                      id: productList[index]["id"],
+                                    ),
+                                  ],
+                                ),
                               ),
+
+                              // SizedBox(
+                              //   height: 20,
+                              // ),
                             ],
                           ),
                         ),
