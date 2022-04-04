@@ -10,14 +10,15 @@ import 'package:second_hand_books_buy_sell/screens/blog/User.dart';
 import 'package:second_hand_books_buy_sell/universal/drawer.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
-class ReviewBooks extends StatefulWidget {
-  const ReviewBooks({Key? key}) : super(key: key);
+class SortedReviewBooks extends StatefulWidget {
+  final category;
+  const SortedReviewBooks({Key? key, required this.category}) : super(key: key);
 
   @override
-  State<ReviewBooks> createState() => _ReviewBooksState();
+  State<SortedReviewBooks> createState() => _SortedReviewBooksState();
 }
 
-class _ReviewBooksState extends State<ReviewBooks> {
+class _SortedReviewBooksState extends State<SortedReviewBooks> {
   List<Book> listUser = <Book>[];
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
 
@@ -87,7 +88,9 @@ class _ReviewBooksState extends State<ReviewBooks> {
             Expanded(
               child: Query(
                 options: QueryOptions(
-                  document: gql(QueryMutations().getReviewBooks().toString()),
+                  document: gql(QueryMutations()
+                      .getFilteredBooks(widget.category)
+                      .toString()),
                 ),
                 builder: (QueryResult result, {fetchMore, refetch}) {
                   if (result.hasException) {

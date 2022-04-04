@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
+import 'package:second_hand_books_buy_sell/main.dart';
 import 'package:second_hand_books_buy_sell/utils/routes.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 
@@ -16,8 +19,7 @@ class _RegisterState extends State<Register> {
   String? username;
   String? password;
   String? email;
-  String? name;
-
+  GraphQLClient _client = graphQLConfiguration.clientToQuery();
   void validator($formkey) {
     if ($formkey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -66,7 +68,6 @@ class _RegisterState extends State<Register> {
   Widget _registerUI(BuildContext context) {
     final _usernameFormKey = GlobalKey<FormState>();
     final _passwordFormKey = GlobalKey<FormState>();
-    final _nameFormKey = GlobalKey<FormState>();
     final _emailFormKey = GlobalKey<FormState>();
     return Center(
       child: SingleChildScrollView(
@@ -85,24 +86,9 @@ class _RegisterState extends State<Register> {
               child: Column(
                 children: [
                   Form(
-                    key: _nameFormKey,
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        hintText: "Enter your Full Name",
-                        labelText: "Full Name",
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Please enter your Full Name";
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  Form(
                     key: _usernameFormKey,
                     child: TextFormField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: "Enter your Username",
                         labelText: "Username",
                       ),
@@ -111,6 +97,9 @@ class _RegisterState extends State<Register> {
                           return "Please enter your Username";
                         }
                         return null;
+                      },
+                      onChanged: (val) {
+                        username = val;
                       },
                     ),
                   ),
@@ -126,6 +115,9 @@ class _RegisterState extends State<Register> {
                           return "Please enter your Email";
                         }
                         return null;
+                      },
+                      onChanged: (val) {
+                        email = val;
                       },
                     ),
                   ),
@@ -143,6 +135,9 @@ class _RegisterState extends State<Register> {
                         }
                         return null;
                       },
+                      onChanged: (val) {
+                        password = val;
+                      },
                     ),
                   )
                 ],
@@ -156,7 +151,12 @@ class _RegisterState extends State<Register> {
                     validator(_usernameFormKey),
                     validator(_passwordFormKey),
                     validator(_emailFormKey),
-                    validator(_nameFormKey),
+                    _client.query(QueryOptions(
+                      document: gql(
+                        QueryMutations.createUser(
+                            this.username!, this.password!, this.email!),
+                      ),
+                    )),
                     showDialog(
                       context: context,
                       builder: (BuildContext context) =>

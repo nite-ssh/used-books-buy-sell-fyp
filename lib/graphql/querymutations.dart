@@ -12,6 +12,48 @@ mutation {
 ''';
   }
 
+  static String filterBookCategory(String category) {
+    return '''
+{
+  books(where:{
+    bookCategory:{
+      is:{
+        name:{
+          equals:$category
+        }
+      }
+    }
+  }){
+    name
+    bookCategory{
+      name
+    }
+  }
+}
+''';
+  }
+
+  static String createUser(String email, String username, String password) {
+    return '''
+mutation{
+  createUser(data:{
+    email:"$email"
+    username:"$username"
+    password:"$password"
+    noOfBooksSold:0
+    noOfBooksDonated:0
+    userRole:{
+      connect:{
+        name:USER
+      }
+    }
+  }){
+    username
+  }
+}
+''';
+  }
+
   static String deleteBook(String id) {
     return '''
 mutation{
@@ -19,6 +61,33 @@ mutation{
     id: "$id"
   }){
     name
+  }
+}
+''';
+  }
+
+  String getFilteredBooks(String category) {
+    return '''
+
+{
+	books(where:{
+    bookCategory:{
+      is:{
+        name:{
+          equals:$category
+        }
+      }
+    }
+  } ){
+    id
+    name
+    description
+    bookCategory{
+      name
+    }
+    user{
+      profilePictureUrl
+    }
   }
 }
 ''';
