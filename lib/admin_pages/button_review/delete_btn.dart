@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:second_hand_books_buy_sell/admin_pages/admin_bottom_nav.dart';
 import 'package:second_hand_books_buy_sell/admin_pages/review_books.dart';
 import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
 import 'package:second_hand_books_buy_sell/main.dart';
@@ -26,8 +27,10 @@ class _DeleteBtnState extends State<DeleteBtn> {
           ));
 
           setState(() {
-            Navigator.push(context,
-                PageRouteBuilder(pageBuilder: (_, __, ___) => ReviewBooks()));
+            Navigator.push(
+                context,
+                PageRouteBuilder(
+                    pageBuilder: (_, __, ___) => AdminBottomNav()));
           });
         },
         child: Text("Delete"));

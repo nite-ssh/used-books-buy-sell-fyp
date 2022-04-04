@@ -93,7 +93,7 @@ mutation{
 ''';
   }
 
-  String getReviewBooks() {
+  static String getReviewBooks() {
     return '''
 {
 	books(where:{
