@@ -138,6 +138,20 @@ mutation{
 ''';
   }
 
+  String signInUser() {
+    return '''
+mutation SignInUser(\$username: String!, \$password: String!){
+  signInUser(data: { username: \$username, password: \$password }) {
+    token
+    username
+    userRole{
+      name
+    }
+  }
+}
+''';
+  }
+
   String getToBeDonated() {
     return '''
 {

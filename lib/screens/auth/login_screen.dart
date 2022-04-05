@@ -1,6 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:second_hand_books_buy_sell/admin_pages/admin_bottom_nav.dart';
+import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
+import 'package:second_hand_books_buy_sell/main.dart';
+import 'package:second_hand_books_buy_sell/screens/homepage_screen.dart';
+import 'package:second_hand_books_buy_sell/universal/bottom_nav.dart';
 import 'package:second_hand_books_buy_sell/utils/routes.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -10,19 +19,23 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  GraphQLClient _client = graphQLConfiguration.clientToQuery();
   bool isAPIcallProcess = false;
   bool hidePassword = true;
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
-  String? username;
-  String? password;
+  String username = "";
+  String password = "";
+  bool validate = false;
+  bool circular = false;
   String role = 'user';
   bool isChecked = false;
+  final storage = FlutterSecureStorage();
 
   void validator($formkey) {
     if ($formkey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Processing Data')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(content: Text('Processing Data')),
+      // );
     }
   }
 
@@ -80,6 +93,9 @@ class _LoginState extends State<Login> {
                       }
                       return null;
                     },
+                    onChanged: (val) {
+                      username = val;
+                    },
                   ),
                 ),
                 Form(
@@ -96,49 +112,84 @@ class _LoginState extends State<Login> {
                       }
                       return null;
                     },
+                    onChanged: (val) {
+                      password = val;
+                    },
                   ),
                 ),
                 SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    const Text(
-                      'Login as Admin: ',
-                      style: TextStyle(fontSize: 15),
-                    ), //Text
-                    Checkbox(
-                      value: isChecked,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          isChecked = value as bool;
-                        });
-
-                        role = isChecked ? 'admin' : 'user';
-                      },
-                    ),
-                  ],
-                ),
               ],
             ),
           ),
+
           // SizedBox(
           //   height: 10,
           // ),
-          ElevatedButton(
-            onPressed: (() => {
-                  validator(_usernameFormKey),
-                  validator(_passwordFormKey),
-                  Navigator.pushNamed(context, MyRoutes.adminNavRoute)
-                }),
-            child: const Text(
-              "LOGIN",
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w300,
-                  color: Colors.white),
+          Mutation(
+            options: MutationOptions(
+              document: gql(QueryMutations().signInUser()),
+              onCompleted: (dynamic resultData) {
+                print(resultData);
+              },
             ),
-            style: TextButton.styleFrom(
-                minimumSize: const Size(150, 50), backgroundColor: Colors.teal),
+            builder: (MultiSourceResult<dynamic> Function(Map<String, dynamic>,
+                        {Object? optimisticResult})
+                    runMutation,
+                QueryResult<dynamic>? result) {
+              return ElevatedButton(
+                onPressed: () {
+                  validator(_usernameFormKey);
+                  validator(_passwordFormKey);
+
+                  runMutation(
+                    {
+                      'username': username,
+                      'password': password,
+                    },
+                  );
+
+                  if (result!.hasException) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Invalid Credentials')),
+                    );
+                  }
+                  if (result.isLoading) {
+                    const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (result.data != null) {
+                    if (result.data!["signInUser"]["userRole"]["name"] ==
+                        "ADMIN") {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) => AdminBottomNav(),
+                        ),
+                        (route) => false,
+                      );
+                    } else {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) => BottomNav(),
+                        ),
+                        (route) => false,
+                      );
+                    }
+                  }
+                },
+                child: const Text(
+                  "LOGIN",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w300,
+                      color: Colors.white),
+                ),
+                style: TextButton.styleFrom(
+                    minimumSize: const Size(150, 50),
+                    backgroundColor: Colors.teal),
+              );
+            },
           ),
           const SizedBox(
             height: 20,

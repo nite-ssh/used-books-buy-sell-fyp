@@ -20,11 +20,13 @@ class _DeleteBtnState extends State<DeleteBtn> {
         onPressed: () {
           GraphQLClient _client = graphQLConfiguration.clientToQuery();
 
-          _client.query(QueryOptions(
-            document: gql(
-              QueryMutations.deleteBook(widget.id),
+          _client.query(
+            QueryOptions(
+              document: gql(
+                QueryMutations.deleteBook(widget.id),
+              ),
             ),
-          ));
+          );
 
           setState(() {
             Navigator.push(

@@ -64,7 +64,7 @@ class _BlogWriteState extends State<BlogWrite> {
     }
   }
 
-  Widget _buildPopupDialog(BuildContext context) {
+  static Widget _buildPopupDialog(BuildContext context) {
     return AlertDialog(
       title: const Text('Blog uploaded'),
       content: Column(
