@@ -5,7 +5,6 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:second_hand_books_buy_sell/admin_pages/admin_bottom_nav.dart';
 import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
 import 'package:second_hand_books_buy_sell/main.dart';
-import 'package:second_hand_books_buy_sell/screens/homepage_screen.dart';
 import 'package:second_hand_books_buy_sell/universal/bottom_nav.dart';
 import 'package:second_hand_books_buy_sell/utils/routes.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
@@ -19,7 +18,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  GraphQLClient _client = graphQLConfiguration.clientToQuery();
   bool isAPIcallProcess = false;
   bool hidePassword = true;
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
@@ -67,7 +65,7 @@ class _LoginState extends State<Login> {
             "assets/images/login.png",
             fit: BoxFit.cover,
           ),
-          Text(
+          const Text(
             "Login",
             style: TextStyle(
               fontFamily: "Poppins",
@@ -121,49 +119,46 @@ class _LoginState extends State<Login> {
               ],
             ),
           ),
-
           // SizedBox(
           //   height: 10,
           // ),
           Mutation(
             options: MutationOptions(
               document: gql(QueryMutations().signInUser()),
-              onCompleted: (dynamic resultData) {
-                print(resultData);
-              },
+              onCompleted: (dynamic resultData) {},
             ),
             builder: (MultiSourceResult<dynamic> Function(Map<String, dynamic>,
                         {Object? optimisticResult})
                     runMutation,
                 QueryResult<dynamic>? result) {
+              runMutation(
+                {
+                  'username': username,
+                  'password': password,
+                },
+              );
               return ElevatedButton(
                 onPressed: () {
                   validator(_usernameFormKey);
                   validator(_passwordFormKey);
 
-                  runMutation(
-                    {
-                      'username': username,
-                      'password': password,
-                    },
-                  );
-
                   if (result!.hasException) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Invalid Credentials')),
                     );
-                  }
-                  if (result.isLoading) {
+                  } else if (result.isLoading) {
                     const Center(child: CircularProgressIndicator());
                   }
 
                   if (result.data != null) {
+                    print(result.data);
                     if (result.data!["signInUser"]["userRole"]["name"] ==
                         "ADMIN") {
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                          builder: (BuildContext context) => AdminBottomNav(),
+                          builder: (BuildContext context) =>
+                              const AdminBottomNav(),
                         ),
                         (route) => false,
                       );
@@ -171,12 +166,12 @@ class _LoginState extends State<Login> {
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                          builder: (BuildContext context) => BottomNav(),
+                          builder: (BuildContext context) => const BottomNav(),
                         ),
                         (route) => false,
                       );
                     }
-                  }
+                  } else {}
                 },
                 child: const Text(
                   "LOGIN",
