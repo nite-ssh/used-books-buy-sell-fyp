@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:second_hand_books_buy_sell/models/userinfo.dart';
+import 'package:second_hand_books_buy_sell/screens/auth/login_screen.dart';
 
 class DrawerVal extends StatefulWidget {
   const DrawerVal({Key? key}) : super(key: key);
@@ -18,7 +20,6 @@ class _DrawerValState extends State<DrawerVal> {
         // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: [
-          
           const DrawerHeader(
             decoration: BoxDecoration(
               color: Colors.blue,
@@ -26,7 +27,7 @@ class _DrawerValState extends State<DrawerVal> {
             child: Text('Drawer Header'),
           ),
           ListTile(
-            title: const Text('Item 1'),
+            title: Text(UserInfo().getUsername()),
             onTap: () {
               // Update the state of the app.
               // ...

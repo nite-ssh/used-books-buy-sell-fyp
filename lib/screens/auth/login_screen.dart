@@ -5,6 +5,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:second_hand_books_buy_sell/admin_pages/admin_bottom_nav.dart';
 import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
 import 'package:second_hand_books_buy_sell/main.dart';
+import 'package:second_hand_books_buy_sell/models/userinfo.dart';
 import 'package:second_hand_books_buy_sell/universal/bottom_nav.dart';
 import 'package:second_hand_books_buy_sell/utils/routes.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
@@ -27,8 +28,10 @@ class _LoginState extends State<Login> {
   bool circular = false;
   String role = 'user';
   bool isChecked = false;
-  final storage = FlutterSecureStorage();
+  final storage = new FlutterSecureStorage();
+  String? token;
 
+  @override
   void validator($formkey) {
     if ($formkey.currentState!.validate()) {
       // ScaffoldMessenger.of(context).showSnackBar(
@@ -138,7 +141,7 @@ class _LoginState extends State<Login> {
                 },
               );
               return ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   validator(_usernameFormKey);
                   validator(_passwordFormKey);
 
@@ -171,7 +174,14 @@ class _LoginState extends State<Login> {
                         (route) => false,
                       );
                     }
-                  } else {}
+                    Map<String, dynamic> output = result.data!;
+                    UserInfo().setUsername(
+                        output["signInUser"]["username"].toString());
+
+                    token = output["signInUser"]["token"];
+                    await storage.write(
+                        key: "token", value: output["signInUser"]["token"]);
+                  }
                 },
                 child: const Text(
                   "LOGIN",

@@ -143,6 +143,7 @@ mutation{
 mutation SignInUser(\$username: String!, \$password: String!){
   signInUser(data: { username: \$username, password: \$password }) {
     token
+    id
     username
     userRole{
       name
