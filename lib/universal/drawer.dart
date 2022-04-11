@@ -20,28 +20,27 @@ class _DrawerValState extends State<DrawerVal> {
         // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.blue,
+          UserAccountsDrawerHeader(
+            accountName: Text(UserInfo().getUsername()),
+            accountEmail: Text(""),
+            currentAccountPicture: CircleAvatar(
+              backgroundColor: Colors.amberAccent,
+              child: Text(
+                UserInfo().getUsername()[0],
+                style: TextStyle(fontSize: 40.0),
+              ),
             ),
-            child: Text('Drawer Header'),
           ),
           ListTile(
-            title: Text(UserInfo().getUsername()),
+            leading: Icon(Icons.person),
+            title: Text("Profile"),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              Navigator.pop(context);
             },
           ),
           ListTile(
-            title: const Text('Item 2'),
-            onTap: () {
-              // Update the state of the app.
-              // ...
-            },
-          ),
-          ListTile(
-            title: const Text('Logout'),
+            leading: Icon(Icons.door_back_door_outlined),
+            title: Text("Log Out"),
             onTap: () {
               Navigator.pushAndRemoveUntil(
                 context,

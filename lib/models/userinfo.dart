@@ -5,8 +5,6 @@ class UserInfo {
 
   void setUsername(String usernameValue) {
     username = usernameValue;
-    print(username);
-    print(username);
   }
 
   void setEmail(String emailValue) {

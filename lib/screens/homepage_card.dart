@@ -15,34 +15,6 @@ class HomepageCard extends StatefulWidget {
 
 class _HomepageCardState extends State<HomepageCard> {
   TextEditingController phoneNumber = TextEditingController();
-
-// List<User> listUser = <User>[];
-  // GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
-
-  // void fillList() async {
-  //   QueryMutations queryMutation = QueryMutations();
-  //   GraphQLClient _client = graphQLConfiguration.clientToQuery();
-  //   QueryResult result = await _client.query(
-  //     QueryOptions(
-  //       document: queryMutation.getAll(),
-  //     ),
-  //   );
-  //   if (!result.hasErrors) {
-  //     for (var i = 0; i < result.data["users"].length; i++) {
-  //       setState(() {
-  //         listUser.add(
-  //           User(
-  //             result.data["users"][i]["id"],
-  //             result.data["users"][i]["name"],
-  //             result.data["users"][i]["lastName"],
-  //             result.data["users"][i]["phone"],
-  //           ),
-  //         );
-  //       });
-  //     }
-  //   }
-  // }
-
   Widget _buildPopupDialogForMic(BuildContext context) {
     return new AlertDialog(
       title: const Text('Popup example'),
