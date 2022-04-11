@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:second_hand_books_buy_sell/models/userinfo.dart';
+
 class QueryMutations {
   static String updateBookStateToBeSold(String id) {
     return '''
@@ -7,6 +11,28 @@ mutation {
     where: { id:"$id"}
   ) {
     description
+  }
+}
+''';
+  }
+
+  static String getSpecificUserValues() {
+    return '''
+{
+	books(where:{
+    user:{
+      is:{
+        username:{
+          equals:"${UserInfo().getUsername()}"
+        }
+      }
+    }
+  } ){
+    id
+    name
+    author
+    description
+    bookStateName
   }
 }
 ''';
@@ -86,9 +112,7 @@ mutation{
     bookCategory{
       name
     }
-    user{
-      profilePictureUrl
-    }
+    author
   }
 }
 ''';
@@ -109,12 +133,57 @@ mutation{
     id
     name
     description
-    user{
-      profilePictureUrl
-    }
+    author
   }
 }
     ''';
+  }
+
+//   static String uploadImageAndGetUrl(File? upload) {
+//     return '''
+//   mutation{
+//     postPicture(
+// file: $upload
+// ){
+//   file
+// }
+//   }
+// ''';
+//   }
+
+  static String createBook(
+      String bookName, String imageUrl, String description) {
+    return '''
+mutation{
+  createBook(data:{
+    name:"$bookName"
+    description:"$description"
+    author:"$imageUrl"
+    user:{
+      connect:{
+        username:"${UserInfo.username}"
+      }
+    
+    }
+    bookState:{
+      connect:{
+        name:TO_BE_VERIFIED
+      }
+    }
+    bookCategory:{
+      connect:{
+        name:ADVENTURE
+      }
+    }
+  }){
+    name
+    description
+    author
+    bookStateName
+    bookCategoryName
+  }
+}
+''';
   }
 
   String getToBeSold() {
@@ -129,11 +198,10 @@ mutation{
       }
     }
   } ){
+    id
     name
+    author
     description
-    user{
-      profilePictureUrl
-    }
   }
 }
 ''';
@@ -168,11 +236,13 @@ mutation SignInUser(\$username: String!, \$password: String!){
   } ){
     name
     description
-    user{
-      profilePictureUrl
-    }
+    author
   }
 }
 ''';
+  }
+
+  String setUserInfo() {
+    return '''''';
   }
 }

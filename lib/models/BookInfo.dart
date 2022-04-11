@@ -1,4 +1,5 @@
 class Book {
+  static String sellerName = "";
   static String id = "";
   static String name = "";
   static String description = "";
@@ -12,6 +13,10 @@ class Book {
     name = nameVal;
   }
 
+  void setSellerName(String sellerNameVal) {
+    sellerName = sellerNameVal;
+  }
+
   void setDescription(String descVal) {
     description = descVal;
   }
@@ -22,6 +27,7 @@ class Book {
 
   String getId() => id;
   String getName() => name;
+  String getSellerName() => sellerName;
   String getDescription() => description;
   String getProfilePictureUrl() => profilePictureUrl;
 }

@@ -147,7 +147,11 @@ class _LoginState extends State<Login> {
 
                   if (result!.hasException) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Invalid Credentials')),
+                      const SnackBar(
+                        content: Text('Invalid Credentials',
+                            style: TextStyle(color: Colors.white)),
+                        backgroundColor: Colors.red,
+                      ),
                     );
                     (err) => print(err);
                   } else if (result.isLoading) {

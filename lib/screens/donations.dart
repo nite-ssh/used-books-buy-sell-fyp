@@ -59,8 +59,7 @@ class _DonateBooksState extends State<DonateBooks> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(6),
                                   child: Image.network(
-                                    productList[index]["user"]
-                                        ["profilePictureUrl"],
+                                    productList[index]["author"],
                                     fit: BoxFit.cover,
                                   ),
                                 ),

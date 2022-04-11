@@ -114,7 +114,13 @@ class _RegisterState extends State<Register> {
                         if (value == null || value.isEmpty) {
                           return "Please enter your Email";
                         }
-                        return null;
+                        Pattern pattern =
+                            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                        RegExp regex = new RegExp(pattern as String);
+                        if (!regex.hasMatch(value))
+                          return 'Enter Valid Email';
+                        else
+                          return null;
                       },
                       onChanged: (val) {
                         email = val;
@@ -133,7 +139,9 @@ class _RegisterState extends State<Register> {
                         if (value == null || value.isEmpty) {
                           return "Please enter your Password";
                         }
-                        return null;
+                        return value.length < 4
+                            ? "Password must be at least 4 characters long"
+                            : null;
                       },
                       onChanged: (val) {
                         password = val;

@@ -3,6 +3,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:second_hand_books_buy_sell/graphql/graphqlconfig.dart';
 import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
 import 'package:second_hand_books_buy_sell/models/BookInfo.dart';
+import 'package:second_hand_books_buy_sell/models/userinfo.dart';
 import 'package:second_hand_books_buy_sell/screens/blog/User.dart';
 import 'package:second_hand_books_buy_sell/utils/routes.dart';
 
@@ -14,29 +15,21 @@ class HomepageCard extends StatefulWidget {
 }
 
 class _HomepageCardState extends State<HomepageCard> {
-  TextEditingController phoneNumber = TextEditingController();
-  Widget _buildPopupDialogForMic(BuildContext context) {
-    return new AlertDialog(
-      title: const Text('Popup example'),
-      content: new Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text("Hello"),
-        ],
-      ),
-      actions: <Widget>[
-        new FlatButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          textColor: Theme.of(context).primaryColor,
-          child: const Text('Close'),
-        ),
-      ],
-    );
+  String? id;
+  String? name;
+  String? description;
+  String? profilepicture;
+  String? address;
+  void validator($formkey) {
+    if ($formkey.currentState!.validate()) {
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(content: Text('Processing Data')),
+      // );
+    }
   }
 
+  final _addressFormKey = GlobalKey<FormState>();
+  TextEditingController phoneNumber = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Query(
@@ -60,7 +53,7 @@ class _HomepageCardState extends State<HomepageCard> {
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisSpacing: 0,
                   mainAxisSpacing: 0,
-                  childAspectRatio: 1.35,
+                  childAspectRatio: 0.5,
                   crossAxisCount: 1),
               itemBuilder: (_, index) {
                 return Column(
@@ -81,8 +74,7 @@ class _HomepageCardState extends State<HomepageCard> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(6),
                                   child: Image.network(
-                                    productList[index]["user"]
-                                        ["profilePictureUrl"],
+                                    productList[index]["author"],
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -120,12 +112,15 @@ class _HomepageCardState extends State<HomepageCard> {
                                   //     ),
                                   //   ),
                                   // );
-                                  // Book().setId(productList[index]["id"]);
-                                  // Book().setId(productList[index]["name"]);
-                                  // Book()
-                                  //     .setId(productList[index]["description"]);
-                                  // Book().setId(productList[index]["user"]
-                                  //     ["profilePictureUrl"]);
+                                  setState(() {
+                                    id = productList[index]["id"];
+                                    name = productList[index]["name"];
+                                    description =
+                                        productList[index]["description"];
+                                    profilepicture =
+                                        productList[index]["author"];
+                                  });
+
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) =>
@@ -147,6 +142,59 @@ class _HomepageCardState extends State<HomepageCard> {
           ],
         );
       },
+    );
+  }
+
+  Widget _buildPopupDialogForMic(BuildContext context) {
+    return new AlertDialog(
+      title: const Text('Need Driver?'),
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Form(
+            key: _addressFormKey,
+            child: TextFormField(
+              decoration: InputDecoration(
+                hintText: "Enter your Address",
+                labelText: "Address",
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please enter required details";
+                }
+                return null;
+              },
+              onChanged: (val) {
+                address = val;
+              },
+            ),
+          ),
+        ],
+      ),
+      actions: <Widget>[
+        new FlatButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('Close'),
+        ),
+        new FlatButton(
+          onPressed: () {
+            // Navigator.of(context).pop();
+            validator(_addressFormKey);
+            Book().setId(id.toString());
+            Book().setSellerName(name.toString());
+            Book().setDescription(description.toString());
+            Book().setProfilePictureUrl(profilepicture.toString());
+            UserInfo().setAddress(address.toString());
+            print(UserInfo().getAddress());
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('Submit'),
+        ),
+      ],
     );
   }
 }

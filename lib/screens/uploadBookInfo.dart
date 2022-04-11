@@ -1,0 +1,289 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:random_string/random_string.dart';
+import 'package:second_hand_books_buy_sell/graphql/graphqlconfig.dart';
+import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
+import 'package:second_hand_books_buy_sell/main.dart';
+import 'package:second_hand_books_buy_sell/utils/routes.dart';
+
+class BookUpload extends StatefulWidget {
+  const BookUpload({Key? key}) : super(key: key);
+
+  @override
+  State<BookUpload> createState() => _BookUploadState();
+}
+
+class _BookUploadState extends State<BookUpload> {
+  String? title, description;
+  File? _image;
+  bool isLoading = false;
+
+  Future getImage() async {
+    final ImagePicker _picker = ImagePicker();
+    // Pick an image
+    var pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      try {
+        _image = File(pickedFile!.path);
+      } catch (e) {
+        Navigator.pop(context);
+      }
+    });
+  }
+
+  uploadBlog() async {
+    if (_image != null) {
+      Reference firebaseStorageref = FirebaseStorage.instance
+          .ref()
+          .child("bookimages")
+          .child("${randomAlphaNumeric(9)}.jpg");
+      var task = await firebaseStorageref.putFile(_image as File);
+
+      var imageUrl = await task.ref.getDownloadURL();
+
+      GraphQLClient _client = graphQLConfiguration.clientToQuery();
+
+      _client.query(QueryOptions(
+        document: gql(
+          QueryMutations.createBook(
+              title.toString(), imageUrl.toString(), description.toString()),
+        ),
+      ));
+      // Map<String, String> blogMap = {
+      //   "imageUrl": imageUrl,
+      //   "authorName": name as String,
+      //   "title": title as String,
+      //   "blogContent": blogContent as String,
+      // };
+      // CrudMethods.addData(blogMap);
+      Navigator.pop(context);
+    } else {
+      Navigator.pop(context);
+    }
+  }
+
+  void validator($formkey) {
+    if ($formkey.currentState!.validate()) {
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(content: Text('Processing Data')),
+      // );
+    }
+  }
+
+  static Widget _buildPopupDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Blog uploaded'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const <Widget>[
+          Text("The blog has been uploaded"),
+        ],
+      ),
+      actions: <Widget>[
+        FlatButton(
+          onPressed: () {
+            Navigator.pushNamed(context, MyRoutes.navRoute);
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('Return to Home'),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildErrorDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Image not Selected!'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const <Widget>[
+          Text("Please select image for the blog"),
+        ],
+      ),
+      actions: <Widget>[
+        FlatButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('Back'),
+        ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final _titleFormKey = GlobalKey<FormState>();
+    final _descriptionFormKey = GlobalKey<FormState>();
+    final _blogContentFormKey = GlobalKey<FormState>();
+
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0.0,
+          title: const Text("Upload Book"),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              GestureDetector(
+                onTap: () {
+                  getImage();
+                },
+                child: _image != null
+                    ? Container(
+                        margin: EdgeInsets.symmetric(horizontal: 16),
+                        height: 150,
+                        width: MediaQuery.of(context).size.width,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(6),
+                          child: Image.file(
+                            _image as File,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      )
+                    : Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 20),
+                        decoration: BoxDecoration(
+                            color: const Color(0xFF343434),
+                            borderRadius: BorderRadius.circular(10)),
+                        height: 150,
+                        width: MediaQuery.of(context).size.width,
+                        child: const Icon(
+                          Icons.add_a_photo,
+                          color: Colors.white,
+                        ),
+                      ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+                child: Form(
+                  key: _titleFormKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          hintText: "Enter the Book Title",
+                          labelText: "Book Title",
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        },
+                        onChanged: (val) {
+                          title = val;
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+                child: Form(
+                  key: _descriptionFormKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          hintText: "Enter Book Description",
+                          labelText: "Name",
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        },
+                        onChanged: (val) {
+                          description = val;
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              // Padding(
+              //   padding:
+              //       const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+              //   child: Form(
+              //     key: _blogContentFormKey,
+              //     child: Column(
+              //       children: [
+              //         TextFormField(
+              //           keyboardType: TextInputType.multiline,
+              //           textInputAction: TextInputAction.newline,
+              //           minLines: 1,
+              //           maxLines: 20,
+              //           decoration: InputDecoration(
+              //             label: Text("Blog Content (max 20 lines)"),
+              //           ),
+              //           validator: (value) {
+              //             if (value == null || value.isEmpty) {
+              //               return 'Please enter some text';
+              //             }
+              //             return null;
+              //           },
+              //           onChanged: (val) {
+              //              = val;
+              //           },
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
+              SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // validator(_titleFormKey);
+                  // validator(_descriptionFormKey);
+                  // validator(_blogContentFormKey);
+                  if (_image != null) {
+                    uploadBlog();
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          _buildPopupDialog(context),
+                    );
+                  } else {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) =>
+                            _buildErrorDialog(context));
+                  }
+                },
+                child: Text(
+                  "Upload",
+                  style: TextStyle(fontSize: 18),
+                ),
+                style: TextButton.styleFrom(
+                    minimumSize: const Size(150, 50),
+                    backgroundColor: Colors.teal),
+              ),
+              SizedBox(
+                height: 20,
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:second_hand_books_buy_sell/models/userinfo.dart';
 import 'package:second_hand_books_buy_sell/screens/auth/login_screen.dart';
+import 'package:second_hand_books_buy_sell/screens/userpersonalinfo.dart';
+import 'package:second_hand_books_buy_sell/userpersonalinfo.dart';
 
 class DrawerVal extends StatefulWidget {
   const DrawerVal({Key? key}) : super(key: key);
@@ -35,7 +37,11 @@ class _DrawerValState extends State<DrawerVal> {
             leading: Icon(Icons.person),
             title: Text("Profile"),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ___) => UserPersonalInfo(),
+                  ));
             },
           ),
           ListTile(
