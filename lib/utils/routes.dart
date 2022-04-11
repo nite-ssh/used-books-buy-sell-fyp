@@ -7,6 +7,6 @@ class MyRoutes {
   static String navRoute = '/navigation';
   static String blogRoute = "/blog";
   static String blogWriteRoute = "/blog_write";
-
+  static String homepageCardDetailRoute = "/homecarddetail";
   static String adminNavRoute = '/adminnav';
 }

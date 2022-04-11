@@ -56,6 +56,7 @@ class BookApp extends StatelessWidget {
           MyRoutes.homeRoute: (context) => Homepage(),
           MyRoutes.navRoute: (context) => BottomNav(),
           MyRoutes.mapRoute: (context) => GMaps(),
+
           MyRoutes.reviewBookRoute: (context) => ReviewBooks(
                 bookMutation: QueryMutations.getReviewBooks(),
               ),

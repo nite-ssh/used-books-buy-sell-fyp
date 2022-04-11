@@ -40,6 +40,18 @@ class _DrawerValState extends State<DrawerVal> {
               // ...
             },
           ),
+          ListTile(
+            title: const Text('Logout'),
+            onTap: () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const Login(),
+                ),
+                (route) => false,
+              );
+            },
+          ),
         ],
       ),
     );

@@ -33,7 +33,8 @@ mutation {
 ''';
   }
 
-  static String createUser(String email, String username, String password) {
+  String createUser(String email, String username, String password) {
+    print(email);
     return '''
 mutation{
   createUser(data:{

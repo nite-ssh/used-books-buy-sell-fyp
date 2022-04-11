@@ -25,34 +25,9 @@ class _ReviewBooksState extends State<ReviewBooks> {
   List<Book> listUser = <Book>[];
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
 
-  void fillList() async {
-    QueryMutations queryMutation = QueryMutations();
-    GraphQLClient _client = graphQLConfiguration.clientToQuery();
-    QueryResult result = await _client.query(
-      QueryOptions(
-        document: gql(QueryMutations.getReviewBooks()),
-      ),
-    );
-    if (!result.hasException) {
-      for (var i = 0; i < result.data!["books"].length; i++) {
-        setState(() {
-          listUser.add(
-            Book(
-              result.data!["books"][i]["id"],
-              result.data!["books"][i]["name"],
-              result.data!["books"][i]["description"],
-              result.data!["books"][i]["user"]["profilePictureUrl"],
-            ),
-          );
-        });
-      }
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    fillList();
   }
 
   @override

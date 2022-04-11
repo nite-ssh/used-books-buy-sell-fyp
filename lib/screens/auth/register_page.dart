@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
 import 'package:second_hand_books_buy_sell/main.dart';
+import 'package:second_hand_books_buy_sell/screens/blog/User.dart';
 import 'package:second_hand_books_buy_sell/utils/routes.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 
@@ -22,9 +23,9 @@ class _RegisterState extends State<Register> {
   GraphQLClient _client = graphQLConfiguration.clientToQuery();
   void validator($formkey) {
     if ($formkey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Processing Data')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(content: Text('Processing Data')),
+      // );
     }
   }
 
@@ -73,7 +74,7 @@ class _RegisterState extends State<Register> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Text(
+            const Text(
               "Register",
               style: TextStyle(
                 fontFamily: "Poppins",
@@ -106,7 +107,7 @@ class _RegisterState extends State<Register> {
                   Form(
                     key: _emailFormKey,
                     child: TextFormField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: "Enter your Email",
                         labelText: "Email",
                       ),
@@ -125,7 +126,7 @@ class _RegisterState extends State<Register> {
                     key: _passwordFormKey,
                     child: TextFormField(
                       obscureText: true,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: "Enter your Password",
                         labelText: "Password",
                       ),
@@ -147,14 +148,14 @@ class _RegisterState extends State<Register> {
               height: 20,
             ),
             ElevatedButton(
-              onPressed: (() => {
+              onPressed: (() async => {
                     validator(_usernameFormKey),
                     validator(_passwordFormKey),
                     validator(_emailFormKey),
                     _client.query(QueryOptions(
                       document: gql(
-                        QueryMutations.createUser(
-                            this.username!, this.password!, this.email!),
+                        await QueryMutations()
+                            .createUser(email!, username!, password!),
                       ),
                     )),
                     showDialog(
@@ -187,7 +188,7 @@ class _RegisterState extends State<Register> {
                   color: Colors.purple,
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

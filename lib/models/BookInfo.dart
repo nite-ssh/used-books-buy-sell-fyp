@@ -1,11 +1,27 @@
 class Book {
-  Book(this.id, this.name, this.description, this.profilePictureUrl);
-  final String id;
-  final String name;
-  final String description;
-  final String profilePictureUrl;
-  getId() => this.id;
-  getName() => this.name;
-  getDescription() => this.description;
-  getProfilePictureUrl() => this.profilePictureUrl;
+  static String id = "";
+  static String name = "";
+  static String description = "";
+  static String profilePictureUrl = "";
+
+  void setId(String idVal) {
+    id = idVal;
+  }
+
+  void setName(String nameVal) {
+    name = nameVal;
+  }
+
+  void setDescription(String descVal) {
+    description = descVal;
+  }
+
+  void setProfilePictureUrl(String profilePicVal) {
+    profilePictureUrl = profilePicVal;
+  }
+
+  String getId() => id;
+  String getName() => name;
+  String getDescription() => description;
+  String getProfilePictureUrl() => profilePictureUrl;
 }

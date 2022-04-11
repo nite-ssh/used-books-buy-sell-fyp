@@ -1,11 +1,20 @@
 class UserInfo {
   static String username = "";
   String? token;
+  static String emailForRegistration = "";
 
   void setUsername(String usernameValue) {
     username = usernameValue;
     print(username);
     print(username);
+  }
+
+  void setEmail(String emailValue) {
+    emailForRegistration = emailValue;
+  }
+
+  String getEmail() {
+    return emailForRegistration;
   }
 
   String getUsername() {
