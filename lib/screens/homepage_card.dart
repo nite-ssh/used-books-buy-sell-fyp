@@ -53,7 +53,7 @@ class _HomepageCardState extends State<HomepageCard> {
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisSpacing: 0,
                   mainAxisSpacing: 0,
-                  childAspectRatio: 0.5,
+                  childAspectRatio: 1,
                   crossAxisCount: 1),
               itemBuilder: (_, index) {
                 return Column(

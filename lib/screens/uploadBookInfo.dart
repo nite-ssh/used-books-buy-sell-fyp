@@ -8,6 +8,7 @@ import 'package:random_string/random_string.dart';
 import 'package:second_hand_books_buy_sell/graphql/graphqlconfig.dart';
 import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
 import 'package:second_hand_books_buy_sell/main.dart';
+import 'package:second_hand_books_buy_sell/screens/homepage_screen.dart';
 import 'package:second_hand_books_buy_sell/utils/routes.dart';
 
 class BookUpload extends StatefulWidget {
@@ -30,12 +31,12 @@ class _BookUploadState extends State<BookUpload> {
       try {
         _image = File(pickedFile!.path);
       } catch (e) {
-        Navigator.pop(context);
+        Navigator.pushNamed(context, MyRoutes.navRoute);
       }
     });
   }
 
-  uploadBlog() async {
+  uploadImage() async {
     if (_image != null) {
       Reference firebaseStorageref = FirebaseStorage.instance
           .ref()
@@ -60,9 +61,8 @@ class _BookUploadState extends State<BookUpload> {
       //   "blogContent": blogContent as String,
       // };
       // CrudMethods.addData(blogMap);
-      Navigator.pop(context);
     } else {
-      Navigator.pop(context);
+      Navigator.pushNamed(context, MyRoutes.navRoute);
     }
   }
 
@@ -256,7 +256,7 @@ class _BookUploadState extends State<BookUpload> {
                   // validator(_descriptionFormKey);
                   // validator(_blogContentFormKey);
                   if (_image != null) {
-                    uploadBlog();
+                    uploadImage();
                     showDialog(
                       context: context,
                       builder: (BuildContext context) =>
