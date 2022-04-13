@@ -30,7 +30,7 @@ class _GetBooksMutationState extends State<GetBooksMutation> {
               child: CircularProgressIndicator(),
             );
           }
-          final productList = result.data!["books"];
+          final productList = result.data!["bookUnverifieds"];
           return Stack(
             children: [
               GridView.builder(
@@ -56,7 +56,7 @@ class _GetBooksMutationState extends State<GetBooksMutation> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(6),
                                 child: Image.network(
-                                  productList[index]["author"],
+                                  productList[index]["bookPhoto"],
                                   fit: BoxFit.cover,
                                   height: 80,
                                 ),

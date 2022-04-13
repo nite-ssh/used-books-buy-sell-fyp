@@ -22,6 +22,8 @@ class BookUpload extends StatefulWidget {
 
 class _BookUploadState extends State<BookUpload> {
   String? title, description, author;
+  String bookState = "TO_BE_SOLD";
+  String imageUrlVal = "";
   int price = 0;
   File? _image;
   bool isLoading = false;
@@ -50,14 +52,9 @@ class _BookUploadState extends State<BookUpload> {
       var task = await firebaseStorageref.putFile(_image as File);
 
       var imageUrl = await task.ref.getDownloadURL();
-
-      // Map<String, String> blogMap = {
-      //   "imageUrl": imageUrl,
-      //   "authorName": name as String,
-      //   "title": title as String,
-      //   "blogContent": blogContent as String,
-      // };
-      // CrudMethods.addData(blogMap);
+      setState(() {
+        imageUrlVal = imageUrl;
+      });
     } else {
       Navigator.pushNamed(context, MyRoutes.navRoute);
     }
@@ -264,7 +261,11 @@ class _BookUploadState extends State<BookUpload> {
                           return null;
                         },
                         onChanged: (val) {
-                          price = int.parse(val);
+                          try {
+                            price = int.parse(val);
+                          } catch (e) {
+                            return;
+                          }
                         },
                       ),
                     ],
@@ -336,7 +337,7 @@ class _BookUploadState extends State<BookUpload> {
                     onChanged: (bool? value) {
                       setState(() {
                         isChecked = value as bool;
-                        role = isChecked ? true : false;
+                        bookState = isChecked ? "TO_BE_DONATED" : "TO_BE_SOLD";
                       });
                     },
                   ),
@@ -352,16 +353,21 @@ class _BookUploadState extends State<BookUpload> {
                   // validator(_blogContentFormKey);
                   if (_image != null) {
                     uploadContent();
+
                     GraphQLClient _client =
                         graphQLConfiguration.clientToQuery();
 
                     _client.query(
                       QueryOptions(
-                        document: gql(QueryMutations().createUnverifiedBook(
-                            title.toString(),
-                            price.toInt(),
-                            description.toString(),
-                            author.toString())),
+                        document: gql(
+                          QueryMutations.createUnverifiedBook(
+                              title.toString(),
+                              price.toInt(),
+                              description.toString(),
+                              author.toString(),
+                              bookState.toString(),
+                              imageUrlVal.toString()),
+                        ),
                       ),
                     );
                     showDialog(

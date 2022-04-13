@@ -120,16 +120,11 @@ mutation{
   static String getReviewBooks() {
     return '''
 {
-	books(where:{
-    bookState:{
-      is:{
-        name:{
-          equals:TO_BE_VERIFIED
-        }
-      }
-    }
-  } ){
+	bookUnverifieds{
     id
+    bookPhoto
+    bookStateName
+    bookCategoryName
     name
     description
     author
@@ -150,8 +145,9 @@ mutation{
 // ''';
 //   }
 
-  String createUnverifiedBook(
-      String name, int price, String description, String author) {
+  static String createUnverifiedBook(String name, int price, String description,
+      String author, String bookState, String photo) {
+    print(photo);
     return '''
 mutation {
   createBookUnverified(
@@ -160,8 +156,9 @@ mutation {
       price: $price
       description: "$description"
       author: "$author"
-      user: { connect: { username: "${UserInfo().getUsername()}" } }
-      bookState: { connect: { name: TO_BE_SOLD } }
+      bookPhoto: "$photo"
+      user: { connect: { id: "${UserInfo().getId()}" } }
+      bookState: { connect: { name: $bookState } }
       bookCategory: { connect: { name: SELF_HELP } }
     }
   ) {
