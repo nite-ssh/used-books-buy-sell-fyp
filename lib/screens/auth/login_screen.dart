@@ -182,7 +182,7 @@ class _LoginState extends State<Login> {
                     Map<String, dynamic> output = result.data!;
                     UserInfo().setUsername(
                         output["signInUser"]["username"].toString());
-
+                    UserInfo().setId(output["signInUser"]["id"].toString());
                     token = output["signInUser"]["token"];
                     await storage.write(
                         key: "token", value: output["signInUser"]["token"]);

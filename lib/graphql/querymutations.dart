@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:second_hand_books_buy_sell/models/BookValues.dart';
 import 'package:second_hand_books_buy_sell/models/userinfo.dart';
 
 class QueryMutations {
@@ -149,31 +150,21 @@ mutation{
 // ''';
 //   }
 
-  static String createBook(
-      String bookName, String imageUrl, String description) {
+  String createUnverifiedBook(
+      String name, int price, String description, String author) {
     return '''
-mutation{
-  createBook(data:{
-    name:"$bookName"
-    description:"$description"
-    author:"$imageUrl"
-    user:{
-      connect:{
-        username:"${UserInfo.username}"
-      }
-    
+mutation {
+  createBookUnverified(
+    data: {
+      name: "$name"
+      price: $price
+      description: "$description"
+      author: "$author"
+      user: { connect: { username: "${UserInfo().getUsername()}" } }
+      bookState: { connect: { name: TO_BE_SOLD } }
+      bookCategory: { connect: { name: SELF_HELP } }
     }
-    bookState:{
-      connect:{
-        name:TO_BE_VERIFIED
-      }
-    }
-    bookCategory:{
-      connect:{
-        name:ADVENTURE
-      }
-    }
-  }){
+  ) {
     name
     description
     author

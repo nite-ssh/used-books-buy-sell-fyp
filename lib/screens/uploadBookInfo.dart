@@ -8,6 +8,7 @@ import 'package:random_string/random_string.dart';
 import 'package:second_hand_books_buy_sell/graphql/graphqlconfig.dart';
 import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
 import 'package:second_hand_books_buy_sell/main.dart';
+import 'package:second_hand_books_buy_sell/models/BookValues.dart';
 import 'package:second_hand_books_buy_sell/models/userinfo.dart';
 import 'package:second_hand_books_buy_sell/screens/homepage_screen.dart';
 import 'package:second_hand_books_buy_sell/utils/routes.dart';
@@ -20,7 +21,8 @@ class BookUpload extends StatefulWidget {
 }
 
 class _BookUploadState extends State<BookUpload> {
-  String? title, description;
+  String? title, description, author;
+  int price = 0;
   File? _image;
   bool isLoading = false;
   bool role = false;
@@ -49,23 +51,6 @@ class _BookUploadState extends State<BookUpload> {
 
       var imageUrl = await task.ref.getDownloadURL();
 
-      GraphQLClient _client = graphQLConfiguration.clientToQuery();
-      if (role == true) {
-        _client.query(QueryOptions(
-          document: gql(
-            QueryMutations.createBook(
-                title.toString(), imageUrl.toString(), description.toString()),
-          ),
-        ));
-      } else {
-        UserInfo().setBookType(role);
-        _client.query(QueryOptions(
-          document: gql(
-            QueryMutations.createBook(
-                title.toString(), imageUrl.toString(), description.toString()),
-          ),
-        ));
-      }
       // Map<String, String> blogMap = {
       //   "imageUrl": imageUrl,
       //   "authorName": name as String,
@@ -130,12 +115,15 @@ class _BookUploadState extends State<BookUpload> {
     );
   }
 
+  String dropdownValue = 'One';
+
   @override
   Widget build(BuildContext context) {
     final _titleFormKey = GlobalKey<FormState>();
     final _descriptionFormKey = GlobalKey<FormState>();
+    final _authorFormKey = GlobalKey<FormState>();
+    final _priceFormKey = GlobalKey<FormState>();
     final _blogContentFormKey = GlobalKey<FormState>();
-
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -230,6 +218,82 @@ class _BookUploadState extends State<BookUpload> {
                   ),
                 ),
               ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+                child: Form(
+                  key: _authorFormKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          hintText: "Enter Book Author",
+                          labelText: "Author",
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        },
+                        onChanged: (val) {
+                          author = val;
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+                child: Form(
+                  key: _priceFormKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          hintText: "Enter Price",
+                          labelText: "Price",
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        },
+                        onChanged: (val) {
+                          price = int.parse(val);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              DropdownButton<String>(
+                value: dropdownValue,
+                icon: const Icon(Icons.arrow_downward),
+                elevation: 16,
+                style: const TextStyle(color: Colors.deepPurple),
+                underline: Container(
+                  height: 2,
+                  color: Colors.deepPurpleAccent,
+                ),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    dropdownValue = newValue!;
+                  });
+                },
+                items: <String>['One', 'Two', 'Free', 'Four']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
               // Padding(
               //   padding:
               //       const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
@@ -288,6 +352,18 @@ class _BookUploadState extends State<BookUpload> {
                   // validator(_blogContentFormKey);
                   if (_image != null) {
                     uploadContent();
+                    GraphQLClient _client =
+                        graphQLConfiguration.clientToQuery();
+
+                    _client.query(
+                      QueryOptions(
+                        document: gql(QueryMutations().createUnverifiedBook(
+                            title.toString(),
+                            price.toInt(),
+                            description.toString(),
+                            author.toString())),
+                      ),
+                    );
                     showDialog(
                       context: context,
                       builder: (BuildContext context) =>
