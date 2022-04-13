@@ -67,8 +67,6 @@ mutation{
     email:"$email"
     username:"$username"
     password:"$password"
-    noOfBooksSold:0
-    noOfBooksDonated:0
     userRole:{
       connect:{
         name:USER
@@ -168,6 +166,41 @@ mutation{
     bookState:{
       connect:{
         name:TO_BE_VERIFIED
+      }
+    }
+    bookCategory:{
+      connect:{
+        name:ADVENTURE
+      }
+    }
+  }){
+    name
+    description
+    author
+    bookStateName
+    bookCategoryName
+  }
+}
+''';
+  }
+
+  static String createDonatedBook(
+      String bookName, String imageUrl, String description) {
+    return '''
+mutation{
+  createBook(data:{
+    name:"$bookName"
+    description:"$description"
+    author:"$imageUrl"
+    user:{
+      connect:{
+        username:"${UserInfo.username}"
+      }
+    
+    }
+    bookState:{
+      connect:{
+        name:TO_BE_DONATED
       }
     }
     bookCategory:{

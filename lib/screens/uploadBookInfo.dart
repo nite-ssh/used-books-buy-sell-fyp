@@ -8,6 +8,7 @@ import 'package:random_string/random_string.dart';
 import 'package:second_hand_books_buy_sell/graphql/graphqlconfig.dart';
 import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
 import 'package:second_hand_books_buy_sell/main.dart';
+import 'package:second_hand_books_buy_sell/models/userinfo.dart';
 import 'package:second_hand_books_buy_sell/screens/homepage_screen.dart';
 import 'package:second_hand_books_buy_sell/utils/routes.dart';
 
@@ -22,6 +23,8 @@ class _BookUploadState extends State<BookUpload> {
   String? title, description;
   File? _image;
   bool isLoading = false;
+  bool role = false;
+  bool isChecked = false;
 
   Future getImage() async {
     final ImagePicker _picker = ImagePicker();
@@ -36,7 +39,7 @@ class _BookUploadState extends State<BookUpload> {
     });
   }
 
-  uploadImage() async {
+  uploadContent() async {
     if (_image != null) {
       Reference firebaseStorageref = FirebaseStorage.instance
           .ref()
@@ -47,13 +50,22 @@ class _BookUploadState extends State<BookUpload> {
       var imageUrl = await task.ref.getDownloadURL();
 
       GraphQLClient _client = graphQLConfiguration.clientToQuery();
-
-      _client.query(QueryOptions(
-        document: gql(
-          QueryMutations.createBook(
-              title.toString(), imageUrl.toString(), description.toString()),
-        ),
-      ));
+      if (role == true) {
+        _client.query(QueryOptions(
+          document: gql(
+            QueryMutations.createBook(
+                title.toString(), imageUrl.toString(), description.toString()),
+          ),
+        ));
+      } else {
+        UserInfo().setBookType(role);
+        _client.query(QueryOptions(
+          document: gql(
+            QueryMutations.createBook(
+                title.toString(), imageUrl.toString(), description.toString()),
+          ),
+        ));
+      }
       // Map<String, String> blogMap = {
       //   "imageUrl": imageUrl,
       //   "authorName": name as String,
@@ -247,6 +259,25 @@ class _BookUploadState extends State<BookUpload> {
               //     ),
               //   ),
               // ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text(
+                    'Donate Book: ',
+                    style: TextStyle(fontSize: 15),
+                  ), //Text
+                  Checkbox(
+                    value: isChecked,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        isChecked = value as bool;
+                        role = isChecked ? true : false;
+                      });
+                    },
+                  ),
+                ],
+              ),
               SizedBox(
                 height: 20,
               ),
@@ -256,7 +287,7 @@ class _BookUploadState extends State<BookUpload> {
                   // validator(_descriptionFormKey);
                   // validator(_blogContentFormKey);
                   if (_image != null) {
-                    uploadImage();
+                    uploadContent();
                     showDialog(
                       context: context,
                       builder: (BuildContext context) =>
