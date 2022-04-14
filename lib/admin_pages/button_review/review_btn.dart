@@ -6,6 +6,7 @@ import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
 import 'package:second_hand_books_buy_sell/main.dart';
 
 class ReviewBtn extends StatefulWidget {
+  final id;
   final name;
   final price;
   final description;
@@ -17,6 +18,7 @@ class ReviewBtn extends StatefulWidget {
 
   const ReviewBtn(
       {Key? key,
+      required this.id,
       required this.name,
       required this.price,
       required this.description,
@@ -48,6 +50,14 @@ class _ReviewBtnState extends State<ReviewBtn> {
                 widget.bookState,
                 widget.bookCategory)),
           ));
+
+          _client.query(
+            QueryOptions(
+              document: gql(
+                QueryMutations.deleteBookUnverified(widget.id),
+              ),
+            ),
+          );
 
           setState(() {
             Navigator.push(

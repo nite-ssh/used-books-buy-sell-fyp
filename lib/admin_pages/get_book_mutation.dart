@@ -89,6 +89,7 @@ class _GetBooksMutationState extends State<GetBooksMutation> {
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   ReviewBtn(
+                                    id: productList[index]["id"],
                                     name: productList[index]["name"],
                                     price: productList[index]["price"],
                                     description: productList[index]

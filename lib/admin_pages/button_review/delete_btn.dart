@@ -14,27 +14,35 @@ class DeleteBtn extends StatefulWidget {
 }
 
 class _DeleteBtnState extends State<DeleteBtn> {
+  bool showProgress = false;
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-        onPressed: () {
-          GraphQLClient _client = graphQLConfiguration.clientToQuery();
+    return showProgress
+        ? Center(child: CircularProgressIndicator())
+        : ElevatedButton(
+            onPressed: () async {
+              setState(() {
+                showProgress = true;
+              });
+              GraphQLClient abc = graphQLConfiguration.clientToQuery();
 
-          _client.query(
-            QueryOptions(
-              document: gql(
-                QueryMutations.deleteBook(widget.id),
-              ),
-            ),
-          );
-
-          setState(() {
-            Navigator.push(
-                context,
-                PageRouteBuilder(
-                    pageBuilder: (_, __, ___) => AdminBottomNav()));
-          });
-        },
-        child: Text("Delete"));
+              await abc.query(
+                QueryOptions(
+                  document: gql(
+                    QueryMutations.deleteBookUnverified(widget.id),
+                  ),
+                ),
+              );
+              setState(() {
+                showProgress = false;
+              });
+              setState(() {
+                Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                        pageBuilder: (_, __, ___) => AdminBottomNav()));
+              });
+            },
+            child: Text("Delete"));
   }
 }

@@ -40,6 +40,52 @@ mutation {
 ''';
   }
 
+  static String getNoOfBookSold() {
+    return '''
+{
+users(where:{
+  id:{
+    equals:"${UserInfo().getId()}"
+  }
+}){
+  username
+  id
+_count{
+  books
+  BookUnverified
+}
+}
+}
+''';
+  }
+
+  static String getSpecificUnverifiedBookValues() {
+    return '''
+{
+	bookUnverifieds(where:{
+    user:{
+      is:{
+        username:{
+          equals:"${UserInfo().getUsername()}"
+        }
+      }
+    }
+  } ){
+     id
+    bookPhoto
+    bookStateName
+    bookCategoryName
+    name
+    user{
+      id
+    }
+    description
+    author
+  }
+}
+''';
+  }
+
   static String filterBookCategory(String category) {
     return '''
 {
@@ -81,10 +127,10 @@ mutation{
 ''';
   }
 
-  static String deleteBook(String id) {
+  static String deleteBookUnverified(String id) {
     return '''
 mutation{
-  deleteBook(where:{
+  deleteBookUnverified(where:{
     id: "$id"
   }){
     name

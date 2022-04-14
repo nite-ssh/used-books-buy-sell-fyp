@@ -146,9 +146,9 @@ class _HomepageCardState extends State<HomepageCard> {
   }
 
   Widget _buildPopupDialogForMic(BuildContext context) {
-    return new AlertDialog(
+    return AlertDialog(
       title: const Text('Need Driver?'),
-      content: new Column(
+      content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -173,14 +173,14 @@ class _HomepageCardState extends State<HomepageCard> {
         ],
       ),
       actions: <Widget>[
-        new FlatButton(
+        FlatButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
           textColor: Theme.of(context).primaryColor,
           child: const Text('Close'),
         ),
-        new FlatButton(
+        FlatButton(
           onPressed: () {
             // Navigator.of(context).pop();
             validator(_addressFormKey);
@@ -189,7 +189,6 @@ class _HomepageCardState extends State<HomepageCard> {
             Book().setDescription(description.toString());
             Book().setProfilePictureUrl(profilepicture.toString());
             UserInfo().setAddress(address.toString());
-            print(UserInfo().getAddress());
           },
           textColor: Theme.of(context).primaryColor,
           child: const Text('Submit'),

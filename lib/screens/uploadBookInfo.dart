@@ -406,25 +406,85 @@ class _BookUploadState extends State<BookUpload> {
                           GraphQLClient _client =
                               graphQLConfiguration.clientToQuery();
 
-                          _client.query(
-                            QueryOptions(
-                              document: gql(
-                                QueryMutations.createUnverifiedBook(
-                                    title.toString(),
-                                    price.toInt(),
-                                    description.toString(),
-                                    author.toString(),
-                                    bookState.toString(),
-                                    imageUrlVal.toString(),
-                                    bookCategoryValue.toString()),
+                          try {
+                            _client.query(
+                              QueryOptions(
+                                document: gql(
+                                  QueryMutations.createUnverifiedBook(
+                                      title.toString(),
+                                      price.toInt(),
+                                      description.toString(),
+                                      author.toString(),
+                                      bookState.toString(),
+                                      imageUrlVal.toString(),
+                                      bookCategoryValue.toString()),
+                                ),
                               ),
-                            ),
-                          );
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) =>
-                                _buildPopupDialog(context),
-                          );
+                            );
+                            // Query(
+                            //     options: QueryOptions(
+                            //       document: gql(QueryMutations.getNoOfBookSold()
+                            //           .toString()),
+                            //     ),
+                            //     builder: (QueryResult result,
+                            //         {fetchMore, refetch}) {
+                            //       if (result.hasException) {
+                            //         Text(result.exception.toString());
+                            //       }
+                            //       if (result.isLoading) {
+                            //         return Center(
+                            //           child: CircularProgressIndicator(),
+                            //         );
+                            //       }
+                            //       final finalCount = result.data!["users"][0]
+                            //           ["_count"]["books"];
+                            //       if (finalCount >= 10) {
+                            //         showDialog(
+                            //             context: context,
+                            //             builder: (BuildContext context) {
+                            //               return AlertDialog(
+                            //                 title: const Text(
+                            //                     'You Have to donate!'),
+                            //                 content: Column(
+                            //                   mainAxisSize: MainAxisSize.min,
+                            //                   crossAxisAlignment:
+                            //                       CrossAxisAlignment.start,
+                            //                   children: const <Widget>[
+                            //                     Text(
+                            //                         "In order to sell this book, you have to donate one!"),
+                            //                   ],
+                            //                 ),
+                            //                 actions: <Widget>[
+                            //                   FlatButton(
+                            //                     onPressed: () {
+                            //                       Navigator.pushAndRemoveUntil(
+                            //                         context,
+                            //                         MaterialPageRoute(
+                            //                           builder: (BuildContext
+                            //                                   context) =>
+                            //                               const BottomNav(),
+                            //                         ),
+                            //                         (route) => false,
+                            //                       );
+                            //                     },
+                            //                     textColor: Theme.of(context)
+                            //                         .primaryColor,
+                            //                     child: const Text('Back'),
+                            //                   ),
+                            //                 ],
+                            //               );
+                            //             });
+                            //       }
+                            //       return Text("");
+                            //     });
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  _buildPopupDialog(context),
+                            );
+                          } catch (e) {
+                            return;
+                          }
                         } else {
                           showDialog(
                               context: context,
