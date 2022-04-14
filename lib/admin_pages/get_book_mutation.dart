@@ -37,7 +37,7 @@ class _GetBooksMutationState extends State<GetBooksMutation> {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisSpacing: 0,
                     mainAxisSpacing: 0,
-                    childAspectRatio: 1.00,
+                    childAspectRatio: 1.30,
                     crossAxisCount: 1),
                 itemBuilder: (_, index) {
                   return Column(
@@ -52,16 +52,16 @@ class _GetBooksMutationState extends State<GetBooksMutation> {
                         child: Column(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(8),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(6),
                                 child: Image.network(
                                   productList[index]["bookPhoto"],
                                   fit: BoxFit.cover,
+                                  height: 80,
                                 ),
                               ),
                             ),
-
                             Text(productList[index]["name"],
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 20)),
@@ -69,14 +69,14 @@ class _GetBooksMutationState extends State<GetBooksMutation> {
                               height: 10,
                             ),
                             Text(
-                              'Author: ${productList[index]["author"]}',
+                              'Genre: ${productList[index]["description"]}',
                               style: TextStyle(fontWeight: FontWeight.w500),
                             ),
                             // SizedBox(height: 5),
                             Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: Text(
-                                'Description: ${productList[index]["description"]}',
+                                productList[index]["name"],
                                 textAlign: TextAlign.justify,
                                 style: TextStyle(height: 1.5),
                               ),
@@ -89,7 +89,17 @@ class _GetBooksMutationState extends State<GetBooksMutation> {
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   ReviewBtn(
-                                    id: productList[index]["id"],
+                                    name: productList[index]["name"],
+                                    price: productList[index]["price"],
+                                    description: productList[index]
+                                        ["description"],
+                                    author: productList[index]["author"],
+                                    photo: productList[index]["bookPhoto"],
+                                    userID: productList[index]["user"]["id"],
+                                    bookState: productList[index]
+                                        ["bookStateName"],
+                                    bookCategory: productList[index]
+                                        ["bookCategoryName"],
                                   ),
                                   DeleteBtn(
                                     id: productList[index]["id"],

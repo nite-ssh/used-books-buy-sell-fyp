@@ -31,6 +31,7 @@ mutation {
   } ){
     id
     name
+    bookPhoto
     author
     description
     bookStateName
@@ -122,10 +123,14 @@ mutation{
 {
 	bookUnverifieds{
     id
+    price
     bookPhoto
     bookStateName
     bookCategoryName
     name
+    user{
+      id
+    }
     description
     author
   }
@@ -172,32 +177,31 @@ mutation {
 ''';
   }
 
-  static String createDonatedBook(
-      String bookName, String imageUrl, String description) {
+  static String createBook(
+      String name,
+      int price,
+      String description,
+      String author,
+      String photo,
+      String userID,
+      String bookState,
+      String bookCategory) {
     return '''
-mutation{
-  createBook(data:{
-    name:"$bookName"
-    description:"$description"
-    author:"$imageUrl"
-    user:{
-      connect:{
-        username:"${UserInfo.username}"
-      }
-    
+mutation {
+  createBook(
+    data: {
+      name: "$name"
+      price: $price
+      description: "$description"
+      author: "$author"
+      bookPhoto: "$photo"
+      user: { connect: { id: "$userID" } }
+      bookState: { connect: { name: $bookState } }
+      bookCategory: { connect: { name: $bookCategory } }
     }
-    bookState:{
-      connect:{
-        name:TO_BE_DONATED
-      }
-    }
-    bookCategory:{
-      connect:{
-        name:ADVENTURE
-      }
-    }
-  }){
+  ) {
     name
+    price
     description
     author
     bookStateName
@@ -220,9 +224,15 @@ mutation{
     }
   } ){
     id
+    bookPhoto
+    bookStateName
+    bookCategoryName
     name
-    author
+    user{
+      id
+    }
     description
+    author
   }
 }
 ''';
@@ -255,7 +265,14 @@ mutation SignInUser(\$username: String!, \$password: String!){
       }
     }
   } ){
+    id
+    bookPhoto
+    bookStateName
+    bookCategoryName
     name
+    user{
+      id
+    }
     description
     author
   }

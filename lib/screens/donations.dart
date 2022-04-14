@@ -40,7 +40,7 @@ class _DonateBooksState extends State<DonateBooks> {
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisSpacing: 0,
                       mainAxisSpacing: 0,
-                      childAspectRatio: 1.50,
+                      childAspectRatio: 1.10,
                       crossAxisCount: 1),
                   itemBuilder: (_, index) {
                     return Column(
@@ -59,7 +59,7 @@ class _DonateBooksState extends State<DonateBooks> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(6),
                                   child: Image.network(
-                                    productList[index]["author"],
+                                    productList[index]["bookPhoto"],
                                     fit: BoxFit.cover,
                                   ),
                                 ),

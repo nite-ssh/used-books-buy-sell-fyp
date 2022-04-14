@@ -74,7 +74,7 @@ class _HomepageCardState extends State<HomepageCard> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(6),
                                   child: Image.network(
-                                    productList[index]["author"],
+                                    productList[index]["bookPhoto"],
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -94,7 +94,7 @@ class _HomepageCardState extends State<HomepageCard> {
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Text(
-                                  productList[index]["name"],
+                                  productList[index]["author"],
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(height: 1.5),
                                 ),
