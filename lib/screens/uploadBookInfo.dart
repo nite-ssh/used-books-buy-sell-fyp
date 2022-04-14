@@ -11,6 +11,7 @@ import 'package:second_hand_books_buy_sell/main.dart';
 import 'package:second_hand_books_buy_sell/models/BookValues.dart';
 import 'package:second_hand_books_buy_sell/models/userinfo.dart';
 import 'package:second_hand_books_buy_sell/screens/homepage_screen.dart';
+import 'package:second_hand_books_buy_sell/universal/bottom_nav.dart';
 import 'package:second_hand_books_buy_sell/utils/routes.dart';
 
 class BookUpload extends StatefulWidget {
@@ -21,8 +22,13 @@ class BookUpload extends StatefulWidget {
 }
 
 class _BookUploadState extends State<BookUpload> {
+  TextEditingController txttitle = TextEditingController();
+  TextEditingController txtauthor = TextEditingController();
+  TextEditingController txtdescription = TextEditingController();
+  TextEditingController txtprice = TextEditingController();
   String? title, description, author;
   String bookState = "TO_BE_SOLD";
+  String bookCategoryValue = 'SELF_HELP';
   String imageUrlVal = "";
   int price = 0;
   File? _image;
@@ -39,7 +45,13 @@ class _BookUploadState extends State<BookUpload> {
       try {
         _image = File(pickedFile!.path);
       } catch (e) {
-        Navigator.pushNamed(context, MyRoutes.navRoute);
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => const BottomNav(),
+          ),
+          (route) => false,
+        );
       }
     });
   }
@@ -113,8 +125,6 @@ class _BookUploadState extends State<BookUpload> {
     );
   }
 
-  String dropdownValue = 'One';
-
   @override
   Widget build(BuildContext context) {
     final _titleFormKey = GlobalKey<FormState>();
@@ -175,6 +185,7 @@ class _BookUploadState extends State<BookUpload> {
                         child: Column(
                           children: [
                             TextFormField(
+                              controller: txttitle,
                               decoration: const InputDecoration(
                                 hintText: "Enter the Book Title",
                                 labelText: "Book Title",
@@ -188,31 +199,8 @@ class _BookUploadState extends State<BookUpload> {
                               onChanged: (val) {
                                 title = val;
                               },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 25),
-                      child: Form(
-                        key: _descriptionFormKey,
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              decoration: const InputDecoration(
-                                hintText: "Enter Book Description",
-                                labelText: "Name",
-                              ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter some text';
-                                }
-                                return null;
-                              },
-                              onChanged: (val) {
-                                description = val;
+                              onEditingComplete: () {
+                                txttitle.text = title.toString();
                               },
                             ),
                           ],
@@ -227,6 +215,7 @@ class _BookUploadState extends State<BookUpload> {
                         child: Column(
                           children: [
                             TextFormField(
+                              controller: txtauthor,
                               decoration: const InputDecoration(
                                 hintText: "Enter Book Author",
                                 labelText: "Author",
@@ -239,6 +228,9 @@ class _BookUploadState extends State<BookUpload> {
                               },
                               onChanged: (val) {
                                 author = val;
+                              },
+                              onEditingComplete: () {
+                                txtauthor.text = author.toString();
                               },
                             ),
                           ],
@@ -253,6 +245,7 @@ class _BookUploadState extends State<BookUpload> {
                         child: Column(
                           children: [
                             TextFormField(
+                              controller: txtprice,
                               keyboardType: TextInputType.number,
                               decoration: const InputDecoration(
                                 hintText: "Enter Price",
@@ -271,6 +264,43 @@ class _BookUploadState extends State<BookUpload> {
                                   return;
                                 }
                               },
+                              onEditingComplete: () {
+                                txtprice.text = price.toString();
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 25),
+                      child: Form(
+                        key: _descriptionFormKey,
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              controller: txtdescription,
+                              keyboardType: TextInputType.multiline,
+                              textInputAction: TextInputAction.newline,
+                              minLines: 1,
+                              maxLines: 3,
+                              decoration: InputDecoration(
+                                label:
+                                    Text("Description Content (max 3 lines)"),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter some text';
+                                }
+                                return null;
+                              },
+                              onChanged: (val) {
+                                description = val;
+                              },
+                              onEditingComplete: () {
+                                txtdescription.text = description.toString();
+                              },
                             ),
                           ],
                         ),
@@ -278,7 +308,7 @@ class _BookUploadState extends State<BookUpload> {
                     ),
 
                     DropdownButton<String>(
-                      value: dropdownValue,
+                      value: bookCategoryValue,
                       icon: const Icon(Icons.arrow_downward),
                       elevation: 16,
                       style: const TextStyle(color: Colors.deepPurple),
@@ -288,11 +318,15 @@ class _BookUploadState extends State<BookUpload> {
                       ),
                       onChanged: (String? newValue) {
                         setState(() {
-                          dropdownValue = newValue!;
+                          bookCategoryValue = newValue!;
                         });
                       },
-                      items: <String>['One', 'Two', 'Free', 'Four']
-                          .map<DropdownMenuItem<String>>((String value) {
+                      items: <String>[
+                        'SELF_HELP',
+                        'FANTASY',
+                        'ADVENTURE',
+                        'PLUS_TWO'
+                      ].map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
@@ -353,9 +387,14 @@ class _BookUploadState extends State<BookUpload> {
                     ),
                     ElevatedButton(
                       onPressed: () async {
-                        // validator(_titleFormKey);
-                        // validator(_descriptionFormKey);
-                        // validator(_blogContentFormKey);
+                        try {
+                          validator(_titleFormKey);
+                          validator(_priceFormKey);
+                          validator(_authorFormKey);
+                          validator(_descriptionFormKey);
+                          validator(_blogContentFormKey);
+                          print(title);
+                        } catch (e) {}
                         if (_image != null) {
                           setState(() {
                             showProgress = true;
@@ -376,7 +415,8 @@ class _BookUploadState extends State<BookUpload> {
                                     description.toString(),
                                     author.toString(),
                                     bookState.toString(),
-                                    imageUrlVal.toString()),
+                                    imageUrlVal.toString(),
+                                    bookCategoryValue.toString()),
                               ),
                             ),
                           );

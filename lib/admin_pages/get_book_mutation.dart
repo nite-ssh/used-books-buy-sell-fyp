@@ -37,7 +37,7 @@ class _GetBooksMutationState extends State<GetBooksMutation> {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisSpacing: 0,
                     mainAxisSpacing: 0,
-                    childAspectRatio: 1.30,
+                    childAspectRatio: 1.00,
                     crossAxisCount: 1),
                 itemBuilder: (_, index) {
                   return Column(
@@ -52,16 +52,16 @@ class _GetBooksMutationState extends State<GetBooksMutation> {
                         child: Column(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.all(8),
+                              padding: const EdgeInsets.all(10),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(6),
                                 child: Image.network(
                                   productList[index]["bookPhoto"],
                                   fit: BoxFit.cover,
-                                  height: 80,
                                 ),
                               ),
                             ),
+
                             Text(productList[index]["name"],
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 20)),
@@ -69,14 +69,14 @@ class _GetBooksMutationState extends State<GetBooksMutation> {
                               height: 10,
                             ),
                             Text(
-                              'Genre: ${productList[index]["description"]}',
+                              'Author: ${productList[index]["author"]}',
                               style: TextStyle(fontWeight: FontWeight.w500),
                             ),
                             // SizedBox(height: 5),
                             Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: Text(
-                                productList[index]["name"],
+                                'Description: ${productList[index]["description"]}',
                                 textAlign: TextAlign.justify,
                                 style: TextStyle(height: 1.5),
                               ),

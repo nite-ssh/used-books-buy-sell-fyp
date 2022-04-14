@@ -142,51 +142,54 @@ class _LoginState extends State<Login> {
               );
               return ElevatedButton(
                 onPressed: () async {
-                  validator(_usernameFormKey);
-                  validator(_passwordFormKey);
+                  try {
+                    validator(_usernameFormKey);
+                    validator(_passwordFormKey);
 
-                  if (result!.hasException) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Invalid Credentials',
-                            style: TextStyle(color: Colors.white)),
-                        backgroundColor: Colors.red,
-                      ),
-                    );
-                    (err) => print(err);
-                  } else if (result.isLoading) {
-                    const Center(child: CircularProgressIndicator());
-                  }
-
-                  if (result.data != null) {
-                    print(result.data);
-                    if (result.data!["signInUser"]["userRole"]["name"] ==
-                        "ADMIN") {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const AdminBottomNav(),
+                    if (result!.hasException) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Invalid Credentials',
+                              style: TextStyle(color: Colors.white)),
+                          backgroundColor: Colors.red,
                         ),
-                        (route) => false,
                       );
-                    } else {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => const BottomNav(),
-                        ),
-                        (route) => false,
-                      );
+                      (err) => print(err);
+                    } else if (result.isLoading) {
+                      const Center(child: CircularProgressIndicator());
                     }
-                    Map<String, dynamic> output = result.data!;
-                    UserInfo().setUsername(
-                        output["signInUser"]["username"].toString());
-                    UserInfo().setId(output["signInUser"]["id"].toString());
-                    token = output["signInUser"]["token"];
-                    await storage.write(
-                        key: "token", value: output["signInUser"]["token"]);
-                  }
+
+                    if (result.data != null) {
+                      print(result.data);
+                      if (result.data!["signInUser"]["userRole"]["name"] ==
+                          "ADMIN") {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const AdminBottomNav(),
+                          ),
+                          (route) => false,
+                        );
+                      } else {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const BottomNav(),
+                          ),
+                          (route) => false,
+                        );
+                      }
+                      Map<String, dynamic> output = result.data!;
+                      UserInfo().setUsername(
+                          output["signInUser"]["username"].toString());
+                      UserInfo().setId(output["signInUser"]["id"].toString());
+                      token = output["signInUser"]["token"];
+                      await storage.write(
+                          key: "token", value: output["signInUser"]["token"]);
+                    }
+                  } catch (e) {}
                 },
                 child: const Text(
                   "LOGIN",

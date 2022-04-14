@@ -146,7 +146,7 @@ mutation{
 //   }
 
   static String createUnverifiedBook(String name, int price, String description,
-      String author, String bookState, String photo) {
+      String author, String bookState, String photo, String bookCategoryValue) {
     print(photo);
     return '''
 mutation {
@@ -159,7 +159,7 @@ mutation {
       bookPhoto: "$photo"
       user: { connect: { id: "${UserInfo().getId()}" } }
       bookState: { connect: { name: $bookState } }
-      bookCategory: { connect: { name: SELF_HELP } }
+      bookCategory: { connect: { name: $bookCategoryValue } }
     }
   ) {
     name
