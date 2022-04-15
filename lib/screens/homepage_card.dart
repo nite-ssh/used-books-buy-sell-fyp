@@ -146,6 +146,8 @@ class _HomepageCardState extends State<HomepageCard> {
 
   Widget _buildPopupDialogForMic(
       BuildContext context, String address, String bookId) {
+    bool showProgress = false;
+
     return AlertDialog(
       title: const Text('Are you Sure you want to buy this book?'),
       content: Column(
@@ -179,37 +181,45 @@ class _HomepageCardState extends State<HomepageCard> {
           textColor: Theme.of(context).primaryColor,
           child: const Text('Close'),
         ),
-        FlatButton(
-          onPressed: () async {
-            // Navigator.of(context).pop();
-            validator(_addressFormKey);
-            GraphQLClient _client = graphQLConfiguration.clientToQuery();
+        showProgress
+            ? Center(child: CircularProgressIndicator())
+            : FlatButton(
+                onPressed: () {
+                  // Navigator.of(context).pop();
+                  validator(_addressFormKey);
+                  setState(() {
+                    showProgress = true;
+                  });
+                  GraphQLClient _client = graphQLConfiguration.clientToQuery();
 
-            _client.query(
-              QueryOptions(
-                document: gql(
-                  QueryMutations.setBookToOrderPlaced(address, bookId),
-                ),
+                  _client.query(
+                    QueryOptions(
+                      document: gql(
+                        QueryMutations.setBookToOrderPlaced(address, bookId),
+                      ),
+                    ),
+                  );
+
+                  _client.query(
+                    QueryOptions(
+                      document: gql(
+                        QueryMutations.deleteBook(bookId),
+                      ),
+                    ),
+                  );
+                  setState(() {
+                    showProgress = false;
+                  });
+                  setState(() {
+                    Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                            pageBuilder: (_, __, ___) => BottomNav()));
+                  });
+                },
+                textColor: Theme.of(context).primaryColor,
+                child: const Text('Submit'),
               ),
-            );
-            await _client.query(
-              QueryOptions(
-                document: gql(
-                  QueryMutations.deleteBook(bookId),
-                ),
-              ),
-            );
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                builder: (BuildContext context) => const BottomNav(),
-              ),
-              (route) => false,
-            );
-          },
-          textColor: Theme.of(context).primaryColor,
-          child: const Text('Submit'),
-        ),
       ],
     );
   }

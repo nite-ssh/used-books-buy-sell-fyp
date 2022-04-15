@@ -31,6 +31,13 @@ class _GetBooksMutationState extends State<GetBooksMutation> {
             );
           }
           final productList = result.data!["bookUnverifieds"];
+          if (productList == null) {
+            return Center(
+                child: Text(
+              "No Books were found of Following Category",
+              style: TextStyle(color: Colors.white),
+            ));
+          }
           return Stack(
             children: [
               GridView.builder(

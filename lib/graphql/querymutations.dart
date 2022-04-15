@@ -213,12 +213,16 @@ mutation{
       }
     }
   } ){
-    id
+     id
+    price
+    bookPhoto
+    bookStateName
+    bookCategoryName
     name
-    description
-    bookCategory{
-      name
+    user{
+      id
     }
+    description
     author
   }
 }
