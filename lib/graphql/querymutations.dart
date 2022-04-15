@@ -188,6 +188,18 @@ mutation{
 ''';
   }
 
+  static String deleteBook(String id) {
+    return '''
+mutation{
+  deleteBook(where:{
+    id: "$id"
+  }){
+    name
+  }
+}
+''';
+  }
+
   String getFilteredBooks(String category) {
     return '''
 
