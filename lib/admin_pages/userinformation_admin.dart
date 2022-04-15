@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
-import 'package:second_hand_books_buy_sell/universal/drawer.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
+import 'package:second_hand_books_buy_sell/models/BookInfo.dart';
+import 'package:second_hand_books_buy_sell/models/userinfo.dart';
+import 'package:second_hand_books_buy_sell/universal/drawer.dart';
 
-class DonateBooks extends StatefulWidget {
-  const DonateBooks({Key? key}) : super(key: key);
+class UserOrderInfo extends StatefulWidget {
+  const UserOrderInfo({Key? key}) : super(key: key);
 
   @override
-  State<DonateBooks> createState() => _DonateBooksState();
+  State<UserOrderInfo> createState() => _UserOrderInfoState();
 }
 
-class _DonateBooksState extends State<DonateBooks> {
+class _UserOrderInfoState extends State<UserOrderInfo> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.blueGrey,
         appBar: AppBar(
-          title: Text("Donate Books"),
+          title: Text("Book Status"),
         ),
         body: Query(
           options: QueryOptions(
-            document: gql(QueryMutations().getToBeDonated().toString()),
+            document: gql(QueryMutations.bookToOrderPlacedVal().toString()),
           ),
           builder: (QueryResult result, {fetchMore, refetch}) {
             if (result.hasException) {
@@ -32,7 +34,7 @@ class _DonateBooksState extends State<DonateBooks> {
                 child: CircularProgressIndicator(),
               );
             }
-            final productList = result.data!["books"];
+            final productList = result.data!["transactions"];
             return Column(
               children: [
                 Expanded(
@@ -59,12 +61,12 @@ class _DonateBooksState extends State<DonateBooks> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(6),
                                   child: Image.network(
-                                    productList[index]["bookPhoto"],
+                                    productList[index]["book"]["bookPhoto"],
                                     fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
-                              Text(productList[index]["name"],
+                              Text(productList[index]["book"]["name"],
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20)),
@@ -72,14 +74,21 @@ class _DonateBooksState extends State<DonateBooks> {
                                 height: 20,
                               ),
                               Text(
-                                'Genre: ${productList[index]["description"]}',
+                                'Genre: ${productList[index]["address"]}',
+                                style: TextStyle(fontWeight: FontWeight.w500),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                'Genre: ${productList[index]["deliveryState"]}',
                                 style: TextStyle(fontWeight: FontWeight.w500),
                               ),
                               SizedBox(height: 5),
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Text(
-                                  productList[index]["name"],
+                                  productList[index]["user"]["username"],
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(height: 1.5),
                                 ),

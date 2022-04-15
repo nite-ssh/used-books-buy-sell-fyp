@@ -64,7 +64,7 @@ class _BlogWriteState extends State<BlogWrite> {
     }
   }
 
-  Widget _buildPopupDialog(BuildContext context) {
+  static Widget _buildPopupDialog(BuildContext context) {
     return AlertDialog(
       title: const Text('Blog uploaded'),
       content: Column(
@@ -254,6 +254,7 @@ class _BlogWriteState extends State<BlogWrite> {
                         TextFormField(
                           keyboardType: TextInputType.multiline,
                           textInputAction: TextInputAction.newline,
+                          maxLength: 500,
                           minLines: 1,
                           maxLines: 20,
                           decoration: InputDecoration(

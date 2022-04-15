@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
+import 'package:second_hand_books_buy_sell/main.dart';
 import 'package:second_hand_books_buy_sell/utils/routes.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 
@@ -16,13 +19,12 @@ class _RegisterState extends State<Register> {
   String? username;
   String? password;
   String? email;
-  String? name;
-
+  GraphQLClient _client = graphQLConfiguration.clientToQuery();
   void validator($formkey) {
     if ($formkey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Processing Data')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(content: Text('Processing Data')),
+      // );
     }
   }
 
@@ -66,13 +68,12 @@ class _RegisterState extends State<Register> {
   Widget _registerUI(BuildContext context) {
     final _usernameFormKey = GlobalKey<FormState>();
     final _passwordFormKey = GlobalKey<FormState>();
-    final _nameFormKey = GlobalKey<FormState>();
     final _emailFormKey = GlobalKey<FormState>();
     return Center(
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Text(
+            const Text(
               "Register",
               style: TextStyle(
                 fontFamily: "Poppins",
@@ -85,24 +86,9 @@ class _RegisterState extends State<Register> {
               child: Column(
                 children: [
                   Form(
-                    key: _nameFormKey,
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        hintText: "Enter your Full Name",
-                        labelText: "Full Name",
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Please enter your Full Name";
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  Form(
                     key: _usernameFormKey,
                     child: TextFormField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: "Enter your Username",
                         labelText: "Username",
                       ),
@@ -112,12 +98,15 @@ class _RegisterState extends State<Register> {
                         }
                         return null;
                       },
+                      onChanged: (val) {
+                        username = val;
+                      },
                     ),
                   ),
                   Form(
                     key: _emailFormKey,
                     child: TextFormField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: "Enter your Email",
                         labelText: "Email",
                       ),
@@ -125,7 +114,16 @@ class _RegisterState extends State<Register> {
                         if (value == null || value.isEmpty) {
                           return "Please enter your Email";
                         }
-                        return null;
+                        Pattern pattern =
+                            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                        RegExp regex = new RegExp(pattern as String);
+                        if (!regex.hasMatch(value))
+                          return 'Enter Valid Email';
+                        else
+                          return null;
+                      },
+                      onChanged: (val) {
+                        email = val;
                       },
                     ),
                   ),
@@ -133,7 +131,7 @@ class _RegisterState extends State<Register> {
                     key: _passwordFormKey,
                     child: TextFormField(
                       obscureText: true,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: "Enter your Password",
                         labelText: "Password",
                       ),
@@ -141,7 +139,12 @@ class _RegisterState extends State<Register> {
                         if (value == null || value.isEmpty) {
                           return "Please enter your Password";
                         }
-                        return null;
+                        return value.length < 4
+                            ? "Password must be at least 4 characters long"
+                            : null;
+                      },
+                      onChanged: (val) {
+                        password = val;
                       },
                     ),
                   )
@@ -152,11 +155,16 @@ class _RegisterState extends State<Register> {
               height: 20,
             ),
             ElevatedButton(
-              onPressed: (() => {
+              onPressed: (() async => {
                     validator(_usernameFormKey),
                     validator(_passwordFormKey),
                     validator(_emailFormKey),
-                    validator(_nameFormKey),
+                    _client.query(QueryOptions(
+                      document: gql(
+                        await QueryMutations()
+                            .createUser(email!, username!, password!),
+                      ),
+                    )),
                     showDialog(
                       context: context,
                       builder: (BuildContext context) =>
@@ -187,7 +195,7 @@ class _RegisterState extends State<Register> {
                   color: Colors.purple,
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

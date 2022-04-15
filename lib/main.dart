@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:second_hand_books_buy_sell/admin_pages/review_books.dart';
 import 'package:second_hand_books_buy_sell/graphql/graphqlconfig.dart';
+import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
 //importing login page
 import 'package:second_hand_books_buy_sell/screens/auth/login_screen.dart';
 import 'package:second_hand_books_buy_sell/screens/auth/register_page.dart';
@@ -55,7 +56,10 @@ class BookApp extends StatelessWidget {
           MyRoutes.homeRoute: (context) => Homepage(),
           MyRoutes.navRoute: (context) => BottomNav(),
           MyRoutes.mapRoute: (context) => GMaps(),
-          MyRoutes.reviewBookRoute: (context) => ReviewBooks(),
+
+          MyRoutes.reviewBookRoute: (context) => ReviewBooks(
+                bookMutation: QueryMutations.getReviewBooks(),
+              ),
           MyRoutes.adminNavRoute: (context) => AdminBottomNav(),
         });
   }

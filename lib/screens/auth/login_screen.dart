@@ -1,6 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:second_hand_books_buy_sell/admin_pages/admin_bottom_nav.dart';
+import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
+import 'package:second_hand_books_buy_sell/main.dart';
+import 'package:second_hand_books_buy_sell/models/userinfo.dart';
+import 'package:second_hand_books_buy_sell/universal/bottom_nav.dart';
 import 'package:second_hand_books_buy_sell/utils/routes.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -13,16 +22,21 @@ class _LoginState extends State<Login> {
   bool isAPIcallProcess = false;
   bool hidePassword = true;
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
-  String? username;
-  String? password;
+  String username = "";
+  String password = "";
+  bool validate = false;
+  bool circular = false;
   String role = 'user';
   bool isChecked = false;
+  final storage = new FlutterSecureStorage();
+  String? token;
 
+  @override
   void validator($formkey) {
     if ($formkey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Processing Data')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(content: Text('Processing Data')),
+      // );
     }
   }
 
@@ -54,7 +68,7 @@ class _LoginState extends State<Login> {
             "assets/images/login.png",
             fit: BoxFit.cover,
           ),
-          Text(
+          const Text(
             "Login",
             style: TextStyle(
               fontFamily: "Poppins",
@@ -80,6 +94,9 @@ class _LoginState extends State<Login> {
                       }
                       return null;
                     },
+                    onChanged: (val) {
+                      username = val;
+                    },
                   ),
                 ),
                 Form(
@@ -96,49 +113,96 @@ class _LoginState extends State<Login> {
                       }
                       return null;
                     },
+                    onChanged: (val) {
+                      password = val;
+                    },
                   ),
                 ),
                 SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    const Text(
-                      'Login as Admin: ',
-                      style: TextStyle(fontSize: 15),
-                    ), //Text
-                    Checkbox(
-                      value: isChecked,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          isChecked = value as bool;
-                        });
-
-                        role = isChecked ? 'admin' : 'user';
-                      },
-                    ),
-                  ],
-                ),
               ],
             ),
           ),
           // SizedBox(
           //   height: 10,
           // ),
-          ElevatedButton(
-            onPressed: (() => {
-                  validator(_usernameFormKey),
-                  validator(_passwordFormKey),
-                  Navigator.pushNamed(context, MyRoutes.adminNavRoute)
-                }),
-            child: const Text(
-              "LOGIN",
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w300,
-                  color: Colors.white),
+          Mutation(
+            options: MutationOptions(
+              document: gql(QueryMutations().signInUser()),
+              onCompleted: (dynamic resultData) {},
             ),
-            style: TextButton.styleFrom(
-                minimumSize: const Size(150, 50), backgroundColor: Colors.teal),
+            builder: (MultiSourceResult<dynamic> Function(Map<String, dynamic>,
+                        {Object? optimisticResult})
+                    runMutation,
+                QueryResult<dynamic>? result) {
+              runMutation(
+                {
+                  'username': username,
+                  'password': password,
+                },
+              );
+              return ElevatedButton(
+                onPressed: () async {
+                  try {
+                    validator(_usernameFormKey);
+                    validator(_passwordFormKey);
+
+                    if (result!.hasException) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Invalid Credentials',
+                              style: TextStyle(color: Colors.white)),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                      (err) => print(err);
+                    } else if (result.isLoading) {
+                      const Center(child: CircularProgressIndicator());
+                    }
+
+                    if (result.data != null) {
+                      print(result.data);
+                      if (result.data!["signInUser"]["userRole"]["name"] ==
+                          "ADMIN") {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const AdminBottomNav(),
+                          ),
+                          (route) => false,
+                        );
+                      } else {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const BottomNav(),
+                          ),
+                          (route) => false,
+                        );
+                      }
+                      Map<String, dynamic> output = result.data!;
+                      UserInfo().setUsername(
+                          output["signInUser"]["username"].toString());
+                      UserInfo().setId(output["signInUser"]["id"].toString());
+                      token = output["signInUser"]["token"];
+                      await storage.write(
+                          key: "token", value: output["signInUser"]["token"]);
+                    }
+                  } catch (e) {}
+                },
+                child: const Text(
+                  "LOGIN",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w300,
+                      color: Colors.white),
+                ),
+                style: TextButton.styleFrom(
+                    minimumSize: const Size(150, 50),
+                    backgroundColor: Colors.teal),
+              );
+            },
           ),
           const SizedBox(
             height: 20,

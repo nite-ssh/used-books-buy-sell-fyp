@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:second_hand_books_buy_sell/models/userinfo.dart';
+import 'package:second_hand_books_buy_sell/screens/auth/login_screen.dart';
+import 'package:second_hand_books_buy_sell/screens/userpersonalinfo.dart';
+import 'package:second_hand_books_buy_sell/userpersonalinfo.dart';
 
 class DrawerVal extends StatefulWidget {
   const DrawerVal({Key? key}) : super(key: key);
@@ -18,25 +22,39 @@ class _DrawerValState extends State<DrawerVal> {
         // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: [
-          
-          const DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.blue,
+          UserAccountsDrawerHeader(
+            accountName: Text(UserInfo().getUsername()),
+            accountEmail: Text(""),
+            currentAccountPicture: CircleAvatar(
+              backgroundColor: Colors.amberAccent,
+              child: Text(
+                UserInfo().getUsername()[0],
+                style: TextStyle(fontSize: 40.0),
+              ),
             ),
-            child: Text('Drawer Header'),
           ),
           ListTile(
-            title: const Text('Item 1'),
+            leading: Icon(Icons.person),
+            title: Text("Profile"),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ___) => UserPersonalInfo(),
+                  ));
             },
           ),
           ListTile(
-            title: const Text('Item 2'),
+            leading: Icon(Icons.door_back_door_outlined),
+            title: Text("Log Out"),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const Login(),
+                ),
+                (route) => false,
+              );
             },
           ),
         ],

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:second_hand_books_buy_sell/admin_pages/drivers/driver_info.dart';
 import 'package:second_hand_books_buy_sell/admin_pages/review_books.dart';
+import 'package:second_hand_books_buy_sell/admin_pages/userinformation_admin.dart';
 import 'package:second_hand_books_buy_sell/graphql/graphqlconfig.dart';
+import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
 import 'package:second_hand_books_buy_sell/models/BookInfo.dart';
 import 'package:second_hand_books_buy_sell/screens/sell_books.dart';
 import 'package:second_hand_books_buy_sell/utils/get_dark_theme.dart';
@@ -18,12 +20,11 @@ class _AdminBottomNavState extends State<AdminBottomNav> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    ReviewBooks(),
-    Text(
-      'Index 1: card of users who need driver',
-      style: optionStyle,
+  static List<Widget> _widgetOptions = <Widget>[
+    ReviewBooks(
+      bookMutation: QueryMutations.getReviewBooks(),
     ),
+    UserOrderInfo(),
     DriverInfo(),
     Blog(),
   ];

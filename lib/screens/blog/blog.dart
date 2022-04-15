@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:second_hand_books_buy_sell/models/userinfo.dart';
 import 'package:second_hand_books_buy_sell/screens/blog/blog_write.dart';
 import 'package:second_hand_books_buy_sell/universal/drawer.dart';
 
@@ -47,11 +48,13 @@ class _BlogState extends State<Blog> {
                 ),
               );
             },
-            child: const Icon(
-              Icons.add,
-              color: Colors.white,
-              size: 35,
-            ),
+            child: UserInfo().getUsername() == "admin"
+                ? const Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: 35,
+                  )
+                : const Text(""),
           )
         ],
       ),
