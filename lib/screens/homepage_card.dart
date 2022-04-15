@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:second_hand_books_buy_sell/graphql/graphqlconfig.dart';
 import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
+import 'package:second_hand_books_buy_sell/main.dart';
 import 'package:second_hand_books_buy_sell/models/BookInfo.dart';
 import 'package:second_hand_books_buy_sell/models/userinfo.dart';
 import 'package:second_hand_books_buy_sell/screens/blog/User.dart';
@@ -94,7 +95,8 @@ class _HomepageCardState extends State<HomepageCard> {
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Text(
-                                  productList[index]["author"],
+                                  "Phone Number: " +
+                                      productList[index]["author"],
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(height: 1.5),
                                 ),
@@ -124,7 +126,10 @@ class _HomepageCardState extends State<HomepageCard> {
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) =>
-                                        _buildPopupDialogForMic(context),
+                                        _buildPopupDialogForMic(
+                                            context,
+                                            address.toString(),
+                                            productList[index]["id"]),
                                   );
                                 },
                                 child: const Text("Need Driver?"),
@@ -145,9 +150,10 @@ class _HomepageCardState extends State<HomepageCard> {
     );
   }
 
-  Widget _buildPopupDialogForMic(BuildContext context) {
+  Widget _buildPopupDialogForMic(
+      BuildContext context, String address, String bookId) {
     return AlertDialog(
-      title: const Text('Need Driver?'),
+      title: const Text('Are you Sure you want to buy this book?'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -155,20 +161,19 @@ class _HomepageCardState extends State<HomepageCard> {
           Form(
             key: _addressFormKey,
             child: TextFormField(
-              decoration: InputDecoration(
-                hintText: "Enter your Address",
-                labelText: "Address",
-              ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Please enter required details";
-                }
-                return null;
-              },
-              onChanged: (val) {
-                address = val;
-              },
-            ),
+                decoration: const InputDecoration(
+                  hintText: "Enter your address",
+                  labelText: "Address",
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter required details";
+                  }
+                  return null;
+                },
+                onChanged: (val) {
+                  address = val;
+                }),
           ),
         ],
       ),
@@ -181,14 +186,19 @@ class _HomepageCardState extends State<HomepageCard> {
           child: const Text('Close'),
         ),
         FlatButton(
-          onPressed: () {
+          onPressed: () async {
             // Navigator.of(context).pop();
             validator(_addressFormKey);
-            Book().setId(id.toString());
-            Book().setSellerName(name.toString());
-            Book().setDescription(description.toString());
-            Book().setProfilePictureUrl(profilepicture.toString());
-            UserInfo().setAddress(address.toString());
+            GraphQLClient _client = graphQLConfiguration.clientToQuery();
+
+            await _client.query(
+              QueryOptions(
+                document: gql(
+                  QueryMutations.setBookToOrderPlaced(address, bookId),
+                ),
+              ),
+            );
+            Navigator.of(context).pop();
           },
           textColor: Theme.of(context).primaryColor,
           child: const Text('Submit'),

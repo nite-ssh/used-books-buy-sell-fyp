@@ -254,6 +254,7 @@ class _BlogWriteState extends State<BlogWrite> {
                         TextFormField(
                           keyboardType: TextInputType.multiline,
                           textInputAction: TextInputAction.newline,
+                          maxLength: 500,
                           minLines: 1,
                           maxLines: 20,
                           decoration: InputDecoration(

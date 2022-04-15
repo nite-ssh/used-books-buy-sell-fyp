@@ -17,6 +17,55 @@ mutation {
 ''';
   }
 
+  static String bookToOrderPlacedVal() {
+    return '''
+{
+  transactions(where:{
+    deliveryState:{
+      equals:ORDER_PLACED
+    }
+  }){
+    id
+address
+deliveryState
+userId
+bookId
+bookUnverifiedId
+user{
+  username
+}
+book{
+  bookPhoto
+  name
+}
+  }
+}
+''';
+  }
+
+  static String setBookToOrderPlaced(String address, String bookId) {
+    return '''
+mutation{
+  createTransaction(data:{
+    address:"$address"
+    deliveryState:ORDER_PLACED
+    user:{
+      connect:{
+        id:"${UserInfo.id}"
+      }
+    }
+    book:{
+      connect:{
+        id:"$bookId"
+      }
+    }
+  }){
+    id
+  }
+}
+''';
+  }
+
   static String getSpecificUserValues() {
     return '''
 {

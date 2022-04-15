@@ -216,9 +216,10 @@ class _BookUploadState extends State<BookUpload> {
                           children: [
                             TextFormField(
                               controller: txtauthor,
+                              keyboardType: TextInputType.number,
                               decoration: const InputDecoration(
-                                hintText: "Enter Book Author",
-                                labelText: "Author",
+                                hintText: "Phone number",
+                                labelText: "Phone number",
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -227,10 +228,14 @@ class _BookUploadState extends State<BookUpload> {
                                 return null;
                               },
                               onChanged: (val) {
-                                author = val;
+                                try {
+                                  price = int.parse(val);
+                                } catch (e) {
+                                  return;
+                                }
                               },
                               onEditingComplete: () {
-                                txtauthor.text = author.toString();
+                                txtprice.text = price.toString();
                               },
                             ),
                           ],
@@ -246,6 +251,7 @@ class _BookUploadState extends State<BookUpload> {
                           children: [
                             TextFormField(
                               controller: txtprice,
+                              maxLength: 10,
                               keyboardType: TextInputType.number,
                               decoration: const InputDecoration(
                                 hintText: "Enter Price",
@@ -285,9 +291,9 @@ class _BookUploadState extends State<BookUpload> {
                               textInputAction: TextInputAction.newline,
                               minLines: 1,
                               maxLines: 3,
+                              maxLength: 125,
                               decoration: InputDecoration(
-                                label:
-                                    Text("Description Content (max 3 lines)"),
+                                label: Text("Description Content"),
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -322,10 +328,33 @@ class _BookUploadState extends State<BookUpload> {
                         });
                       },
                       items: <String>[
-                        'SELF_HELP',
-                        'FANTASY',
-                        'ADVENTURE',
-                        'PLUS_TWO'
+                        "FANTASY",
+                        "ADVENTURE",
+                        "ROMANCE",
+                        "CONTEMPORARY",
+                        "DYSTOPIAN",
+                        "MYSTERY",
+                        "HORROR",
+                        "THRILLER",
+                        "PARANORMAL",
+                        "HISTORICAL_FICTION",
+                        "SCIENCE_FICTION",
+                        "MEMOIR",
+                        "COOKING",
+                        "ART",
+                        "SELF_HELP",
+                        "DEVELOPMENT",
+                        "MOTIVATIONAL",
+                        "HEALTH",
+                        "HISTORY",
+                        "TRAVEL",
+                        "GUIDE_HOW_TO",
+                        "FAMILIES_RELATIONSHIPS",
+                        "HUMOR",
+                        "MEDICAL_PREPARATION",
+                        "ENGINEERING_PREPARATION",
+                        "SEE_PREPARATION",
+                        "PLUS_TWO"
                       ].map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,

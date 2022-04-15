@@ -24,7 +24,7 @@ class _AdminBottomNavState extends State<AdminBottomNav> {
     ReviewBooks(
       bookMutation: QueryMutations.getReviewBooks(),
     ),
-    UserInfoAdmin(),
+    UserOrderInfo(),
     DriverInfo(),
     Blog(),
   ];
