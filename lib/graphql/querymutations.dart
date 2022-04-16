@@ -149,14 +149,10 @@ mutation{
   }
 
   static String getUsers(String username) {
+    print(username);
     return '''
 {
-  users(where:{
-    username:{
-      equals:"$username"
-    }
-  }){
-    
+  users{
     username
   }
 }

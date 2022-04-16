@@ -16,9 +16,10 @@ class _RegisterState extends State<Register> {
   bool isAPIcallProcess = false;
   bool hidePassword = true;
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
-  String? username;
-  String? password;
-  String? email;
+
+  String username = "";
+  String password = "";
+  String email = "";
   GraphQLClient _client = graphQLConfiguration.clientToQuery();
   void validator($formkey) {
     if ($formkey.currentState!.validate()) {
@@ -40,6 +41,28 @@ class _RegisterState extends State<Register> {
         inAsyncCall: isAPIcallProcess,
         key: UniqueKey(),
       ),
+    );
+  }
+
+  Widget _buildInvalidPopupDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text('User already registered'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const <Widget>[
+          Text("The user is already taken!"),
+        ],
+      ),
+      actions: <Widget>[
+        FlatButton(
+          onPressed: () {
+            Navigator.pushNamed(context, MyRoutes.loginRoute);
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('Return to Login'),
+        ),
+      ],
     );
   }
 
@@ -154,33 +177,70 @@ class _RegisterState extends State<Register> {
             const SizedBox(
               height: 20,
             ),
-            ElevatedButton(
-              onPressed: (() async => {
-                    validator(_usernameFormKey),
-                    validator(_passwordFormKey),
-                    validator(_emailFormKey),
-                    _client.query(QueryOptions(
-                      document: gql(
-                        await QueryMutations()
-                            .createUser(email!, username!, password!),
-                      ),
-                    )),
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) =>
-                          _buildPopupDialog(context),
-                    ),
+            Query(
+              options: QueryOptions(
+                  document: gql(QueryMutations.getUsers(username.toString()))),
+              builder: (QueryResult result, {fetchMore, refetch}) {
+                if (result.hasException) {
+                  Text(result.exception.toString());
+                }
+                if (result.isLoading) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                final userList = result.data!["users"];
+                return ElevatedButton(
+                  onPressed: (() async {
+                    print(username.toString());
+                    print(userList[0]["username"]);
+                    print(userList.length);
+
+                    validator(_usernameFormKey);
+                    validator(_passwordFormKey);
+                    validator(_emailFormKey);
+                    if (username.length != 0 &&
+                        password.length != 0 &&
+                        email.length != 0) {
+                      for (var i = 0; i < userList.length; i++) {
+                        if (userList[i]["username"] != username) {
+                          await _client.query(QueryOptions(
+                            document: gql(
+                              QueryMutations()
+                                  .createUser(email, username, password),
+                            ),
+                          ));
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                _buildPopupDialog(context),
+                          );
+                        }
+                      }
+
+                      for (var i = 0; i < userList.length; i++) {
+                        if (userList[i]["username"] == username) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                _buildInvalidPopupDialog(context),
+                          );
+                        }
+                      }
+                    }
                   }),
-              child: const Text(
-                "Register",
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w300,
-                    color: Colors.white),
-              ),
-              style: TextButton.styleFrom(
-                  minimumSize: const Size(150, 50),
-                  backgroundColor: Colors.teal),
+                  child: const Text(
+                    "Register",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w300,
+                        color: Colors.white),
+                  ),
+                  style: TextButton.styleFrom(
+                      minimumSize: const Size(150, 50),
+                      backgroundColor: Colors.teal),
+                );
+              },
             ),
             const SizedBox(
               height: 20,
