@@ -118,6 +118,51 @@ mutation{
 ''';
   }
 
+  static String getSpecificUnverifiedUserValues() {
+    return '''
+{
+	bookUnverifieds(where:{
+    user:{
+      is:{
+        username:{
+          equals:"${UserInfo().getUsername()}"
+        }
+      }
+    }
+  } ){
+         id
+    bookPhoto
+    bookStateName
+    bookCategoryName
+    name
+    user{
+      id
+    }
+    transaction{
+      deliveryState
+    }
+    description
+    author
+  }
+}
+''';
+  }
+
+  static String getUsers(String username) {
+    return '''
+{
+  users(where:{
+    username:{
+      equals:"$username"
+    }
+  }){
+    
+    username
+  }
+}
+''';
+  }
+
   static String getNoOfBookSold() {
     return '''
 {

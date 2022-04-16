@@ -226,6 +226,9 @@ class _BookUploadState extends State<BookUpload> {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter some text';
                                 }
+                                if (value.length < 10) {
+                                  return 'Please provide 10 digit phone number';
+                                }
                                 return null;
                               },
                               onChanged: (val) {
