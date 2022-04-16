@@ -69,7 +69,7 @@ class _UserPersonalInfoUIState extends State<UserPersonalInfoUI> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(6),
                                   child: Image.network(
-                                    productList[index]["author"],
+                                    productList[index]["bookPhoto"],
                                     fit: BoxFit.cover,
                                   ),
                                 ),

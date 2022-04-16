@@ -6,6 +6,7 @@ import 'package:second_hand_books_buy_sell/main.dart';
 import 'package:second_hand_books_buy_sell/models/BookInfo.dart';
 import 'package:second_hand_books_buy_sell/models/userinfo.dart';
 import 'package:second_hand_books_buy_sell/screens/blog/User.dart';
+import 'package:second_hand_books_buy_sell/universal/bottom_nav.dart';
 import 'package:second_hand_books_buy_sell/utils/routes.dart';
 
 class HomepageCard extends StatefulWidget {
@@ -88,7 +89,7 @@ class _HomepageCardState extends State<HomepageCard> {
                                 height: 20,
                               ),
                               Text(
-                                'Genre: ${productList[index]["description"]}',
+                                'Genre: ${productList[index]["id"]}',
                                 style: TextStyle(fontWeight: FontWeight.w500),
                               ),
                               SizedBox(height: 5),
@@ -114,21 +115,14 @@ class _HomepageCardState extends State<HomepageCard> {
                                   //     ),
                                   //   ),
                                   // );
-                                  setState(() {
-                                    id = productList[index]["id"];
-                                    name = productList[index]["name"];
-                                    description =
-                                        productList[index]["description"];
-                                    profilepicture =
-                                        productList[index]["author"];
-                                  });
+                                  setState(() {});
 
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) =>
                                         _buildPopupDialogForMic(
                                             context,
-                                            address.toString(),
+                                            productList[index]["author"],
                                             productList[index]["id"]),
                                   );
                                 },
@@ -152,6 +146,8 @@ class _HomepageCardState extends State<HomepageCard> {
 
   Widget _buildPopupDialogForMic(
       BuildContext context, String address, String bookId) {
+    bool showProgress = false;
+
     return AlertDialog(
       title: const Text('Are you Sure you want to buy this book?'),
       content: Column(
@@ -185,24 +181,45 @@ class _HomepageCardState extends State<HomepageCard> {
           textColor: Theme.of(context).primaryColor,
           child: const Text('Close'),
         ),
-        FlatButton(
-          onPressed: () async {
-            // Navigator.of(context).pop();
-            validator(_addressFormKey);
-            GraphQLClient _client = graphQLConfiguration.clientToQuery();
+        showProgress
+            ? Center(child: CircularProgressIndicator())
+            : FlatButton(
+                onPressed: () {
+                  // Navigator.of(context).pop();
+                  validator(_addressFormKey);
+                  setState(() {
+                    showProgress = true;
+                  });
+                  GraphQLClient _client = graphQLConfiguration.clientToQuery();
 
-            await _client.query(
-              QueryOptions(
-                document: gql(
-                  QueryMutations.setBookToOrderPlaced(address, bookId),
-                ),
+                  _client.query(
+                    QueryOptions(
+                      document: gql(
+                        QueryMutations.setBookToOrderPlaced(address, bookId),
+                      ),
+                    ),
+                  );
+
+                  _client.query(
+                    QueryOptions(
+                      document: gql(
+                        QueryMutations.deleteBook(bookId),
+                      ),
+                    ),
+                  );
+                  setState(() {
+                    showProgress = false;
+                  });
+                  setState(() {
+                    Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                            pageBuilder: (_, __, ___) => BottomNav()));
+                  });
+                },
+                textColor: Theme.of(context).primaryColor,
+                child: const Text('Submit'),
               ),
-            );
-            Navigator.of(context).pop();
-          },
-          textColor: Theme.of(context).primaryColor,
-          child: const Text('Submit'),
-        ),
       ],
     );
   }

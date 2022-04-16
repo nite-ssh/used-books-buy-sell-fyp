@@ -216,6 +216,7 @@ class _BookUploadState extends State<BookUpload> {
                           children: [
                             TextFormField(
                               controller: txtauthor,
+                              maxLength: 10,
                               keyboardType: TextInputType.number,
                               decoration: const InputDecoration(
                                 hintText: "Phone number",
@@ -229,7 +230,7 @@ class _BookUploadState extends State<BookUpload> {
                               },
                               onChanged: (val) {
                                 try {
-                                  price = int.parse(val);
+                                  author = val;
                                 } catch (e) {
                                   return;
                                 }
@@ -251,7 +252,6 @@ class _BookUploadState extends State<BookUpload> {
                           children: [
                             TextFormField(
                               controller: txtprice,
-                              maxLength: 10,
                               keyboardType: TextInputType.number,
                               decoration: const InputDecoration(
                                 hintText: "Enter Price",

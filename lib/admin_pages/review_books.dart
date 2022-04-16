@@ -14,7 +14,7 @@ import 'package:second_hand_books_buy_sell/universal/drawer.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class ReviewBooks extends StatefulWidget {
-  var bookMutation = QueryMutations.getReviewBooks();
+  var bookMutation;
   ReviewBooks({Key? key, required this.bookMutation}) : super(key: key);
 
   @override

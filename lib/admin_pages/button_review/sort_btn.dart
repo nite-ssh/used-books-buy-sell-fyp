@@ -39,7 +39,10 @@ class _SortCategoryBtnState extends State<SortCategoryBtn> {
                           )));
             });
           },
-          child: Text(widget.title!)),
+          child: Text(
+            widget.title!,
+            style: TextStyle(color: Colors.white),
+          )),
     );
   }
 }
