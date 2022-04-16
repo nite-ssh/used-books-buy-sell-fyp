@@ -17,14 +17,36 @@ mutation {
 ''';
   }
 
+  static String updateDeliveryStateInRoute(String id) {
+    return '''
+mutation {  
+  updateTransaction(
+    data: {deliveryState:{set:OUT_FOR_DELIVERY}}
+    where: { id:"$id"}
+  ) {
+    id
+  }
+}
+''';
+  }
+
+  static String updateDeliveryStateDelivered(String id) {
+    return '''
+mutation {  
+  updateTransaction(
+    data: {deliveryState:{set:DELIVERED}}
+    where: { id:"$id"}
+  ) {
+    id
+  }
+}
+''';
+  }
+
   static String bookToOrderPlacedVal() {
     return '''
 {
-  transactions(where:{
-    deliveryState:{
-      equals:ORDER_PLACED
-    }
-  }){
+  transactions{
     id
 address
 deliveryState
@@ -78,12 +100,19 @@ mutation{
       }
     }
   } ){
-    id
-    name
+         id
     bookPhoto
-    author
-    description
     bookStateName
+    bookCategoryName
+    name
+    user{
+      id
+    }
+    transaction{
+      deliveryState
+    }
+    description
+    author
   }
 }
 ''';
@@ -333,14 +362,19 @@ mutation {
         }
       }
     }
+    
+    
   } ){
-    id
+     id
     bookPhoto
     bookStateName
     bookCategoryName
     name
     user{
       id
+    }
+    transaction{
+      deliveryState
     }
     description
     author
