@@ -34,6 +34,8 @@ class _HomepageCardState extends State<HomepageCard> {
   TextEditingController phoneNumber = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    var a;
+    var b;
     return Query(
       options: QueryOptions(
         document: gql(QueryMutations().getToBeSold().toString()),
@@ -48,6 +50,7 @@ class _HomepageCardState extends State<HomepageCard> {
           );
         }
         final productList = result.data!["books"];
+
         return Column(
           children: [
             Expanded(
@@ -55,9 +58,16 @@ class _HomepageCardState extends State<HomepageCard> {
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisSpacing: 0,
                   mainAxisSpacing: 0,
-                  childAspectRatio: 1,
+                  childAspectRatio: 0.9,
                   crossAxisCount: 1),
               itemBuilder: (_, index) {
+                if (productList[index]["transaction"].length <= 0) {
+                  a = "NOT UPDATED";
+                  b = false;
+                } else {
+                  a = productList[index]["transaction"][0]["deliveryState"];
+                  b = true;
+                }
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -88,6 +98,13 @@ class _HomepageCardState extends State<HomepageCard> {
                               SizedBox(
                                 height: 20,
                               ),
+                              Text(a.toString(),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20)),
+                              SizedBox(
+                                height: 20,
+                              ),
                               Text(
                                 'Genre: ${productList[index]["id"]}',
                                 style: TextStyle(fontWeight: FontWeight.w500),
@@ -102,32 +119,34 @@ class _HomepageCardState extends State<HomepageCard> {
                                   style: TextStyle(height: 1.5),
                                 ),
                               ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  // Container(
-                                  //   padding: EdgeInsets.only(top: 160.0),
-                                  //   child: TextField(
-                                  //     maxLength: 40,
-                                  //     controller: phoneNumber,
-                                  //     decoration: InputDecoration(
-                                  //       icon: Icon(Icons.text_rotate_vertical),
-                                  //       labelText: "Phone Number",
-                                  //     ),
-                                  //   ),
-                                  // );
-                                  setState(() {});
+                              b
+                                  ? Text("Sold")
+                                  : ElevatedButton(
+                                      onPressed: () {
+                                        // Container(
+                                        //   padding: EdgeInsets.only(top: 160.0),
+                                        //   child: TextField(
+                                        //     maxLength: 40,
+                                        //     controller: phoneNumber,
+                                        //     decoration: InputDecoration(
+                                        //       icon: Icon(Icons.text_rotate_vertical),
+                                        //       labelText: "Phone Number",
+                                        //     ),
+                                        //   ),
+                                        // );
+                                        setState(() {});
 
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) =>
-                                        _buildPopupDialogForMic(
-                                            context,
-                                            productList[index]["author"],
-                                            productList[index]["id"]),
-                                  );
-                                },
-                                child: const Text("Need Driver?"),
-                              )
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              _buildPopupDialogForMic(
+                                                  context,
+                                                  productList[index]["author"],
+                                                  productList[index]["id"]),
+                                        );
+                                      },
+                                      child: const Text("Buy Book"),
+                                    )
                             ],
                           ),
                         ),
@@ -196,14 +215,6 @@ class _HomepageCardState extends State<HomepageCard> {
                     QueryOptions(
                       document: gql(
                         QueryMutations.setBookToOrderPlaced(address, bookId),
-                      ),
-                    ),
-                  );
-
-                  _client.query(
-                    QueryOptions(
-                      document: gql(
-                        QueryMutations.deleteBook(bookId),
                       ),
                     ),
                   );

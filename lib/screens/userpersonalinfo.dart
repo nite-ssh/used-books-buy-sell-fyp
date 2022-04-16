@@ -27,6 +27,8 @@ class _UserPersonalInfoUIState extends State<UserPersonalInfoUI> {
   TextEditingController phoneNumber = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    var a;
+    var b;
     return Query(
       options: QueryOptions(
         document: gql(QueryMutations.getSpecificUserValues().toString()),
@@ -41,6 +43,7 @@ class _UserPersonalInfoUIState extends State<UserPersonalInfoUI> {
           );
         }
         final productList = result.data!["books"];
+
         return Column(
           children: [
             Expanded(
@@ -51,6 +54,14 @@ class _UserPersonalInfoUIState extends State<UserPersonalInfoUI> {
                   childAspectRatio: 0.5,
                   crossAxisCount: 1),
               itemBuilder: (_, index) {
+                if (productList[index]["transaction"].length <= 0) {
+                  a = "NOT UPDATED";
+                  b = false;
+                } else {
+                  a = productList[index]["transaction"][0]["deliveryState"];
+                  b = true;
+                }
+
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -90,6 +101,15 @@ class _UserPersonalInfoUIState extends State<UserPersonalInfoUI> {
                                 padding: const EdgeInsets.all(10.0),
                                 child: Text(
                                   'Book status: ${productList[index]["bookStateName"]}',
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(height: 1.5),
+                                ),
+                              ),
+                              SizedBox(height: 5),
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text(
+                                  'transaction status: ${a.toString()}',
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(height: 1.5),
                                 ),
