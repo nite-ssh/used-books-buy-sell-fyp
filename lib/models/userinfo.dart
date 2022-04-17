@@ -5,7 +5,7 @@ class UserInfo {
   String? token;
   static String emailForRegistration = "";
   static String address = "";
-
+  static int bookCount = 0;
   void setId(String idValue) {
     id = idValue;
   }
@@ -24,6 +24,14 @@ class UserInfo {
 
   bool getBookType() {
     return bookType as bool;
+  }
+
+  void setBookCount(int bookCountValue) {
+    bookCount = bookCountValue;
+  }
+
+  int getBookCount() {
+    return bookCount as int;
   }
 
   String getId() {

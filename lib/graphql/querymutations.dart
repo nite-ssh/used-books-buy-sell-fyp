@@ -59,6 +59,10 @@ user{
 book{
   bookPhoto
   name
+  bookCategoryName
+  bookStateName
+  author
+  price
 }
   }
 }
@@ -208,7 +212,7 @@ _count{
   static String filterBookCategory(String category) {
     return '''
 {
-  books(where:{
+  bookUnverifieds(where:{
     bookCategory:{
       is:{
         name:{
@@ -305,6 +309,7 @@ mutation{
 	bookUnverifieds{
     id
     price
+    author
     bookPhoto
     bookStateName
     bookCategoryName
@@ -334,7 +339,13 @@ mutation{
 
   static String createUnverifiedBook(String name, int price, String description,
       String author, String bookState, String photo, String bookCategoryValue) {
+    print(name);
+    print(price);
+    print(description);
+    print(author);
     print(photo);
+    print(bookState);
+    print(bookCategoryValue);
     return '''
 mutation {
   createBookUnverified(
