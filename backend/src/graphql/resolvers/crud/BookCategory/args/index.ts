@@ -1,0 +1,12 @@
+export { AggregateBookCategoryArgs } from "./AggregateBookCategoryArgs";
+export { CreateBookCategoryArgs } from "./CreateBookCategoryArgs";
+export { CreateManyBookCategoryArgs } from "./CreateManyBookCategoryArgs";
+export { DeleteBookCategoryArgs } from "./DeleteBookCategoryArgs";
+export { DeleteManyBookCategoryArgs } from "./DeleteManyBookCategoryArgs";
+export { FindFirstBookCategoryArgs } from "./FindFirstBookCategoryArgs";
+export { FindManyBookCategoryArgs } from "./FindManyBookCategoryArgs";
+export { FindUniqueBookCategoryArgs } from "./FindUniqueBookCategoryArgs";
+export { GroupByBookCategoryArgs } from "./GroupByBookCategoryArgs";
+export { UpdateBookCategoryArgs } from "./UpdateBookCategoryArgs";
+export { UpdateManyBookCategoryArgs } from "./UpdateManyBookCategoryArgs";
+export { UpsertBookCategoryArgs } from "./UpsertBookCategoryArgs";
