@@ -419,14 +419,6 @@ class _BookUploadState extends State<BookUpload> {
                     ),
                     ElevatedButton(
                       onPressed: () async {
-                        try {
-                          validator(_titleFormKey);
-                          validator(_priceFormKey);
-                          validator(_authorFormKey);
-                          validator(_descriptionFormKey);
-                          validator(_blogContentFormKey);
-                          print(title);
-                        } catch (e) {}
                         if (_image != null) {
                           GraphQLClient _client =
                               graphQLConfiguration.clientToQuery();
