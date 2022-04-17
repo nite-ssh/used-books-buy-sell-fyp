@@ -311,6 +311,7 @@ mutation{
     name
     user{
       id
+      username
     }
     description
     author
@@ -411,6 +412,7 @@ mutation {
     bookStateName
     bookCategoryName
     name
+    price
     user{
       id
     }

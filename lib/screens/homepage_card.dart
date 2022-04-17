@@ -58,7 +58,7 @@ class _HomepageCardState extends State<HomepageCard> {
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisSpacing: 0,
                   mainAxisSpacing: 0,
-                  childAspectRatio: 0.9,
+                  childAspectRatio: 0.75,
                   crossAxisCount: 1),
               itemBuilder: (_, index) {
                 if (productList[index]["transaction"].length <= 0) {
@@ -81,16 +81,11 @@ class _HomepageCardState extends State<HomepageCard> {
                         child: Expanded(
                           child: Column(
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(6),
-                                  child: Image.network(
-                                    productList[index]["bookPhoto"],
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
+                              Image.network(
+                                productList[index]["bookPhoto"],
+                                fit: BoxFit.cover,
                               ),
+                              SizedBox(height: 20),
                               Text(productList[index]["name"],
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
@@ -98,29 +93,43 @@ class _HomepageCardState extends State<HomepageCard> {
                               SizedBox(
                                 height: 20,
                               ),
-                              Text(a.toString(),
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20)),
+                              Text(
+                                "Price: " +
+                                    productList[index]["price"].toString(),
+                              ),
                               SizedBox(
                                 height: 20,
                               ),
                               Text(
-                                'Genre: ${productList[index]["id"]}',
+                                'Genre: ${productList[index]["bookCategoryName"]}',
                                 style: TextStyle(fontWeight: FontWeight.w500),
                               ),
                               SizedBox(height: 5),
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Text(
-                                  "Phone Number: " +
+                                  "Seller phone Number: " +
                                       productList[index]["author"],
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(height: 1.5),
                                 ),
                               ),
+                              Text("Description:"),
+                              Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Text(
+                                  productList[index]["description"],
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(height: 1.5),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
                               b
-                                  ? Text("Sold")
+                                  ? Text("Book Status: Sold",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold))
                                   : ElevatedButton(
                                       onPressed: () {
                                         // Container(
@@ -146,7 +155,10 @@ class _HomepageCardState extends State<HomepageCard> {
                                         );
                                       },
                                       child: const Text("Buy Book"),
-                                    )
+                                    ),
+                              SizedBox(
+                                height: 20,
+                              ),
                             ],
                           ),
                         ),

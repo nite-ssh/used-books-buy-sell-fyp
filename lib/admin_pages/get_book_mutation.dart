@@ -44,7 +44,7 @@ class _GetBooksMutationState extends State<GetBooksMutation> {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisSpacing: 0,
                     mainAxisSpacing: 0,
-                    childAspectRatio: 1.30,
+                    childAspectRatio: 0.6,
                     crossAxisCount: 1),
                 itemBuilder: (_, index) {
                   return Column(
@@ -58,32 +58,63 @@ class _GetBooksMutationState extends State<GetBooksMutation> {
                         elevation: 2,
                         child: Column(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(6),
-                                child: Image.network(
-                                  productList[index]["bookPhoto"],
-                                  fit: BoxFit.cover,
-                                  height: 80,
-                                ),
-                              ),
+                            Image.network(
+                              productList[index]["bookPhoto"],
+                              fit: BoxFit.cover,
                             ),
+                            SizedBox(height: 20),
                             Text(productList[index]["name"],
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 20)),
                             SizedBox(
-                              height: 10,
+                              height: 20,
                             ),
                             Text(
-                              'Genre: ${productList[index]["description"]}',
+                              "Price: " +
+                                  productList[index]["price"].toString(),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              'Genre: ${productList[index]["bookCategoryName"]}',
                               style: TextStyle(fontWeight: FontWeight.w500),
                             ),
-                            // SizedBox(height: 5),
                             Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: Text(
-                                productList[index]["name"],
+                                "Seller Username: " +
+                                    productList[index]["user"]["username"],
+                                textAlign: TextAlign.justify,
+                                style: TextStyle(height: 1.5),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(
+                                "Seller phone Number: " +
+                                    productList[index]["author"],
+                                textAlign: TextAlign.justify,
+                                style: TextStyle(height: 1.5),
+                              ),
+                            ),
+                            Text("Description:"),
+                            Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Text(
+                                productList[index]["description"],
+                                textAlign: TextAlign.justify,
+                                style: TextStyle(height: 1.5),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(
+                                "Book State: " +
+                                    productList[index]["bookStateName"],
                                 textAlign: TextAlign.justify,
                                 style: TextStyle(height: 1.5),
                               ),
