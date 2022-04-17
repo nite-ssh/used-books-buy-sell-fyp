@@ -1,0 +1,12 @@
+export { AggregateBookStateArgs } from "./AggregateBookStateArgs";
+export { CreateBookStateArgs } from "./CreateBookStateArgs";
+export { CreateManyBookStateArgs } from "./CreateManyBookStateArgs";
+export { DeleteBookStateArgs } from "./DeleteBookStateArgs";
+export { DeleteManyBookStateArgs } from "./DeleteManyBookStateArgs";
+export { FindFirstBookStateArgs } from "./FindFirstBookStateArgs";
+export { FindManyBookStateArgs } from "./FindManyBookStateArgs";
+export { FindUniqueBookStateArgs } from "./FindUniqueBookStateArgs";
+export { GroupByBookStateArgs } from "./GroupByBookStateArgs";
+export { UpdateBookStateArgs } from "./UpdateBookStateArgs";
+export { UpdateManyBookStateArgs } from "./UpdateManyBookStateArgs";
+export { UpsertBookStateArgs } from "./UpsertBookStateArgs";
