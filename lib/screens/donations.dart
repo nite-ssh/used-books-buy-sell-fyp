@@ -40,7 +40,7 @@ class _DonateBooksState extends State<DonateBooks> {
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisSpacing: 0,
                       mainAxisSpacing: 0,
-                      childAspectRatio: 1.10,
+                      childAspectRatio: 0.9,
                       crossAxisCount: 1),
                   itemBuilder: (_, index) {
                     return Column(
@@ -54,16 +54,11 @@ class _DonateBooksState extends State<DonateBooks> {
                           elevation: 2,
                           child: Column(
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(6),
-                                  child: Image.network(
-                                    productList[index]["bookPhoto"],
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
+                              Image.network(
+                                productList[index]["bookPhoto"],
+                                fit: BoxFit.cover,
                               ),
+                              SizedBox(height: 20),
                               Text(productList[index]["name"],
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
@@ -72,14 +67,23 @@ class _DonateBooksState extends State<DonateBooks> {
                                 height: 20,
                               ),
                               Text(
-                                'Genre: ${productList[index]["description"]}',
+                                'Genre: ${productList[index]["bookCategoryName"]}',
                                 style: TextStyle(fontWeight: FontWeight.w500),
                               ),
                               SizedBox(height: 5),
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Text(
-                                  productList[index]["name"],
+                                  "Contact: " + productList[index]["author"],
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(height: 1.5),
+                                ),
+                              ),
+                              Text("Description:"),
+                              Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Text(
+                                  productList[index]["description"],
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(height: 1.5),
                                 ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:second_hand_books_buy_sell/models/userinfo.dart';
 import 'package:second_hand_books_buy_sell/screens/auth/login_screen.dart';
 import 'package:second_hand_books_buy_sell/screens/userpersonalinfo.dart';
+import 'package:second_hand_books_buy_sell/screens/userpersonalinfounverified.dart';
 import 'package:second_hand_books_buy_sell/userpersonalinfo.dart';
 
 class DrawerVal extends StatefulWidget {
@@ -33,16 +34,42 @@ class _DrawerValState extends State<DrawerVal> {
               ),
             ),
           ),
-          ListTile(
-            leading: Icon(Icons.person),
-            title: Text("Profile"),
-            onTap: () {
-              Navigator.push(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (_, __, ___) => UserPersonalInfo(),
-                  ));
-            },
+          ExpansionTile(
+            title: ListTile(
+              leading: Icon(Icons.person),
+              title: Text("Profile"),
+            ),
+            children: <Widget>[
+              GestureDetector(
+                child: ListTile(
+                  title: Text(
+                    "Verified Books",
+                  ),
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (_, __, ___) => UserPersonalInfo(),
+                      ));
+                },
+              ),
+              GestureDetector(
+                child: ListTile(
+                  title: Text(
+                    "Unverified Books",
+                  ),
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (_, __, ___) =>
+                            UserPersonalInfoUnverified(),
+                      ));
+                },
+              )
+            ],
           ),
           ListTile(
             leading: Icon(Icons.door_back_door_outlined),

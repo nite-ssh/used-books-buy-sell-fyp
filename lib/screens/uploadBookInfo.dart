@@ -36,7 +36,8 @@ class _BookUploadState extends State<BookUpload> {
   bool role = false;
   bool isChecked = false;
   bool showProgress = false;
-
+  int finalCount = 0;
+  @override
   Future getImage() async {
     final ImagePicker _picker = ImagePicker();
     // Pick an image
@@ -98,6 +99,29 @@ class _BookUploadState extends State<BookUpload> {
           },
           textColor: Theme.of(context).primaryColor,
           child: const Text('Return to Home'),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildBookErrorDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Donate a Book to Sell this one!'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const <Widget>[
+          Text(
+              "You have already sold 10 books. You would have to donate one book to further sell a book"),
+        ],
+      ),
+      actions: <Widget>[
+        FlatButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('Back'),
         ),
       ],
     );
@@ -225,6 +249,9 @@ class _BookUploadState extends State<BookUpload> {
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter some text';
+                                }
+                                if (value.length < 10) {
+                                  return 'Please provide 10 digit phone number';
                                 }
                                 return null;
                               },
@@ -414,8 +441,37 @@ class _BookUploadState extends State<BookUpload> {
                     SizedBox(
                       height: 20,
                     ),
+                    Query(
+                        options: QueryOptions(
+                          document:
+                              gql(QueryMutations.getNoOfBookSold().toString()),
+                        ),
+                        builder: (QueryResult result, {fetchMore, refetch}) {
+                          if (result.hasException) {
+                            Text(result.exception.toString());
+                          }
+                          if (result.isLoading) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+
+                          final finalCountValue = UserInfo().setBookCount(
+                              result.data!["users"][0]["_count"]["books"]);
+
+                          return Text("");
+                        }),
+
                     ElevatedButton(
                       onPressed: () async {
+                        print(UserInfo().getBookCount());
+                        if ((UserInfo().getBookCount() as int) % 10 == 0 &&
+                            UserInfo().getBookCount() != 0) {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  _buildBookErrorDialog(context));
+                        }
                         try {
                           validator(_titleFormKey);
                           validator(_priceFormKey);
@@ -434,7 +490,6 @@ class _BookUploadState extends State<BookUpload> {
                           });
                           GraphQLClient _client =
                               graphQLConfiguration.clientToQuery();
-
                           try {
                             _client.query(
                               QueryOptions(
@@ -450,62 +505,7 @@ class _BookUploadState extends State<BookUpload> {
                                 ),
                               ),
                             );
-                            // Query(
-                            //     options: QueryOptions(
-                            //       document: gql(QueryMutations.getNoOfBookSold()
-                            //           .toString()),
-                            //     ),
-                            //     builder: (QueryResult result,
-                            //         {fetchMore, refetch}) {
-                            //       if (result.hasException) {
-                            //         Text(result.exception.toString());
-                            //       }
-                            //       if (result.isLoading) {
-                            //         return Center(
-                            //           child: CircularProgressIndicator(),
-                            //         );
-                            //       }
-                            //       final finalCount = result.data!["users"][0]
-                            //           ["_count"]["books"];
-                            //       if (finalCount >= 10) {
-                            //         showDialog(
-                            //             context: context,
-                            //             builder: (BuildContext context) {
-                            //               return AlertDialog(
-                            //                 title: const Text(
-                            //                     'You Have to donate!'),
-                            //                 content: Column(
-                            //                   mainAxisSize: MainAxisSize.min,
-                            //                   crossAxisAlignment:
-                            //                       CrossAxisAlignment.start,
-                            //                   children: const <Widget>[
-                            //                     Text(
-                            //                         "In order to sell this book, you have to donate one!"),
-                            //                   ],
-                            //                 ),
-                            //                 actions: <Widget>[
-                            //                   FlatButton(
-                            //                     onPressed: () {
-                            //                       Navigator.pushAndRemoveUntil(
-                            //                         context,
-                            //                         MaterialPageRoute(
-                            //                           builder: (BuildContext
-                            //                                   context) =>
-                            //                               const BottomNav(),
-                            //                         ),
-                            //                         (route) => false,
-                            //                       );
-                            //                     },
-                            //                     textColor: Theme.of(context)
-                            //                         .primaryColor,
-                            //                     child: const Text('Back'),
-                            //                   ),
-                            //                 ],
-                            //               );
-                            //             });
-                            //       }
-                            //       return Text("");
-                            //     });
+
                             showDialog(
                               context: context,
                               builder: (BuildContext context) =>

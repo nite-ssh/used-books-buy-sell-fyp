@@ -59,6 +59,10 @@ user{
 book{
   bookPhoto
   name
+  bookCategoryName
+  bookStateName
+  author
+  price
 }
   }
 }
@@ -118,6 +122,47 @@ mutation{
 ''';
   }
 
+  static String getSpecificUnverifiedUserValues() {
+    return '''
+{
+	bookUnverifieds(where:{
+    user:{
+      is:{
+        username:{
+          equals:"${UserInfo().getUsername()}"
+        }
+      }
+    }
+  } ){
+         id
+    bookPhoto
+    bookStateName
+    bookCategoryName
+    name
+    user{
+      id
+    }
+    transaction{
+      deliveryState
+    }
+    description
+    author
+  }
+}
+''';
+  }
+
+  static String getUsers(String username) {
+    print(username);
+    return '''
+{
+  users{
+    username
+  }
+}
+''';
+  }
+
   static String getNoOfBookSold() {
     return '''
 {
@@ -167,7 +212,7 @@ _count{
   static String filterBookCategory(String category) {
     return '''
 {
-  books(where:{
+  bookUnverifieds(where:{
     bookCategory:{
       is:{
         name:{
@@ -264,12 +309,14 @@ mutation{
 	bookUnverifieds{
     id
     price
+    author
     bookPhoto
     bookStateName
     bookCategoryName
     name
     user{
       id
+      username
     }
     description
     author
@@ -292,7 +339,13 @@ mutation{
 
   static String createUnverifiedBook(String name, int price, String description,
       String author, String bookState, String photo, String bookCategoryValue) {
+    print(name);
+    print(price);
+    print(description);
+    print(author);
     print(photo);
+    print(bookState);
+    print(bookCategoryValue);
     return '''
 mutation {
   createBookUnverified(
@@ -370,6 +423,7 @@ mutation {
     bookStateName
     bookCategoryName
     name
+    price
     user{
       id
     }
