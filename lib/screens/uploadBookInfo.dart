@@ -428,17 +428,23 @@ class _BookUploadState extends State<BookUpload> {
                           print(title);
                         } catch (e) {}
                         if (_image != null) {
-                          setState(() {
-                            showProgress = true;
-                          });
-                          await uploadContent();
-                          setState(() {
-                            showProgress = false;
-                          });
                           GraphQLClient _client =
                               graphQLConfiguration.clientToQuery();
 
                           try {
+                            validator(_titleFormKey);
+                            validator(_priceFormKey);
+                            validator(_authorFormKey);
+                            validator(_descriptionFormKey);
+                            validator(_blogContentFormKey);
+
+                            setState(() {
+                              showProgress = true;
+                            });
+                            await uploadContent();
+                            setState(() {
+                              showProgress = false;
+                            });
                             _client.query(
                               QueryOptions(
                                 document: gql(
