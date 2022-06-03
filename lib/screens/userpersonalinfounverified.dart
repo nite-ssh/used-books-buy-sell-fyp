@@ -39,20 +39,20 @@ class _UserPersonalInfoUnverifiedState
                       Text(result.exception.toString());
                     }
                     if (result.isLoading) {
-                      return Center(
+                      return const Center(
                         child: CircularProgressIndicator(),
                       );
                     }
                     final productList = result.data!["bookUnverifieds"];
                     if (productList == null) {
-                      return Text("");
+                      return const Text("");
                     }
                     return Column(
                       children: [
                         Expanded(
                           child: GridView.builder(
                             gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
+                                const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisSpacing: 0,
                                     mainAxisSpacing: 0,
                                     childAspectRatio: 1,
@@ -71,7 +71,7 @@ class _UserPersonalInfoUnverifiedState
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 10,
                                   ),
                                   GestureDetector(
@@ -94,35 +94,37 @@ class _UserPersonalInfoUnverifiedState
                                               ),
                                             ),
                                             Text(productList[index]["name"],
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 20)),
-                                            SizedBox(
+                                            const SizedBox(
                                               height: 20,
                                             ),
                                             Text(
                                               'Genre: ${productList[index]["description"]}',
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontWeight: FontWeight.w500),
                                             ),
-                                            SizedBox(height: 5),
+                                            const SizedBox(height: 5),
                                             Padding(
                                               padding:
                                                   const EdgeInsets.all(10.0),
                                               child: Text(
                                                 'Book status: ${productList[index]["bookStateName"]}',
                                                 textAlign: TextAlign.justify,
-                                                style: TextStyle(height: 1.5),
+                                                style: const TextStyle(
+                                                    height: 1.5),
                                               ),
                                             ),
-                                            SizedBox(height: 5),
+                                            const SizedBox(height: 5),
                                             Padding(
                                               padding:
                                                   const EdgeInsets.all(10.0),
                                               child: Text(
                                                 'transaction status: ${a.toString()}',
                                                 textAlign: TextAlign.justify,
-                                                style: TextStyle(height: 1.5),
+                                                style: const TextStyle(
+                                                    height: 1.5),
                                               ),
                                             ),
                                           ],

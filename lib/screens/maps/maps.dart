@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:second_hand_books_buy_sell/universal/drawer.dart';
-import '../../universal/bottom_nav.dart';
 import 'markers.dart';
 
 class GMaps extends StatefulWidget {
@@ -20,9 +19,9 @@ class GMapsState extends State<GMaps> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Libraries in Kathmandu"),
+          title: const Text("Libraries in Kathmandu"),
         ),
-        drawer: DrawerVal(),
+        drawer: const DrawerVal(),
         body: Stack(
           children: <Widget>[
             _buildGoogleMap(context),
@@ -43,12 +42,12 @@ class GMapsState extends State<GMaps> {
     return Align(
       alignment: Alignment.bottomLeft,
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 20.0),
+        margin: const EdgeInsets.symmetric(vertical: 20.0),
         height: 150.0,
         child: ListView(
           scrollDirection: Axis.horizontal,
           children: <Widget>[
-            SizedBox(width: 10.0),
+            const SizedBox(width: 10.0),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
@@ -59,7 +58,7 @@ class GMapsState extends State<GMaps> {
                   "Kanti path",
                   "A beautiful library built in the 19th century for Kaiser Shumsher Jang Bahadur Rana. It’s not open to the public but I was allowed to see the famous staircase and entrance way with its original fixtures and fittings."),
             ),
-            SizedBox(width: 10.0),
+            const SizedBox(width: 10.0),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
@@ -70,7 +69,7 @@ class GMapsState extends State<GMaps> {
                   "Maharajgunj Rd",
                   "It\'s one of the best public library in Kathmandu. It not only has books but computers with internet access and a movie room too."),
             ),
-            SizedBox(width: 10.0),
+            const SizedBox(width: 10.0),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
@@ -81,7 +80,7 @@ class GMapsState extends State<GMaps> {
                   "Thapathali Road",
                   " It is a public library located at Thapathali,Kathmandu at the Rotary of Kathmandu space.It houses massive 18,000 books"),
             ),
-            SizedBox(width: 10.0),
+            const SizedBox(width: 10.0),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
@@ -92,7 +91,7 @@ class GMapsState extends State<GMaps> {
                   "Pradashani Marga",
                   "Being nearby bus stand this place is easily accessible.Also there are a lot of books to read and daily & weeklynewspaper can be found. Its free for all."),
             ),
-            SizedBox(width: 10.0),
+            const SizedBox(width: 10.0),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
@@ -163,27 +162,28 @@ class GMapsState extends State<GMaps> {
               children: [
                 Text(
                   restaurantName,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.teal,
                       fontSize: 24.0,
                       fontWeight: FontWeight.bold),
                 ),
                 Text(
                   address,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.black,
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold),
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
                   width: MediaQuery.of(context).size.width * 0.7,
-                  child: new Column(
+                  child: Column(
                     children: <Widget>[
-                      new Text(
+                      Text(
                         description,
                         textAlign: TextAlign.left,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 15.0,
                           fontWeight: FontWeight.bold,
@@ -195,7 +195,7 @@ class GMapsState extends State<GMaps> {
               ],
             )),
           ),
-          SizedBox(height: 5.0),
+          const SizedBox(height: 5.0),
         ]);
   }
 
@@ -206,7 +206,7 @@ class GMapsState extends State<GMaps> {
       child: GoogleMap(
         mapType: MapType.normal,
         initialCameraPosition:
-            CameraPosition(target: LatLng(27.6800, 85.3180), zoom: 12),
+            const CameraPosition(target: LatLng(27.6800, 85.3180), zoom: 12),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },

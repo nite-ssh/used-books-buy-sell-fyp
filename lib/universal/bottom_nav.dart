@@ -3,7 +3,6 @@ import 'package:second_hand_books_buy_sell/screens/donations.dart';
 import 'package:second_hand_books_buy_sell/screens/homepage_screen.dart';
 import 'package:second_hand_books_buy_sell/screens/maps/maps.dart';
 import 'package:second_hand_books_buy_sell/screens/uploadBookInfo.dart';
-import 'package:second_hand_books_buy_sell/utils/routes.dart';
 
 import '../screens/blog/blog.dart';
 
@@ -67,7 +66,7 @@ class _BottomNavState extends State<BottomNav> {
         ],
         currentIndex: _selectedIndex,
         unselectedItemColor: Colors.white,
-        selectedItemColor: Color(0xff1D1C1A),
+        selectedItemColor: const Color(0xff1D1C1A),
         onTap: _onItemTapped,
       ),
     );

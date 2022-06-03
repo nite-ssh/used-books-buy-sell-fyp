@@ -18,7 +18,7 @@ class _UserPersonalInfoState extends State<UserPersonalInfo> {
         appBar: AppBar(
           title: Text("Books uploaded by ${UserInfo().getUsername()}"),
         ),
-        body: UserPersonalInfoUI(),
+        body: const UserPersonalInfoUI(),
       ),
     );
   }

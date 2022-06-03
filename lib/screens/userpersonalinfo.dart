@@ -43,7 +43,7 @@ class _UserPersonalInfoUIState extends State<UserPersonalInfoUI> {
                   Text(result.exception.toString());
                 }
                 if (result.isLoading) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
@@ -53,11 +53,12 @@ class _UserPersonalInfoUIState extends State<UserPersonalInfoUI> {
                   children: [
                     Expanded(
                       child: GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisSpacing: 0,
-                            mainAxisSpacing: 0,
-                            childAspectRatio: 1,
-                            crossAxisCount: 1),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisSpacing: 0,
+                                mainAxisSpacing: 0,
+                                childAspectRatio: 0.55,
+                                crossAxisCount: 1),
                         itemBuilder: (_, index) {
                           if (productList[index]["transaction"].length <= 0) {
                             a = "NOT UPDATED";
@@ -71,7 +72,7 @@ class _UserPersonalInfoUIState extends State<UserPersonalInfoUI> {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               GestureDetector(
@@ -82,7 +83,8 @@ class _UserPersonalInfoUIState extends State<UserPersonalInfoUI> {
                                     child: Column(
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.all(8),
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 30, horizontal: 90),
                                           child: ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(6),
@@ -93,33 +95,33 @@ class _UserPersonalInfoUIState extends State<UserPersonalInfoUI> {
                                           ),
                                         ),
                                         Text(productList[index]["name"],
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 20)),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 20,
                                         ),
                                         Text(
                                           'Genre: ${productList[index]["description"]}',
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontWeight: FontWeight.w500),
                                         ),
-                                        SizedBox(height: 5),
+                                        const SizedBox(height: 5),
                                         Padding(
                                           padding: const EdgeInsets.all(10.0),
                                           child: Text(
                                             'Book status: ${productList[index]["bookStateName"]}',
                                             textAlign: TextAlign.justify,
-                                            style: TextStyle(height: 1.5),
+                                            style: const TextStyle(height: 1.5),
                                           ),
                                         ),
-                                        SizedBox(height: 5),
+                                        const SizedBox(height: 5),
                                         Padding(
                                           padding: const EdgeInsets.all(10.0),
                                           child: Text(
                                             'transaction status: ${a.toString()}',
                                             textAlign: TextAlign.justify,
-                                            style: TextStyle(height: 1.5),
+                                            style: const TextStyle(height: 1.5),
                                           ),
                                         ),
                                       ],

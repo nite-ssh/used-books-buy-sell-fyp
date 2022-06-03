@@ -17,7 +17,7 @@ class _DonateBooksState extends State<DonateBooks> {
       child: Scaffold(
         backgroundColor: Colors.blueGrey,
         appBar: AppBar(
-          title: Text("Donate Books"),
+          title: const Text("Donate Books"),
         ),
         body: Query(
           options: QueryOptions(
@@ -28,7 +28,7 @@ class _DonateBooksState extends State<DonateBooks> {
               Text(result.exception.toString());
             }
             if (result.isLoading) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }
@@ -37,16 +37,16 @@ class _DonateBooksState extends State<DonateBooks> {
               children: [
                 Expanded(
                     child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisSpacing: 0,
                       mainAxisSpacing: 0,
-                      childAspectRatio: 0.9,
+                      childAspectRatio: 0.55,
                       crossAxisCount: 1),
                   itemBuilder: (_, index) {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Card(
@@ -54,38 +54,43 @@ class _DonateBooksState extends State<DonateBooks> {
                           elevation: 2,
                           child: Column(
                             children: [
-                              Image.network(
-                                productList[index]["bookPhoto"],
-                                fit: BoxFit.cover,
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 30, horizontal: 90),
+                                child: Image.network(
+                                  productList[index]["bookPhoto"],
+                                  fit: BoxFit.cover,
+                                ),
                               ),
-                              SizedBox(height: 20),
+                              const SizedBox(height: 20),
                               Text(productList[index]["name"],
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20)),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               Text(
                                 'Genre: ${productList[index]["bookCategoryName"]}',
-                                style: TextStyle(fontWeight: FontWeight.w500),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w500),
                               ),
-                              SizedBox(height: 5),
+                              const SizedBox(height: 5),
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Text(
                                   "Contact: " + productList[index]["author"],
                                   textAlign: TextAlign.justify,
-                                  style: TextStyle(height: 1.5),
+                                  style: const TextStyle(height: 1.5),
                                 ),
                               ),
-                              Text("Description:"),
+                              const Text("Description:"),
                               Padding(
                                 padding: const EdgeInsets.all(5.0),
                                 child: Text(
                                   productList[index]["description"],
                                   textAlign: TextAlign.justify,
-                                  style: TextStyle(height: 1.5),
+                                  style: const TextStyle(height: 1.5),
                                 ),
                               ),
                             ],
@@ -100,7 +105,7 @@ class _DonateBooksState extends State<DonateBooks> {
             );
           },
         ),
-        drawer: DrawerVal(),
+        drawer: const DrawerVal(),
       ),
     );
   }

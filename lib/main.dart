@@ -41,6 +41,7 @@ class BookApp extends StatelessWidget {
         //providing theme to the app
         themeMode: ThemeMode.light,
         theme: ThemeData(
+          fontFamily: "Poppins-Regular",
           brightness: Brightness.light,
           primarySwatch: Colors.teal,
         ),
@@ -51,16 +52,16 @@ class BookApp extends StatelessWidget {
         initialRoute: '/login',
         routes: {
           //setting initial route to be homepage
-          MyRoutes.loginRoute: (context) => Login(),
-          MyRoutes.registerRoute: (context) => Register(),
-          MyRoutes.homeRoute: (context) => Homepage(),
-          MyRoutes.navRoute: (context) => BottomNav(),
-          MyRoutes.mapRoute: (context) => GMaps(),
+          MyRoutes.loginRoute: (context) => const Login(),
+          MyRoutes.registerRoute: (context) => const Register(),
+          MyRoutes.homeRoute: (context) => const Homepage(),
+          MyRoutes.navRoute: (context) => const BottomNav(),
+          MyRoutes.mapRoute: (context) => const GMaps(),
 
           MyRoutes.reviewBookRoute: (context) => ReviewBooks(
                 bookMutation: QueryMutations.getReviewBooks(),
               ),
-          MyRoutes.adminNavRoute: (context) => AdminBottomNav(),
+          MyRoutes.adminNavRoute: (context) => const AdminBottomNav(),
         });
   }
 }

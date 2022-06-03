@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:second_hand_books_buy_sell/models/userinfo.dart';
 import 'package:second_hand_books_buy_sell/screens/auth/login_screen.dart';
-import 'package:second_hand_books_buy_sell/screens/userpersonalinfo.dart';
 import 'package:second_hand_books_buy_sell/screens/userpersonalinfounverified.dart';
 import 'package:second_hand_books_buy_sell/userpersonalinfo.dart';
 
@@ -25,23 +24,23 @@ class _DrawerValState extends State<DrawerVal> {
         children: [
           UserAccountsDrawerHeader(
             accountName: Text(UserInfo().getUsername()),
-            accountEmail: Text(""),
+            accountEmail: const Text(""),
             currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.amberAccent,
               child: Text(
                 UserInfo().getUsername()[0],
-                style: TextStyle(fontSize: 40.0),
+                style: const TextStyle(fontSize: 40.0),
               ),
             ),
           ),
           ExpansionTile(
-            title: ListTile(
+            title: const ListTile(
               leading: Icon(Icons.person),
               title: Text("Profile"),
             ),
             children: <Widget>[
               GestureDetector(
-                child: ListTile(
+                child: const ListTile(
                   title: Text(
                     "Verified Books",
                   ),
@@ -50,12 +49,12 @@ class _DrawerValState extends State<DrawerVal> {
                   Navigator.push(
                       context,
                       PageRouteBuilder(
-                        pageBuilder: (_, __, ___) => UserPersonalInfo(),
+                        pageBuilder: (_, __, ___) => const UserPersonalInfo(),
                       ));
                 },
               ),
               GestureDetector(
-                child: ListTile(
+                child: const ListTile(
                   title: Text(
                     "Unverified Books",
                   ),
@@ -65,15 +64,15 @@ class _DrawerValState extends State<DrawerVal> {
                       context,
                       PageRouteBuilder(
                         pageBuilder: (_, __, ___) =>
-                            UserPersonalInfoUnverified(),
+                            const UserPersonalInfoUnverified(),
                       ));
                 },
               )
             ],
           ),
           ListTile(
-            leading: Icon(Icons.door_back_door_outlined),
-            title: Text("Log Out"),
+            leading: const Icon(Icons.door_back_door_outlined),
+            title: const Text("Log Out"),
             onTap: () {
               Navigator.pushAndRemoveUntil(
                 context,

@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:second_hand_books_buy_sell/graphql/graphqlconfig.dart';
 import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
 import 'package:second_hand_books_buy_sell/main.dart';
-import 'package:second_hand_books_buy_sell/models/BookInfo.dart';
-import 'package:second_hand_books_buy_sell/models/userinfo.dart';
-import 'package:second_hand_books_buy_sell/screens/blog/User.dart';
 import 'package:second_hand_books_buy_sell/universal/bottom_nav.dart';
-import 'package:second_hand_books_buy_sell/utils/routes.dart';
 
 class HomepageCard extends StatefulWidget {
   const HomepageCard({Key? key}) : super(key: key);
@@ -45,7 +40,7 @@ class _HomepageCardState extends State<HomepageCard> {
           Text(result.exception.toString());
         }
         if (result.isLoading) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -55,10 +50,10 @@ class _HomepageCardState extends State<HomepageCard> {
           children: [
             Expanded(
                 child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisSpacing: 0,
                   mainAxisSpacing: 0,
-                  childAspectRatio: 0.75,
+                  childAspectRatio: 0.55,
                   crossAxisCount: 1),
               itemBuilder: (_, index) {
                 if (productList[index]["transaction"].length <= 0) {
@@ -71,7 +66,7 @@ class _HomepageCardState extends State<HomepageCard> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     GestureDetector(
@@ -81,11 +76,14 @@ class _HomepageCardState extends State<HomepageCard> {
                         child: Expanded(
                           child: Column(
                             children: [
-                              Image.network(
-                                productList[index]["bookPhoto"],
-                                fit: BoxFit.cover,
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 30, horizontal: 90),
+                                child: Image.network(
+                                  productList[index]["bookPhoto"],
+                                  fit: BoxFit.cover,
+                                ),
                               ),
-                              SizedBox(height: 20),
                               Text(productList[index]["name"],
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
@@ -237,7 +235,7 @@ class _HomepageCardState extends State<HomepageCard> {
                     Navigator.push(
                         context,
                         PageRouteBuilder(
-                            pageBuilder: (_, __, ___) => BottomNav()));
+                            pageBuilder: (_, __, ___) => const BottomNav()));
                   });
                 },
                 textColor: Theme.of(context).primaryColor,

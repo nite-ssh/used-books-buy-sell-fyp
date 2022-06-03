@@ -20,7 +20,7 @@ class _BlogState extends State<Blog> {
       appBar: AppBar(
         title: const Text("Blog"),
       ),
-      drawer: DrawerVal(),
+      drawer: const DrawerVal(),
       body: StreamBuilder<List<User>>(
           stream: CrudMethods.readBlogs(),
           builder: (context, snapshot) {
@@ -36,7 +36,7 @@ class _BlogState extends State<Blog> {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 50,
           ),
           GestureDetector(
@@ -44,7 +44,7 @@ class _BlogState extends State<Blog> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => BlogWrite(),
+                  builder: (context) => const BlogWrite(),
                 ),
               );
             },
@@ -62,7 +62,7 @@ class _BlogState extends State<Blog> {
   }
 
   Widget buildUser(User user) => Container(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         color: Colors.blueGrey,
         child: Card(
           color: Colors.white,
@@ -80,21 +80,22 @@ class _BlogState extends State<Blog> {
                 ),
               ),
               Text(user.title,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-              SizedBox(
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 20)),
+              const SizedBox(
                 height: 20,
               ),
               Text(
                 'Author: ${user.name}',
-                style: TextStyle(fontWeight: FontWeight.w500),
+                style: const TextStyle(fontWeight: FontWeight.w500),
               ),
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Text(
                   user.blogContent,
                   textAlign: TextAlign.justify,
-                  style: TextStyle(height: 1.5),
+                  style: const TextStyle(height: 1.5),
                 ),
               ),
             ],

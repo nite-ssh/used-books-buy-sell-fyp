@@ -5,12 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:random_string/random_string.dart';
-import 'package:second_hand_books_buy_sell/graphql/graphqlconfig.dart';
 import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
 import 'package:second_hand_books_buy_sell/main.dart';
-import 'package:second_hand_books_buy_sell/models/BookValues.dart';
 import 'package:second_hand_books_buy_sell/models/userinfo.dart';
-import 'package:second_hand_books_buy_sell/screens/homepage_screen.dart';
 import 'package:second_hand_books_buy_sell/universal/bottom_nav.dart';
 import 'package:second_hand_books_buy_sell/utils/routes.dart';
 
@@ -163,7 +160,7 @@ class _BookUploadState extends State<BookUpload> {
           title: const Text("Upload Book"),
         ),
         body: showProgress
-            ? Center(child: CircularProgressIndicator())
+            ? const Center(child: CircularProgressIndicator())
             : SingleChildScrollView(
                 child: Column(
                   children: [
@@ -176,7 +173,8 @@ class _BookUploadState extends State<BookUpload> {
                       },
                       child: _image != null
                           ? Container(
-                              margin: EdgeInsets.symmetric(horizontal: 16),
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 16),
                               height: 150,
                               width: MediaQuery.of(context).size.width,
                               child: ClipRRect(
@@ -319,7 +317,7 @@ class _BookUploadState extends State<BookUpload> {
                               minLines: 1,
                               maxLines: 3,
                               maxLength: 125,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 label: Text("Description Content"),
                               ),
                               validator: (value) {
@@ -451,7 +449,7 @@ class _BookUploadState extends State<BookUpload> {
                             Text(result.exception.toString());
                           }
                           if (result.isLoading) {
-                            return Center(
+                            return const Center(
                               child: CircularProgressIndicator(),
                             );
                           }
@@ -459,12 +457,11 @@ class _BookUploadState extends State<BookUpload> {
                           final finalCountValue = UserInfo().setBookCount(
                               result.data!["users"][0]["_count"]["books"]);
 
-                          return Text("");
+                          return const Text("");
                         }),
 
                     ElevatedButton(
                       onPressed: () async {
-                        print(UserInfo().getBookCount());
                         if ((UserInfo().getBookCount() as int) % 10 == 0 &&
                             UserInfo().getBookCount() != 0) {
                           showDialog(
@@ -478,7 +475,6 @@ class _BookUploadState extends State<BookUpload> {
                           validator(_authorFormKey);
                           validator(_descriptionFormKey);
                           validator(_blogContentFormKey);
-                          print(title);
                         } catch (e) {}
                         if (_image != null) {
                           setState(() {
@@ -521,7 +517,7 @@ class _BookUploadState extends State<BookUpload> {
                                   _buildErrorDialog(context));
                         }
                       },
-                      child: Text(
+                      child: const Text(
                         "Upload",
                         style: TextStyle(fontSize: 18),
                       ),
@@ -529,7 +525,7 @@ class _BookUploadState extends State<BookUpload> {
                           minimumSize: const Size(150, 50),
                           backgroundColor: Colors.teal),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     )
                   ],

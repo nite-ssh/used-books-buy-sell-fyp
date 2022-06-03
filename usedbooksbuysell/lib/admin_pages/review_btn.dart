@@ -34,6 +34,6 @@ mutation {
             ),
           );
         },
-        child: Text("Submit"));
+        child: const Text("Submit"));
   }
 }

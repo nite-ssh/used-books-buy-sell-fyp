@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:second_hand_books_buy_sell/admin_pages/admin_bottom_nav.dart';
 import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
-import 'package:second_hand_books_buy_sell/main.dart';
 import 'package:second_hand_books_buy_sell/models/userinfo.dart';
 import 'package:second_hand_books_buy_sell/universal/bottom_nav.dart';
 import 'package:second_hand_books_buy_sell/utils/routes.dart';
@@ -61,7 +60,7 @@ class _LoginState extends State<Login> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Image.asset(
@@ -78,13 +77,13 @@ class _LoginState extends State<Login> {
           ),
 
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 50),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
             child: Column(
               children: [
                 Form(
                   key: _usernameFormKey,
                   child: TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: "Enter your Username",
                       labelText: "Username",
                     ),
@@ -103,7 +102,7 @@ class _LoginState extends State<Login> {
                   key: _passwordFormKey,
                   child: TextFormField(
                     obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: "Enter your Password",
                       labelText: "Password",
                     ),
@@ -118,7 +117,7 @@ class _LoginState extends State<Login> {
                     },
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
               ],
             ),
           ),
@@ -154,13 +153,11 @@ class _LoginState extends State<Login> {
                           backgroundColor: Colors.red,
                         ),
                       );
-                      (err) => print(err);
                     } else if (result.isLoading) {
                       const Center(child: CircularProgressIndicator());
                     }
 
                     if (result.data != null) {
-                      print(result.data);
                       if (result.data!["signInUser"]["userRole"]["name"] ==
                           "ADMIN") {
                         Navigator.pushAndRemoveUntil(
