@@ -3,8 +3,6 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:second_hand_books_buy_sell/admin_pages/admin_bottom_nav.dart';
 import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
 import 'package:second_hand_books_buy_sell/main.dart';
-import 'package:second_hand_books_buy_sell/models/BookInfo.dart';
-import 'package:second_hand_books_buy_sell/models/userinfo.dart';
 import 'package:second_hand_books_buy_sell/universal/drawer.dart';
 
 class UserOrderInfo extends StatefulWidget {
@@ -22,10 +20,10 @@ class _UserOrderInfoState extends State<UserOrderInfo> {
       child: Scaffold(
         backgroundColor: Colors.blueGrey,
         appBar: AppBar(
-          title: Text("Book Status"),
+          title: const Text("Book Status"),
         ),
         body: showProgress
-            ? Center(child: CircularProgressIndicator())
+            ? const Center(child: CircularProgressIndicator())
             : Query(
                 options: QueryOptions(
                   document:
@@ -36,7 +34,7 @@ class _UserOrderInfoState extends State<UserOrderInfo> {
                     Text(result.exception.toString());
                   }
                   if (result.isLoading) {
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(),
                     );
                   }
@@ -45,16 +43,17 @@ class _UserOrderInfoState extends State<UserOrderInfo> {
                     children: [
                       Expanded(
                           child: GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisSpacing: 0,
-                            mainAxisSpacing: 0,
-                            childAspectRatio: 0.5,
-                            crossAxisCount: 1),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisSpacing: 0,
+                                mainAxisSpacing: 0,
+                                childAspectRatio: 0.5,
+                                crossAxisCount: 1),
                         itemBuilder: (_, index) {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Card(
@@ -62,16 +61,20 @@ class _UserOrderInfoState extends State<UserOrderInfo> {
                                 elevation: 2,
                                 child: Column(
                                   children: [
-                                    Image.network(
-                                      productList[index]["book"]["bookPhoto"],
-                                      fit: BoxFit.cover,
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 30, horizontal: 90),
+                                      child: Image.network(
+                                        productList[index]["book"]["bookPhoto"],
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
-                                    SizedBox(height: 20),
+                                    const SizedBox(height: 20),
                                     Text(productList[index]["book"]["name"],
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20)),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 20,
                                     ),
                                     Text(
@@ -79,10 +82,10 @@ class _UserOrderInfoState extends State<UserOrderInfo> {
                                           productList[index]["book"]["price"]
                                               .toString(),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 5,
                                     ),
-                                    SizedBox(height: 5),
+                                    const SizedBox(height: 5),
                                     Padding(
                                       padding: const EdgeInsets.all(10.0),
                                       child: Text(
@@ -91,10 +94,10 @@ class _UserOrderInfoState extends State<UserOrderInfo> {
                                                     ["username"]
                                                 .toString(),
                                         textAlign: TextAlign.justify,
-                                        style: TextStyle(height: 1.5),
+                                        style: const TextStyle(height: 1.5),
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 5,
                                     ),
                                     Padding(
@@ -105,10 +108,10 @@ class _UserOrderInfoState extends State<UserOrderInfo> {
                                                     ["bookStateName"]
                                                 .toString(),
                                         textAlign: TextAlign.justify,
-                                        style: TextStyle(height: 1.5),
+                                        style: const TextStyle(height: 1.5),
                                       ),
                                     ),
-                                    SizedBox(height: 5),
+                                    const SizedBox(height: 5),
                                     Padding(
                                       padding: const EdgeInsets.all(10.0),
                                       child: Text(
@@ -116,10 +119,10 @@ class _UserOrderInfoState extends State<UserOrderInfo> {
                                             productList[index]["deliveryState"]
                                                 .toString(),
                                         textAlign: TextAlign.justify,
-                                        style: TextStyle(height: 1.5),
+                                        style: const TextStyle(height: 1.5),
                                       ),
                                     ),
-                                    SizedBox(height: 5),
+                                    const SizedBox(height: 5),
                                     Padding(
                                       padding: const EdgeInsets.all(10.0),
                                       child: Text(
@@ -130,7 +133,7 @@ class _UserOrderInfoState extends State<UserOrderInfo> {
                                         style: TextStyle(height: 1.5),
                                       ),
                                     ),
-                                    SizedBox(height: 5),
+                                    const SizedBox(height: 5),
                                     Padding(
                                       padding: const EdgeInsets.all(10.0),
                                       child: Text(
@@ -138,10 +141,10 @@ class _UserOrderInfoState extends State<UserOrderInfo> {
                                             productList[index]["book"]["author"]
                                                 .toString(),
                                         textAlign: TextAlign.justify,
-                                        style: TextStyle(height: 1.5),
+                                        style: const TextStyle(height: 1.5),
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 20,
                                     ),
                                     Row(
@@ -149,7 +152,7 @@ class _UserOrderInfoState extends State<UserOrderInfo> {
                                           MainAxisAlignment.center,
                                       children: [
                                         showProgress
-                                            ? Center(
+                                            ? const Center(
                                                 child:
                                                     CircularProgressIndicator())
                                             : ElevatedButton(
@@ -164,12 +167,12 @@ class _UserOrderInfoState extends State<UserOrderInfo> {
                                                                 ["id"]),
                                                   );
                                                 },
-                                                child: Text("In Route")),
-                                        SizedBox(
+                                                child: const Text("In Route")),
+                                        const SizedBox(
                                           width: 20,
                                         ),
                                         showProgress
-                                            ? Center(
+                                            ? const Center(
                                                 child:
                                                     CircularProgressIndicator())
                                             : ElevatedButton(
@@ -184,7 +187,7 @@ class _UserOrderInfoState extends State<UserOrderInfo> {
                                                                 ["id"]),
                                                   );
                                                 },
-                                                child: Text("Delivered"))
+                                                child: const Text("Delivered"))
                                       ],
                                     )
                                   ],
@@ -199,7 +202,7 @@ class _UserOrderInfoState extends State<UserOrderInfo> {
                   );
                 },
               ),
-        drawer: DrawerVal(),
+        drawer: const DrawerVal(),
       ),
     );
   }
@@ -294,7 +297,7 @@ class _UserOrderInfoState extends State<UserOrderInfo> {
               Navigator.push(
                   context,
                   PageRouteBuilder(
-                      pageBuilder: (_, __, ___) => AdminBottomNav()));
+                      pageBuilder: (_, __, ___) => const AdminBottomNav()));
             });
           },
           textColor: Theme.of(context).primaryColor,

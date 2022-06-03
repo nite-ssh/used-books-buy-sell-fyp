@@ -85,47 +85,48 @@ class _HomepageCardState extends State<HomepageCard> {
                                 ),
                               ),
                               Text(productList[index]["name"],
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20)),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               Text(
                                 "Price: " +
                                     productList[index]["price"].toString(),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               Text(
                                 'Genre: ${productList[index]["bookCategoryName"]}',
-                                style: TextStyle(fontWeight: FontWeight.w500),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w500),
                               ),
-                              SizedBox(height: 5),
+                              const SizedBox(height: 5),
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Text(
                                   "Seller phone Number: " +
                                       productList[index]["author"],
                                   textAlign: TextAlign.justify,
-                                  style: TextStyle(height: 1.5),
+                                  style: const TextStyle(height: 1.5),
                                 ),
                               ),
-                              Text("Description:"),
+                              const Text("Description:"),
                               Padding(
                                 padding: const EdgeInsets.all(5.0),
                                 child: Text(
                                   productList[index]["description"],
                                   textAlign: TextAlign.justify,
-                                  style: TextStyle(height: 1.5),
+                                  style: const TextStyle(height: 1.5),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               b
-                                  ? Text("Book Status: Sold",
+                                  ? const Text("Book Status: Sold",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold))
                                   : ElevatedButton(
@@ -154,7 +155,7 @@ class _HomepageCardState extends State<HomepageCard> {
                                       },
                                       child: const Text("Buy Book"),
                                     ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                             ],
@@ -211,7 +212,7 @@ class _HomepageCardState extends State<HomepageCard> {
           child: const Text('Close'),
         ),
         showProgress
-            ? Center(child: CircularProgressIndicator())
+            ? const Center(child: CircularProgressIndicator())
             : FlatButton(
                 onPressed: () {
                   // Navigator.of(context).pop();

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:second_hand_books_buy_sell/admin_pages/button_review/review_btn.dart';
-import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
-
 import 'button_review/delete_btn.dart';
 
 class GetBooksMutation extends StatefulWidget {
@@ -26,13 +24,13 @@ class _GetBooksMutationState extends State<GetBooksMutation> {
             Text(result.exception.toString());
           }
           if (result.isLoading) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
           final productList = result.data!["bookUnverifieds"];
           if (productList == null) {
-            return Center(
+            return const Center(
                 child: Text(
               "No Books were found of Following Category",
               style: TextStyle(color: Colors.white),
@@ -41,16 +39,16 @@ class _GetBooksMutationState extends State<GetBooksMutation> {
           return Stack(
             children: [
               GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisSpacing: 0,
                     mainAxisSpacing: 0,
-                    childAspectRatio: 0.6,
+                    childAspectRatio: 0.55,
                     crossAxisCount: 1),
                 itemBuilder: (_, index) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Card(
@@ -58,27 +56,32 @@ class _GetBooksMutationState extends State<GetBooksMutation> {
                         elevation: 2,
                         child: Column(
                           children: [
-                            Image.network(
-                              productList[index]["bookPhoto"],
-                              fit: BoxFit.cover,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 30, horizontal: 90),
+                              child: Image.network(
+                                productList[index]["bookPhoto"],
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             Text(productList[index]["name"],
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 20)),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             Text(
                               "Price: " +
                                   productList[index]["price"].toString(),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             Text(
                               'Genre: ${productList[index]["bookCategoryName"]}',
-                              style: TextStyle(fontWeight: FontWeight.w500),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w500),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(10.0),
@@ -86,7 +89,7 @@ class _GetBooksMutationState extends State<GetBooksMutation> {
                                 "Seller Username: " +
                                     productList[index]["user"]["username"],
                                 textAlign: TextAlign.justify,
-                                style: TextStyle(height: 1.5),
+                                style: const TextStyle(height: 1.5),
                               ),
                             ),
                             Padding(
@@ -95,20 +98,20 @@ class _GetBooksMutationState extends State<GetBooksMutation> {
                                 "Seller phone Number: " +
                                     productList[index]["author"],
                                 textAlign: TextAlign.justify,
-                                style: TextStyle(height: 1.5),
+                                style: const TextStyle(height: 1.5),
                               ),
                             ),
-                            Text("Description:"),
+                            const Text("Description:"),
                             Padding(
                               padding: const EdgeInsets.all(5.0),
                               child: Text(
                                 productList[index]["description"],
                                 textAlign: TextAlign.justify,
-                                style: TextStyle(height: 1.5),
+                                style: const TextStyle(height: 1.5),
                               ),
                             ),
 
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             Padding(
@@ -117,7 +120,7 @@ class _GetBooksMutationState extends State<GetBooksMutation> {
                                 "Book State: " +
                                     productList[index]["bookStateName"],
                                 textAlign: TextAlign.justify,
-                                style: TextStyle(height: 1.5),
+                                style: const TextStyle(height: 1.5),
                               ),
                             ),
                             Padding(

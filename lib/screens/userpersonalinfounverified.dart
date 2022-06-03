@@ -55,7 +55,7 @@ class _UserPersonalInfoUnverifiedState
                                 const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisSpacing: 0,
                                     mainAxisSpacing: 0,
-                                    childAspectRatio: 1,
+                                    childAspectRatio: 0.55,
                                     crossAxisCount: 1),
                             itemBuilder: (_, index) {
                               if (productList[index]["transaction"].length <=
@@ -82,7 +82,10 @@ class _UserPersonalInfoUnverifiedState
                                         child: Column(
                                           children: [
                                             Padding(
-                                              padding: const EdgeInsets.all(8),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 30,
+                                                      horizontal: 90),
                                               child: ClipRRect(
                                                 borderRadius:
                                                     BorderRadius.circular(6),
