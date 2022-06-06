@@ -8,7 +8,7 @@ import 'package:random_string/random_string.dart';
 import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
 import 'package:second_hand_books_buy_sell/main.dart';
 import 'package:second_hand_books_buy_sell/models/userinfo.dart';
-import 'package:second_hand_books_buy_sell/universal/bottom_nav.dart';
+import 'package:second_hand_books_buy_sell/screens/universal/bottom_nav.dart';
 import 'package:second_hand_books_buy_sell/utils/routes.dart';
 
 class BookUpload extends StatefulWidget {
@@ -86,7 +86,7 @@ class _BookUploadState extends State<BookUpload> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: const <Widget>[
-          Text("The blog has been uploaded"),
+          Text("The book has been uploaded"),
         ],
       ),
       actions: <Widget>[
@@ -131,7 +131,7 @@ class _BookUploadState extends State<BookUpload> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: const <Widget>[
-          Text("Please select image for the blog"),
+          Text("Please select image for the book"),
         ],
       ),
       actions: <Widget>[

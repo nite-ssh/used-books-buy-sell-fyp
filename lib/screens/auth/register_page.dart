@@ -192,10 +192,6 @@ class _RegisterState extends State<Register> {
                 final userList = result.data!["users"];
                 return ElevatedButton(
                   onPressed: (() async {
-                    print(username.toString());
-                    print(userList[0]["username"]);
-                    print(userList.length);
-
                     validator(_usernameFormKey);
                     validator(_passwordFormKey);
                     validator(_emailFormKey);

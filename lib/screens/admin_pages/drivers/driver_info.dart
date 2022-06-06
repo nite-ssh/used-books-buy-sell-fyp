@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:second_hand_books_buy_sell/services/crud.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../services/crud.dart';
 import 'Drivers.dart';
 
 class DriverInfo extends StatefulWidget {

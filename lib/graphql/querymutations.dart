@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:second_hand_books_buy_sell/models/BookValues.dart';
+import 'package:second_hand_books_buy_sell/models/updatedBookInfo.dart';
 import 'package:second_hand_books_buy_sell/models/userinfo.dart';
 
 class QueryMutations {
@@ -139,6 +139,7 @@ mutation{
     bookStateName
     bookCategoryName
     name
+    price
     user{
       id
     }
@@ -336,16 +337,40 @@ mutation{
 //   }
 // ''';
 //   }
+  static String updateUnverifiedBook(String name, int price, String description,
+      String author, String photo, String bookCategoryValue) {
+    print(UpdatedBookInfo.bookId);
+    return '''
+mutation{
+  updateBook(data:{
+    name:{
+      set:"$name"
+    }
+    description:{
+      set:"$description"
+    }
+    price:{
+      set:$price
+    }
+    author:{
+      set:"$author"
+    }
+    bookPhoto:{
+      set:"$photo"
+    }
+  }
+  where:{
+    id:"${UpdatedBookInfo().getId()}"
+  }
+  ){
+    name
+  }
+}
+''';
+  }
 
   static String createUnverifiedBook(String name, int price, String description,
       String author, String bookState, String photo, String bookCategoryValue) {
-    print(name);
-    print(price);
-    print(description);
-    print(author);
-    print(photo);
-    print(bookState);
-    print(bookCategoryValue);
     return '''
 mutation {
   createBookUnverified(

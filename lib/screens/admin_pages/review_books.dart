@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:second_hand_books_buy_sell/admin_pages/button_review/sort_ui.dart';
-import 'package:second_hand_books_buy_sell/admin_pages/get_book_mutation.dart';
 import 'package:second_hand_books_buy_sell/graphql/graphqlconfig.dart';
 import 'package:second_hand_books_buy_sell/models/BookInfo.dart';
-import 'package:second_hand_books_buy_sell/universal/drawer.dart';
+import 'package:second_hand_books_buy_sell/screens/admin_pages/button_review/sort_ui.dart';
+import 'package:second_hand_books_buy_sell/screens/admin_pages/get_book_mutation.dart';
+import 'package:second_hand_books_buy_sell/screens/universal/drawer.dart';
 
 class ReviewBooks extends StatefulWidget {
   var bookMutation;

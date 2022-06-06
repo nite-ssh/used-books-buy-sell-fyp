@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:second_hand_books_buy_sell/screens/donations.dart';
-import 'package:second_hand_books_buy_sell/screens/homepage_screen.dart';
+import 'package:second_hand_books_buy_sell/screens/blog/blog.dart';
+import 'package:second_hand_books_buy_sell/screens/user_pages/donations.dart';
 import 'package:second_hand_books_buy_sell/screens/maps/maps.dart';
-import 'package:second_hand_books_buy_sell/screens/uploadBookInfo.dart';
-
-import '../screens/blog/blog.dart';
+import 'package:second_hand_books_buy_sell/screens/user_pages/homepage/homepage_screen.dart';
+import 'package:second_hand_books_buy_sell/screens/user_pages/userpersonalinfo/uploadBookInfo.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({Key? key}) : super(key: key);

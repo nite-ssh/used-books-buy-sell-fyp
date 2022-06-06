@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:second_hand_books_buy_sell/admin_pages/button_review/review_btn.dart';
+import 'package:second_hand_books_buy_sell/screens/admin_pages/button_review/review_btn.dart';
 import 'button_review/delete_btn.dart';
 
 class GetBooksMutation extends StatefulWidget {

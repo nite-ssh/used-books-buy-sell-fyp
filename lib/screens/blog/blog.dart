@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:second_hand_books_buy_sell/models/userinfo.dart';
 import 'package:second_hand_books_buy_sell/screens/blog/blog_write.dart';
-import 'package:second_hand_books_buy_sell/universal/drawer.dart';
+import 'package:second_hand_books_buy_sell/screens/universal/drawer.dart';
 
 import '../../services/crud.dart';
 import 'User.dart';

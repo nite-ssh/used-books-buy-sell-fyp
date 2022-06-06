@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:second_hand_books_buy_sell/admin_pages/admin_bottom_nav.dart';
-import 'package:second_hand_books_buy_sell/admin_pages/button_review/sort_btn.dart';
+import 'package:second_hand_books_buy_sell/screens/admin_pages/admin_bottom_nav.dart';
+import 'package:second_hand_books_buy_sell/screens/admin_pages/button_review/sort_btn.dart';
 
 class SortUi extends StatelessWidget {
   const SortUi({Key? key}) : super(key: key);
@@ -10,7 +10,7 @@ class SortUi extends StatelessWidget {
     return ListView(
       scrollDirection: Axis.horizontal,
       children: [
-        SizedBox(
+        const SizedBox(
           width: 20,
         ),
         ElevatedButton(
@@ -18,10 +18,10 @@ class SortUi extends StatelessWidget {
             Navigator.push(
                 context,
                 PageRouteBuilder(
-                    pageBuilder: (_, __, ___) => AdminBottomNav()));
+                    pageBuilder: (_, __, ___) => const AdminBottomNav()));
           },
           child: RichText(
-            text: TextSpan(
+            text: const TextSpan(
               children: [
                 WidgetSpan(
                   child: Icon(
@@ -34,35 +34,35 @@ class SortUi extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 20,
         ),
-        SortCategoryBtn(
+        const SortCategoryBtn(
           category: "SEE_PREPARATION",
           title: "SEE Preparation",
         ),
-        SizedBox(
+        const SizedBox(
           width: 20,
         ),
-        SortCategoryBtn(
+        const SortCategoryBtn(
           category: "MEDICAL_PREPARATION",
           title: "Medical Preparation",
         ),
-        SizedBox(
+        const SizedBox(
           width: 20,
         ),
-        SortCategoryBtn(
+        const SortCategoryBtn(
           category: "ENGINEERING_PREPARATION",
           title: "Engineering Preparation",
         ),
-        SizedBox(
+        const SizedBox(
           width: 20,
         ),
-        SortCategoryBtn(
+        const SortCategoryBtn(
           category: "SCIENCE_FICTION",
           title: "Science Fiction",
         ),
-        SizedBox(
+        const SizedBox(
           width: 20,
         ),
       ],

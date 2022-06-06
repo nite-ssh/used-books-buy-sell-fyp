@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:second_hand_books_buy_sell/admin_pages/admin_bottom_nav.dart';
 import 'package:second_hand_books_buy_sell/graphql/querymutations.dart';
 import 'package:second_hand_books_buy_sell/main.dart';
-import 'package:second_hand_books_buy_sell/universal/drawer.dart';
+import 'package:second_hand_books_buy_sell/screens/admin_pages/admin_bottom_nav.dart';
+import 'package:second_hand_books_buy_sell/screens/universal/drawer.dart';
 
 class UserOrderInfo extends StatefulWidget {
   const UserOrderInfo({Key? key}) : super(key: key);

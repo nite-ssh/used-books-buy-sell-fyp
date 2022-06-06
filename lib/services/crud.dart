@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../admin_pages/drivers/Drivers.dart';
+import 'package:second_hand_books_buy_sell/screens/admin_pages/drivers/Drivers.dart';
 import '../screens/blog/User.dart';
 
 class CrudMethods {

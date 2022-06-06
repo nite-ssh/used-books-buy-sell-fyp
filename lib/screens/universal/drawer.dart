@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:second_hand_books_buy_sell/models/userinfo.dart';
 import 'package:second_hand_books_buy_sell/screens/auth/login_screen.dart';
-import 'package:second_hand_books_buy_sell/screens/userpersonalinfounverified.dart';
-import 'package:second_hand_books_buy_sell/userpersonalinfo.dart';
+import 'package:second_hand_books_buy_sell/screens/user_pages/userpersonalinfo/userpersonalinfo.dart';
+import 'package:second_hand_books_buy_sell/screens/user_pages/userpersonalinfo/userpersonalinfounverified.dart';
 
 class DrawerVal extends StatefulWidget {
   const DrawerVal({Key? key}) : super(key: key);

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:second_hand_books_buy_sell/universal/drawer.dart';
+import 'package:second_hand_books_buy_sell/screens/universal/drawer.dart';
 import 'markers.dart';
 
 class GMaps extends StatefulWidget {
